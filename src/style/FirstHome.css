@@ -1,0 +1,109 @@
+.root-background {
+    /* Add your background image properties here */
+    background-image: url('../assets/images/first-home-background-image.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    color: #ff4500;
+}
+
+.animated-bg {
+    animation: slideRight 12s linear infinite;
+    /* Adjust duration and other properties as needed */
+}
+
+@keyframes slideRight {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0% 0;
+    }
+}
+
+.btn-blog {
+    width: 112px;
+    height: auto;
+    padding: 8px;
+    border-radius: 20px;
+}
+
+.menu-link {
+    text-decoration: none;
+}
+
+.language-select-container {
+    width: 70%;
+    height: auto;
+}
+
+.select-field {
+    background-color: #05260e03;
+    color: #ffffff;
+    border: 0px;
+}
+
+.select-field option {
+    background-color: #05260E;
+    /* Background color when open */
+    color: #ffffff;
+    /* Text color when open */
+}
+
+.first-main-body {
+    position: relative;
+    z-index: 1;
+}
+
+.first-main-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000021;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.first-main-body:only-child {
+    z-index: 3;
+}
+
+.first-page-phrase1-container {
+    color: #05260E;
+    font-family: "League Spartan", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 45px;
+    text-align: center;
+    padding-top: 110px;
+}
+
+.first-page-phrase2-container {
+    color: #ffffff;
+    font-family: "League Spartan", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 100px;
+    text-shadow: 1px 1px #000000;
+}
+
+.first-page-newletter-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    margin-bottom: 40px;
+}

@@ -1,0 +1,18 @@
+.green-btn {
+    width: 100px;
+    border-radius: 16px;
+    padding: 10px;
+    border: 0;
+    background-color: #094011;
+    color: #ffffff;
+    box-shadow: 1px 1px #000000;
+
+}
+
+.grn-btn-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

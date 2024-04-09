@@ -1,0 +1,117 @@
+.register-background {
+    /* Add your background image properties here */
+    background-image: url('../assets/images/sign-up-background-image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+.registration-main-body {
+    position: relative;
+    z-index: 1;
+}
+.registration-main-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000021;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.registration-field-container {
+    width: 625px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.registeration-form-title-text {
+    color: white;
+    font-family: "Crimson Text", serif;
+    font-size: 35px;
+}
+.input-filed-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.input-filed-container input{
+    width: 475px;
+    height: 35px;
+}
+.input-label-container {
+    width: 475px;
+}
+.checkbox-container-margin {
+    margin-right: 10px;
+}
+.input-and-label-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ckeckbox-with-label-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.ckeckbox-with-label-container div {
+    width: 475px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.registration-field-container {
+    background-color: #05260ecf;
+    padding: 40px 10px 40px 10px;
+    border-radius: 20px;
+}
+label {
+    font-family: "League Spartan", sans-serif;
+    color: #ffffff;
+}
+.backward-icon-container {
+    width: 30px;
+}
+.registration-section-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.return-icon-and-text-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100px;
+    margin-bottom: 20px;
+    padding-top: 30px;
+}
+.return-text-container {
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: column;
+   justify-content: center;
+}
+.return-text {
+    color: #ffffff;
+}
+.pwd-rule-text-container{
+    width: 475px;
+}
+.pwd-rule-text {
+    font-family: "League Spartan", sans-serif;
+    color: #FFA500;
+    font-size: small;
+}
