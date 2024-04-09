@@ -1,0 +1,23 @@
+.side-bar-container {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #F0ECE6;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.upper-side-bar-icon-container {
+    width: 20px;
+    height: auto;
+}
+
+.upper-side-bar-icon-container-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 15px 0px 15px 0px;
+    background-color: #094011;
+    box-shadow: 0px 0px 10px 0px black;
+}
