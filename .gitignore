@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Ignore images and svg 
-.src/assets*
+src/assets*
