@@ -6,6 +6,7 @@ import LabelDisplay from '../input-field/LabelForFiled';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import backwardIcon from '../../assets/svg/backward-solid.svg'
+import FirstMenu from '../Menus/FirstPageMenu';
 
 
 const SignInInputBox = () => {
@@ -66,6 +67,9 @@ const SignInPageRender = () => {
     }, [location]);
 
     return <>
+        <div>
+            <FirstMenu />
+        </div>
         <main className="sign-in-main-body">
             <div className={setSignInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>
                 <div className='container'>

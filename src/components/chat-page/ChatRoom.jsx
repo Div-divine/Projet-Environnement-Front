@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 
-const socket = io.connect("http://localhost:3000");
+// const socket = io.connect("http://localhost:3000");
 
 const ChatRoom = () => {
 

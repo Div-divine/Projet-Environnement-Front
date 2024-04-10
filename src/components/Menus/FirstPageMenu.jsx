@@ -35,14 +35,14 @@ const FirstMenu = () => {
                 <nav className="first-page-stick-menu-top">
                     <div className="menu-container">
                         <div className="logo-with-text-container">
-                            <div className="logo-with-text-inner-container">
+                            <Link to={'/'} className="logo-with-text-inner-container">
                                 <div className="logo-container">
                                     <img src={Logo} alt="Website Logo" />
                                 </div>
                                 <div className="loge-text-container">
                                     <p className="logo-text">EcoConscience</p>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                         <div className="menu-items-container">
                             <div className="menu-language-container">
