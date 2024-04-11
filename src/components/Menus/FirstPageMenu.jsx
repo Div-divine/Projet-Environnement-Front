@@ -14,12 +14,14 @@ const FirstMenu = () => {
 
     const menuLink1 = {
         textDecoration: "none",
-        color: isHovered1 ? "#ff4500" : "white",
+        color: isHovered1 ? "#FF9C00": "white",
+        fontWeight : isHovered1 ? '700': '' ,
     };
 
     const menuLink2 = {
         textDecoration: "none",
-        color: isHovered2 ? "#ff4500" : "white",
+        color: isHovered2 ? "#FF9C00" : "white",
+        fontWeight : isHovered2 ? '700': '' ,
     };
 
     const handleWhiteGlobeClick = () => {

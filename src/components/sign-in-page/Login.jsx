@@ -7,20 +7,51 @@ import useStoreValueInputedInField from '../../custom-hooks/HookFormInputControl
 import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import backwardIcon from '../../assets/svg/backward-solid.svg'
 import FirstMenu from '../Menus/FirstPageMenu';
+import Axios from 'axios';
 
 
 const SignInInputBox = () => {
-    const [name, setName] = useStoreValueInputedInField()
-    const [surname, setSurname] = useStoreValueInputedInField()
     const [email, setEmail] = useStoreValueInputedInField()
     const [pwd, setPwd] = useStoreValueInputedInField()
-    const [pwdConf, setPwdConf] = useStoreValueInputedInField()
+
+    // Function to authenticate user and obtain tokens
+    const loginUser = async (credentials) => {
+        try {
+            // Send POST request to /login endpoint with user credentials
+            const response = await Axios.post('http://localhost:3000/users/login', credentials);
+            console.log('response:', response);
+            // Extract the token from the response
+            const token = response.data.token; // Assuming the token is stored in data
+            console.log('Access token:', token);
+            return token; // Return the token
+        } catch (error) {
+            // Handle errors (e.g., invalid credentials, server errors)
+            console.error('Error logging in:', error);
+            throw error; // Propagate the error to the caller
+        }
+    };
+
+    const login = async (e) => {
+        e.preventDefault();
+        try {
+            const credentials = {
+                email: email,
+                password: pwd,
+            };
+            const token = await loginUser(credentials); // No need to destructure
+            console.log('Access token:', token);
+            // Store tokens in local storage or cookies, etc.
+        } catch (error) {
+            // Handle login errors
+            console.error('Login failed:', error);
+        }
+    };
     return <div className='container'>
         <div className='registration-field-container'>
             <div className='mb-3 text-center'>
                 <p className='sign-in-form-title-text'>Se Connecter</p>
             </div>
-            <form action="" method='post'>
+            <form onSubmit={login}>
                 <div className='input-and-label-container'>
                     <div className='mb-3 input-label-container'>
                         <LabelDisplay labelHandler='email-field' labelText='Email' />
