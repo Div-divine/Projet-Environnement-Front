@@ -1,5 +1,5 @@
-const LabelDisplay = ({labelHandler, labelText}) => {
-    return <label htmlFor={labelHandler}>{labelText}</label>
+const LabelDisplay = ({labelHandler, labelText, labelStyle = {color: 'white'}}) => {
+    return <label htmlFor={labelHandler} style={labelStyle}>{labelText}</label>
 }
 
 export default LabelDisplay;

@@ -74,12 +74,6 @@ const SignInPageRender = () => {
             <div className={setSignInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>
                 <div className='container'>
                     <div className='return-icon-and-text-container'>
-                        <div className='backward-icon-container sign-in-return-icon'>
-                            <Link to='/'><img src={backwardIcon} alt="backwardicon" /></Link>
-                        </div>
-                        <div className='return-text-container'>
-                            <Link to='/' className='return-text sign-in-return-text'>Retour</Link>
-                        </div>
                     </div>
                 </div>
                 <div className='sign-in-section-container'>
