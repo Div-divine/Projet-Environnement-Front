@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "../../style/FirstHome.css";
 import "../../style/FirstPageMenu.css"
 import Logo from "../../../logo/white-logo.svg";
@@ -92,6 +92,9 @@ const FirstMenu = () => {
                     </div>
                 </nav>
             </header>
+            <div>
+                <Outlet />
+            </div>
         </>
     );
 };

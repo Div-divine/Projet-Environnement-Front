@@ -1,27 +1,14 @@
 import '../../style/signUp.css';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
 import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import GreenSbmtBtn from '../button/GreenSubmitBtn.jsx';
 import useToggle from '../../custom-hooks/HookToToggle';
-import backwardIcon from '../../assets/svg/backward-solid.svg';
-import Axios from 'axios';
-import FirstMenu from '../Menus/FirstPageMenu.jsx';
+import PostUserInfo from '../../api/UserRegistrationApi.jsx';
 
-const CheckBox = () => {
-    const [checked, setChecked] = useToggle()
 
-    return <div className='mb-5 ckeckbox-with-label-container'>
-        <div>
-            <span className='checkbox-container-margin'>
-                <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
-            </span>
-            <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation" />
-        </div>
-    </div>
-}
 const DisplayPasswordStrength = ({ strength, password, text }) => {
     const pwdStateText = { color: 'white' }
     const style = password.length >= 8 ? { color: 'green' } : { color: 'red' }
@@ -92,7 +79,6 @@ const RegistrationInputBox = () => {
         email: email,
         password: pwd
     };
-    const location = useLocation();
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Once the form is submitted remove the password yellow rule to give way to the red error password rule message
@@ -121,10 +107,11 @@ const RegistrationInputBox = () => {
                 return false;
             }
             console.log(registrationFormData);
-            await Axios.post('http://localhost:3000/users/', registrationFormData);
+            // Post user info to api from api/UserRegistrationApi
+            await PostUserInfo(registrationFormData);
             console.log('User created successfully');
             // Redirect to the welcome page after form submission
-            window.location.href = '/welcome';
+            window.location.href = '/?success=true';
         } catch (error) {
             console.error('Error creating user:', error);
         }
@@ -241,9 +228,6 @@ const SignUpPageRender = () => {
     }, [location]);
 
     return <>
-        <div>
-            <FirstMenu />
-        </div>
         <main className="registration-main-body">
             {/* set background image if in the current url */}
             <div className={isRegister ? "register-background animated-bg" : "animated-bg"}>
