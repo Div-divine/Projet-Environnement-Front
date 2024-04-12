@@ -1,5 +1,5 @@
 import '../../style/signIn.css';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
@@ -10,7 +10,7 @@ import SendUserInfo from '../../api/UserLoginApi';
 
 
 const SignInPageRender = () => {
-
+    const location = useLocation();
     // Monitor login Error, initial state of loginErrorMsg.length is false
     const [loginErrorMsg, setLoginErrorMsg] = useState('')
     // Handle login Error message is error exists. This uses the length of loginErrorMsg
@@ -110,8 +110,6 @@ const SignInPageRender = () => {
         </div>
     }
 
-
-    const location = useLocation();
     const [signInBgrd, setSignInBgrd] = useState(false);
     useEffect(() => {
         setSignInBgrd(location.pathname === "/connexion" || location.pathname === "/connexion/");
