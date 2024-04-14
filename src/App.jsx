@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider, NavLink, Outlet, useRouteError, defer } from 'react-router-dom'
 import './App.css'
-import FirstHome from './components/first-page/FirstHomePage'
+import FirstHome from './components/first-page/FirstPage'
 import SignUpPageRender from './components/sign-up-page/RegistrationPage'
 import SignInPageRender from './components/sign-in-page/Login'
 import { ErrorBoundary } from 'react-error-boundary'

@@ -1,12 +1,11 @@
 import '../../style/signIn.css';
-import { useLocation, Link} from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import SendUserInfo from '../../api/UserLoginApi';
-
 
 
 const SignInPageRender = () => {
@@ -45,7 +44,7 @@ const SignInPageRender = () => {
             console.log(check);
             return check;
         };
-        
+
 
         const login = async (e) => {
             e.preventDefault();
@@ -57,7 +56,7 @@ const SignInPageRender = () => {
                 setLoginErrorMsg('');
                 const token = await loginUser(credentials); // No need to destructure
                 console.log('Access token:', token);
-                window.location.href= '/accueil'
+                window.location.href = '/accueil'
 
                 // Store tokens in local storage or cookies, etc.
             } catch (error) {
@@ -114,7 +113,7 @@ const SignInPageRender = () => {
     useEffect(() => {
         setSignInBgrd(location.pathname === "/connexion" || location.pathname === "/connexion/");
     }, [location]);
-
+    const id = 2;
     return <>
         <main className="sign-in-main-body">
             <div className={signInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
-import "../../style/FirstHome.css";
+import "../../style/FirstPage.css";
 import "../../style/FirstPageMenu.css"
 import Logo from "../../../logo/white-logo.svg";
 import WhiteGlobe from "../../../logo/white-globe.svg";

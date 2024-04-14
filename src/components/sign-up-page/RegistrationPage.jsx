@@ -32,7 +32,9 @@ const RegistrationInputBox = () => {
     const [pwdErrorMsg, setPwdErrorMsg] = useState('');
     const [pwdRuleError, setPwdRuleError] = useState('');
     const [conditionStyle, setConditionStyle] = useState({color: 'white'});
-
+     
+    // Assign Email address pattern using RegEx 
+    const emailPattern = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/gm;
     // Assign pattern to password
     const pwdPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     const invalidPwd = { color: 'red' }
@@ -54,7 +56,7 @@ const RegistrationInputBox = () => {
             if (pwdPattern.test(pwd)) {
                 setPwdRuleError('');
             }
-            // Reset the checkbox to accept users terms and condition once it is checked
+            // Reset the checkbox once useraccepts terms and condition by checking the check box
             if(checked === true){
                 setConditionStyle({color: 'white'}) 
             }
@@ -94,6 +96,9 @@ const RegistrationInputBox = () => {
                 }
                 if (email.length < 1) {
                     setEmailErrorMsg('Saississer un email')
+                }
+                if(!emailPattern.test(email) && email.length > 1){
+                    setEmailErrorMsg('Saississez un email valid')
                 }
                 if (pwd.length < 1) {
                     setPwdErrorMsg('Entrer un mot de passe')
