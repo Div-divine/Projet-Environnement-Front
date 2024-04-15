@@ -4,6 +4,7 @@ import addIcon from '../../assets/svg/add-square.svg';
 import eyeIcon from '../../assets/svg/eye-solid.svg';
 import { useEffect, useState } from "react";
 import useGroupsData from "../../api/GroupsDataApi";
+import { Link } from "react-router-dom";
 
 
 
@@ -54,14 +55,14 @@ const RenderHome = () => {
                                             <p className="texts">Ajouter</p>
                                         </div>
                                     </div>
-                                    <div className="visit-container">
+                                    <Link  to={`/${data.group_name.toLowerCase().replace(/ /g, '-')}/${data.group_id}`} className="visit-container">
                                         <div className="visit-icon-container">
                                             <img src={eyeIcon} alt="" />
                                         </div>
                                         <div className="visit-text-container">
                                             <p className="texts">Visiter</p>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="action-text-container">
