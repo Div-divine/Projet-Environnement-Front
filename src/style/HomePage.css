@@ -1,0 +1,181 @@
+.home-page-container{
+    background-color: #A9BEAC;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.main-elements {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.welcom-msg-container{
+    background-color: #ffffff6e;
+    padding: 30px;
+    border-radius: 20px;
+    margin-left: 100px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.welcom-msg{
+    font-family: "League Spartan", serif;
+    font-size: x-large;
+    font-weight: 600;
+    color: black;
+}
+.welcom-msg-green{
+    color: #008000;
+}
+.group-upper-title-container{
+    border-top: 2px solid #FF9C00;
+    margin-left: 100px;
+    padding: 30px 0px 30px 0px;
+}
+.group-upper-title{
+    font-family: "Leaugue Spartan", serif;
+}
+.water-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-size: cover; /* This will ensure the image covers the container */
+    background-position: center ; /* This will position the image mostly towards the center */
+    border-radius: 20px;
+    transition: transform 0.3s ease; /* Smooth transition for the transform property */
+    box-shadow: 1px 1px #000000;
+
+}
+.water-container:hover {
+    transform: scale(1.01); /* Increase size by 1% on hover */
+}
+.water-container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.water-container:only-child {
+    z-index: 2;
+}
+.water-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000006b;
+    z-index: 1; /* Set a lower z-index to ensure it stays behind the content */
+    pointer-events: none;
+}
+.groups-container{
+    margin-left: 100px;
+}
+
+.water-icon-conatiner{
+    width: 75px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #ffffff30;
+    border-radius: 100%;
+}
+
+.water-resources-text{
+    font-family: "Leaugue Spartan", sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+}
+.water-icon-and-text-conatiner{
+    width: 280px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+.water-text-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.add_icon_container{
+    width: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.visit-icon-container{
+    width: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.texts{
+    color: #ffffff;
+}
+.add-and-viste-icon-and-text-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.icon-and-btns-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 20%;
+}
+.action-text-container{
+    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    color: #fffffff3
+}
+.action-text{
+    font-family: "Leaugue Spartan", sans-serif;
+    font-weight: 700;
+    border-bottom: 2px solid white;
+    width:20%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+.add-and-text-conatiner{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 30%;
+}
+.visit-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 30%;
+}
+.add-text-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.visit-text-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.water-icon-and-text-conatiner,
+.add-and-viste-icon-and-text-container,
+.action-text-container {
+    position: relative; /* Ensure the content containers are positioned relative to the parent */
+    z-index: 2; /* Set a higher z-index to make the content appear above the black layer */
+}
+

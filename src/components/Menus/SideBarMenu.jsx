@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 const SideBar = () => {
 
     const userData = useUserData();
-
+    // This will be returnning null if not set with useEffect, this ensures a change of state depneding on the userData 
     useEffect(() => {
         console.log(userData); // This will log the fetched data
     }, [userData]); // This ensures the log statement runs whenever `userData` changes
