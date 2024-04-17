@@ -8,20 +8,36 @@ import friendsIcon from '../../assets/svg/users-solid.svg';
 import groups from '../../assets/svg/teamspeak.svg';
 import logOutIcon from '../../assets/svg/logout-solid.svg';
 import useUserData from '../../api/UserInfoApi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import UserWithAddedGroups from '../../api/UserWithGroupsApi';
+
 
 
 const SideBar = () => {
 
     const userData = useUserData();
-    // This will be returnning null if not set with useEffect, this ensures a change of state depneding on the userData 
+    const [userGroups, setUserGroups] = useState(null);
     useEffect(() => {
-        console.log(userData); // This will log the fetched data
-    }, [userData]); // This ensures the log statement runs whenever `userData` changes
+        const fetchData = async () => {
+            if (userData) {
+                try {
+                   
+                    const id = userData.user_id;
+                    const response = await UserWithAddedGroups(id);
+                    setUserGroups(response.data);
+                } catch (error) {
+                    console.error('Error fetching user with groups:', error);
+                }
+            }
+        };
 
+        fetchData();
+    }, [userData]); // This ensures the log statement runs whenever `userData` changes
     // Check if userData is null before accessing its properties
     if (userData) {
+        console.log('User groups are:', userGroups);
+        //console.log('User datas are:', userData)
         return (<>
             <div className='side-bar-container'>
                 <header>

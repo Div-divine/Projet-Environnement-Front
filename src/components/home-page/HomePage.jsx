@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import useUserData from "../../api/UserInfoApi";
 import { motion } from 'framer-motion';
 import UserWithGroups from "../../api/AddUserToGroupsApi";
+import groupSelectedIcon from '../../assets/svg/checked-solid.svg'
 
 
 const RenderHome = () => {
@@ -73,13 +74,13 @@ const RenderHome = () => {
                             <div className="add-and-viste-icon-and-text-container">
                                 <motion.div whileTap={{ scale: 1.2 }}
                                     className="add-and-text-conatiner"
-                                    onClick={(e) => setPostId(data.group_id)}>
-                                    <div className="add_icon_container">
+                                    onClick={(e) => setPostId(data.group_id)}>    
+                                    <Link className="add_icon_container">
                                         <img src={addIcon} alt="" />
-                                    </div>
-                                    <div className="add-text-container">
+                                    </Link>
+                                    <Link className="add-text-container">
                                         <p className="texts">Ajouter</p>
-                                    </div>
+                                    </Link>
                                 </motion.div>
 
                                 <Link to={`/${data.group_name.toLowerCase().replace(/ /g, '-')}/${data.group_id}`} className="visit-container">
