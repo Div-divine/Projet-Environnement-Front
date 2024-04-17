@@ -22,7 +22,7 @@ const SideBar = () => {
         const fetchData = async () => {
             if (userData) {
                 try {
-                   
+
                     const id = userData.user_id;
                     const response = await UserWithAddedGroups(id);
                     setUserGroups(response.data);
@@ -83,6 +83,15 @@ const SideBar = () => {
                             <div className='connected-freinds-container'>
                                 <p className='connected-freinds-text'>Groupes membre</p>
                             </div>
+                        </div>
+                        <div>
+                            {userGroups && userGroups.map((data) => {
+                                return (
+                                    <div key={data.group_name} className='mb-2'>
+                                        <p>{data.group_name}</p>
+                                    </div>
+                                )
+                            })}
                         </div>
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>
