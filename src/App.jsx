@@ -1,13 +1,13 @@
-import { createBrowserRouter, RouterProvider, NavLink, Outlet, useRouteError, defer } from 'react-router-dom'
-import './App.css'
-import FirstHome from './components/first-page/FirstPage'
-import SignUpPageRender from './components/sign-up-page/RegistrationPage'
-import SignInPageRender from './components/sign-in-page/Login'
-import { ErrorBoundary } from 'react-error-boundary'
-import ChatRoom from './components/chat-page/ChatRoom'
-import RenderHome from './components/home-page/HomePage'
-import ErrorPage from './components/Error-page/RouterError'
-import FirstMenu from './components/Menus/FirstPageMenu'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './App.css';
+import FirstHome from './components/first-page/FirstPage';
+import SignUpPageRender from './components/sign-up-page/RegistrationPage';
+import SignInPageRender from './components/sign-in-page/Login';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChatRoom from './components/chat-page/ChatRoom';
+import RenderHome from './components/home-page/HomePage';
+import ErrorPage from './components/Error-page/RouterError';
+import FirstMenu from './components/Menus/FirstPageMenu';
 
 const router = createBrowserRouter([
   {
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
     ]
   },
   { path: '/accueil', element: <RenderHome /> },
+  {path: '/:name/:id', element: <p>Single group</p>},
   { path: '/chat', element: <ChatRoom /> }
-
 ])
 
 function App() {

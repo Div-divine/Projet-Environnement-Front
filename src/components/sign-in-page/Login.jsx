@@ -10,9 +10,26 @@ import SendUserInfo from '../../api/UserLoginApi';
 
 const SignInPageRender = () => {
     const location = useLocation();
+    // Parse the URL and check if the success parameter is true
+    const searchParams = new URLSearchParams(location.search);
+    const success = searchParams.get('success') === 'true';
+
+    const DisplayRegistrationSuccessMsg = () => {
+        const successMsgStyle = {
+            color: 'white',
+            backgroundColor: 'green',
+            width: '600px',
+            padding: '10px',
+            marginRight: 'auto',
+            marginLeft: 'auto',
+        }
+        return <div className="text-center">
+            <p style={successMsgStyle}>Utilisateur crée avec success. Veuillez vous connecter !</p>
+        </div>
+    }
     // Monitor login Error, initial state of loginErrorMsg.length is false
     const [loginErrorMsg, setLoginErrorMsg] = useState('')
-    // Handle login Error message is error exists. This uses the length of loginErrorMsg
+    // Handle login Sucess message if no erros. This uses the length of loginErrorMsg
     const DisplayLoginErrorMsg = ({ loginErrorMsgHandler }) => {
         const loginErrorMsgStyle = {
             color: 'white',
@@ -67,6 +84,9 @@ const SignInPageRender = () => {
             }
         };
         return <div className='container'>
+            <div className="pt-3 mb-5">
+                {success && <DisplayRegistrationSuccessMsg />}
+            </div>
             <div className='registration-field-container'>
                 <div className='mb-3 text-center'>
                     <p className='sign-in-form-title-text'>Se Connecter</p>

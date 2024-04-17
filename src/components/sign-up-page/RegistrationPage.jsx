@@ -31,8 +31,9 @@ const RegistrationInputBox = () => {
     const [emailErrorMsg, setEmailErrorMsg] = useState('');
     const [pwdErrorMsg, setPwdErrorMsg] = useState('');
     const [pwdRuleError, setPwdRuleError] = useState('');
-    const [conditionStyle, setConditionStyle] = useState({color: 'white'});
-     
+    const [conditionStyle, setConditionStyle] = useState({ color: 'white' });
+    const [registrationError, setRegistrationError] = useState(null);
+
     // Assign Email address pattern using RegEx 
     const emailPattern = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/gm;
     // Assign pattern to password
@@ -57,8 +58,8 @@ const RegistrationInputBox = () => {
                 setPwdRuleError('');
             }
             // Reset the checkbox once useraccepts terms and condition by checking the check box
-            if(checked === true){
-                setConditionStyle({color: 'white'}) 
+            if (checked === true) {
+                setConditionStyle({ color: 'white' })
             }
 
             // Display Password strength message
@@ -87,7 +88,7 @@ const RegistrationInputBox = () => {
         setRuleText('');
         console.log(checked)
         try {
-            if (pwdConf !== pwd || name.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd) || !checked ) {
+            if (pwdConf !== pwd || name.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd) || !checked) {
                 if (pwdConf != pwd) {
                     setPwdConfError('Confirmation mot de passe incorrect')
                 }
@@ -97,7 +98,7 @@ const RegistrationInputBox = () => {
                 if (email.length < 1) {
                     setEmailErrorMsg('Saississer un email')
                 }
-                if(!emailPattern.test(email) && email.length > 1){
+                if (!emailPattern.test(email) && email.length > 1) {
                     setEmailErrorMsg('Saississez un email valid')
                 }
                 if (pwd.length < 1) {
@@ -106,22 +107,44 @@ const RegistrationInputBox = () => {
                 if (!pwdPattern.test(pwd)) {
                     setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
                 }
-                if(!checked){
-                   setConditionStyle({color: 'red'}) 
+                if (!checked) {
+                    setConditionStyle({ color: 'red' })
                 }
                 return false;
             }
             console.log(registrationFormData);
             // Post user info to api from api/UserRegistrationApi
-            await PostUserInfo(registrationFormData);
-            console.log('User created successfully');
-            // Redirect to the welcome page after form submission
-            window.location.href = '/?success=true';
+            const responseData = await PostUserInfo(registrationFormData);
+            // Redirect to the connection page after form submission
+            window.location.href = 'connexion?success=true';
         } catch (error) {
-            console.error('Error creating user:', error);
+            if (error.response) {
+                // Get error and display it using registrationError
+                setRegistrationError(error.response.data.message);
+            } else {
+                setRegistrationError('Network error');
+            }
         }
     };
+    // Handle login Error message is error exists. This uses the length of loginErrorMsg
+    const DisplayRegistrationErrorMsg = ({ loginErrorMsgHandler }) => {
+        const registrationErrorMsgStyle = {
+            color: 'white',
+            backgroundColor: 'red',
+            width: '600px',
+            padding: '10px',
+            marginRight: 'auto',
+            marginLeft: 'auto',
+        }
+
+        return <div className='text-center mb-5' style={registrationErrorMsgStyle}>
+                <p>{registrationError}</p>
+            </div>
+    }
+
     return <div className='container'>
+
+        {registrationError && <DisplayRegistrationErrorMsg />}
         <div className='registration-field-container'>
             <div className='mb-3 text-center'>
                 <p className='registeration-form-title-text'>Inscription</p>
@@ -178,7 +201,7 @@ const RegistrationInputBox = () => {
                         />
                     </div>
                     <div className='pwd-rule-text-container mb-3'>
-                        <DisplayPasswordStrength strength={handleStrength} password={pwd} text={ruleText}/>
+                        <DisplayPasswordStrength strength={handleStrength} password={pwd} text={ruleText} />
                     </div>
                 </div>
                 <div className='input-filed-container mb-3'>
@@ -210,7 +233,7 @@ const RegistrationInputBox = () => {
                         <span className='checkbox-container-margin'>
                             <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
                         </span>
-                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation" labelStyle= {conditionStyle} />
+                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation" labelStyle={conditionStyle} />
                     </div>
                 </div>
 
