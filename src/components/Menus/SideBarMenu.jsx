@@ -85,14 +85,14 @@ const SideBar = () => {
                             </div>
                         </div>
                         <div>
-                            {userGroups && userGroups.map((data) => {
-                                return (
-                                    <div key={data.group_name} className='mb-2'>
-                                        <p>{data.group_name}</p>
-                                    </div>
-                                )
-                            })}
+                            {userGroups && userGroups.map((data) => (
+                                <div key={data.group_name} className='mb-2'>
+                                    <p>{data.group_name}</p>
+                                </div>
+                            ))}
+                            {userGroups && userGroups.length === 0 && <div>Aucun group</div>}
                         </div>
+
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>
                                 <img src={logOutIcon} alt="" />
