@@ -8,15 +8,11 @@ import { Link } from "react-router-dom";
 import useUserData from "../../api/UserInfoApi";
 import { motion } from 'framer-motion';
 import UserWithGroups from "../../api/AddUserToGroupsApi";
-import UserWithAddedGroups from "../../api/UserWithGroupsApi";
 
 
 const RenderHome = () => {
     const userData = useUserData();
-    const userId = localStorage.getItem('userId');
     const [postId, setPostId] = useState(null);
-    const [userGroups, setUserGroups] = useState(null); // Define userGroups state
-    const [loading, setLoading] = useState(false); // Define loading state
 
     useEffect(() => {
         if (userData && postId) {
@@ -27,22 +23,6 @@ const RenderHome = () => {
             UserWithGroups(data);
         }
     }, [userData, postId]);
-
-    useEffect(() => {
-        async function groupRetrieve() {
-            if (userId) {
-                try {
-                    const response = await UserWithAddedGroups(userId);
-                    setUserGroups(response.data);
-                    setLoading(false);
-                } catch (error) {
-                    console.error('Error fetching user groups:', error);
-                    setLoading(false);
-                }
-            }
-        }
-        groupRetrieve();
-    }, [userId]);
 
 
     const allGroupsData = () => {
@@ -59,7 +39,7 @@ const RenderHome = () => {
     return <div className="home-page-container">
         <header>
             <nav>
-                <SideBar userGroups={userGroups} loading={loading} />
+                <SideBar />
             </nav>
         </header>
         <main className="main-elements">
@@ -86,8 +66,7 @@ const RenderHome = () => {
                                 <motion.div whileTap={{ scale: 1.2 }}
                                     className="add-and-text-conatiner"
                                     onClick={(e) => {
-                                        setPostId(data.group_id);
-                                        setLoading(true);
+                                        setPostId(data.group_id)
                                     }}>
                                     <Link className="add_icon_container">
                                         <img src={addIcon} alt="" />

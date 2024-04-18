@@ -8,6 +8,7 @@ import ChatRoom from './components/chat-page/ChatRoom';
 import RenderHome from './components/home-page/HomePage';
 import ErrorPage from './components/Error-page/RouterError';
 import FirstMenu from './components/Menus/FirstPageMenu';
+import RenderSinglePostPage from './components/single-group-page/GroupPage';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     ]
   },
   { path: '/accueil', element: <RenderHome /> },
-  {path: '/:name/:id', element: <p>Single group</p>},
+  {path: '/:name/:id', element: <RenderSinglePostPage />},
   { path: '/chat', element: <ChatRoom /> }
 ])
 
