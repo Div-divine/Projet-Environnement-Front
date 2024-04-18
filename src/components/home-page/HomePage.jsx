@@ -8,31 +8,42 @@ import { Link } from "react-router-dom";
 import useUserData from "../../api/UserInfoApi";
 import { motion } from 'framer-motion';
 import UserWithGroups from "../../api/AddUserToGroupsApi";
-import groupSelectedIcon from '../../assets/svg/checked-solid.svg'
+import UserWithAddedGroups from "../../api/UserWithGroupsApi";
 
 
 const RenderHome = () => {
     const userData = useUserData();
+    const userId = localStorage.getItem('userId');
     const [postId, setPostId] = useState(null);
+    const [userGroups, setUserGroups] = useState(null); // Define userGroups state
+    const [loading, setLoading] = useState(false); // Define loading state
+
     useEffect(() => {
-        if (userData) {
-            // Get the user id
-            const userId = userData.user_id;
-            console.log(userId);
-        }
-        // Log the post id
-        if (postId) {
-            console.log(postId);
-        }
         if (userData && postId) {
             const data = {
                 userId: userData.user_id,
                 groupId: postId
-            }
-            const inserData = UserWithGroups(data);
-            console.log(data);
+            };
+            UserWithGroups(data);
         }
     }, [userData, postId]);
+
+    useEffect(() => {
+        async function groupRetrieve() {
+            if (userId) {
+                try {
+                    const response = await UserWithAddedGroups(userId);
+                    setUserGroups(response.data);
+                    setLoading(false);
+                } catch (error) {
+                    console.error('Error fetching user groups:', error);
+                    setLoading(false);
+                }
+            }
+        }
+        groupRetrieve();
+    }, [userId]);
+
 
     const allGroupsData = () => {
         const groupsData = useGroupsData();
@@ -48,7 +59,7 @@ const RenderHome = () => {
     return <div className="home-page-container">
         <header>
             <nav>
-                <SideBar />
+                <SideBar userGroups={userGroups} loading={loading} />
             </nav>
         </header>
         <main className="main-elements">
@@ -74,7 +85,10 @@ const RenderHome = () => {
                             <div className="add-and-viste-icon-and-text-container">
                                 <motion.div whileTap={{ scale: 1.2 }}
                                     className="add-and-text-conatiner"
-                                    onClick={(e) => setPostId(data.group_id)}>    
+                                    onClick={(e) => {
+                                        setPostId(data.group_id);
+                                        setLoading(true);
+                                    }}>
                                     <Link className="add_icon_container">
                                         <img src={addIcon} alt="" />
                                     </Link>

@@ -8,7 +8,7 @@ const UserWithAddedGroups = async (id) =>{
 
         return response; // Return the response data
     } catch (error) {
-        throw error; // Rethrow error to propagate it to the caller
+        console.log('Error:', error) ; // Rethrow error to propagate it to the caller
     }
 }
 

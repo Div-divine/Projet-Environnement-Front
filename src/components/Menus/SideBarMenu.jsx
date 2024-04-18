@@ -10,34 +10,29 @@ import logOutIcon from '../../assets/svg/logout-solid.svg';
 import useUserData from '../../api/UserInfoApi';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 
 
 
-const SideBar = () => {
-
+const SideBar = ({ userGroups, loading }) => {
     const userData = useUserData();
-    const [userGroups, setUserGroups] = useState(null);
+    const [groupNames, setGroupNames] = useState([]);
+
     useEffect(() => {
-        const fetchData = async () => {
-            if (userData) {
-                try {
-
-                    const id = userData.user_id;
-                    const response = await UserWithAddedGroups(id);
-                    setUserGroups(response.data);
-                } catch (error) {
-                    console.error('Error fetching user with groups:', error);
-                }
-            }
-        };
-
-        fetchData();
+        console.log(userData);
     }, [userData]); // This ensures the log statement runs whenever `userData` changes
+    useEffect(() => {
+        if (userData && userData.user_id) {
+            console.log('User id from sideBar: ', userData.user_id);
+            localStorage.setItem('userId', userData.user_id);
+        }
+    }, [userData]);
+    useEffect(() => {
+        if (userGroups) {
+            setGroupNames(userGroups.map(data => data.group_name));
+        }
+    }, [userGroups]);
     // Check if userData is null before accessing its properties
     if (userData) {
-        console.log('User groups are:', userGroups);
-        //console.log('User datas are:', userData)
         return (<>
             <div className='side-bar-container'>
                 <header>
@@ -67,7 +62,7 @@ const SideBar = () => {
                                 <img src={friendsIcon} alt="Friends icon" />
                             </div>
                             <div className='connected-freinds-container'>
-                                <p className='connected-freinds-text'>Amis connectés</p>
+                                <p className='connected-freinds-text'>Tes ami(e)s ajouté(e)s</p>
                             </div>
                         </div>
                         <div className='most-recents-text-container'>
@@ -81,15 +76,16 @@ const SideBar = () => {
                                 <img src={groups} alt="" />
                             </div>
                             <div className='connected-freinds-container'>
-                                <p className='connected-freinds-text'>Groupes membre</p>
+                                <p className='connected-freinds-text'>Tes Groupes membre</p>
                             </div>
                         </div>
                         <div>
-                            {userGroups && userGroups.map((data) => (
-                                <div key={data.group_name} className='mb-2'>
-                                    <p>{data.group_name}</p>
+                            {groupNames.map((groupName, index) => (
+                                <div key={index} className='mb-2'>
+                                    <p>{groupName}</p>
                                 </div>
                             ))}
+
                             {userGroups && userGroups.length === 0 && <div>Aucun group</div>}
                         </div>
 
