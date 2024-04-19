@@ -1,0 +1,79 @@
+.all-users-main-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+.all-users-container{
+    width: 300px;
+    height: auto;
+    border-radius: 20px 20px 0px 0px;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 3px 0px black;
+}
+.main-users{
+    padding-left: 50px;
+}
+.all-users-icon-container{
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #0000005c;
+    border-radius: 100%;
+    padding: 20px;
+    box-shadow: 0px 0px 1px 0px white;
+}
+.user-icon-section{
+    background-color: #094011a7;
+    border-radius: 20px 20px 0px 0px;
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.like-user-section{
+    background-color: #1b1b23c5;
+    color: white;
+    padding: 10px;
+}
+.user-name-icon{
+    width: 20px;
+}
+.like-icon{
+    width: 20px;
+}
+.chat-icon-container{
+    width: 20px;
+}
+.user-name-text{
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.user-name-icon-and-text{
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.flex-user-and-like-icon{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.chat-icon-and-text{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 40%;
+    padding: 10px;
+    margin-top: 8px;
+
+}

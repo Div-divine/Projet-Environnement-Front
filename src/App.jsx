@@ -9,6 +9,7 @@ import RenderHome from './components/home-page/HomePage';
 import ErrorPage from './components/Error-page/RouterError';
 import FirstMenu from './components/Menus/FirstPageMenu';
 import RenderSinglePostPage from './components/single-group-page/GroupPage';
+import RenderAllUsers from './components/display-all-users-page/DisplayUsers';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
   { path: '/accueil', element: <RenderHome /> },
   {path: '/:name/:id', element: <RenderSinglePostPage />},
   { path: '/chat', element: <ChatRoom /> },
-  {path: '/utilisateurs', element: <p>Here am gonna list all users</p>}
+  {path: '/utilisateurs', element: <RenderAllUsers />}
 
 ])
 

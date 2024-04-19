@@ -41,7 +41,7 @@ const RenderHome = () => {
     return <div className="home-page-container">
         <header>
             <nav>
-                <SideBar />
+                <SideBar showUser={true}/>
             </nav>
         </header>
         <main className="main-elements">

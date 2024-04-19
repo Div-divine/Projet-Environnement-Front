@@ -86,7 +86,7 @@
     font-family: "Crimson Text", serif;
     font-size: small;
     font-weight: 700;
-    color: rgb(133, 125, 125);
+    color: #857d7d;
 }
 .most-recents-text-container{
     width: 130px;
@@ -95,8 +95,8 @@
     margin-top: 20px;
 }
 .users-names-container{
-    background-color: #FF9C00;
-    font-weight: 700;
+    background-color: #A9BEAC;
+    color: black;
     padding: 10px;
     width: 75%;
     margin-left: auto;
@@ -118,7 +118,7 @@
     text-decoration: none;
 }
 .list-all-container{
-    background-color: #0078be69;
+    background-color: #198754;
     color: white;
     width: 50%;
     padding: 2px;

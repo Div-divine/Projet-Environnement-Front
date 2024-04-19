@@ -10,14 +10,14 @@ import logOutIcon from '../../assets/svg/logout-solid.svg';
 import communityIcon from '../../assets/svg/community.svg';
 import useUserData from '../../api/UserInfoApi';
 import { useEffect, useState } from 'react';
-import { Outlet, NavLink, Link} from 'react-router-dom';
+import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import FourUsers from '../../api/GetOnlyFourUsersApi';
 import UsersNbr from '../../api/NbrOfUsersApi';
 
 
 
-const SideBar = () => {
+const SideBar = ({showUser}) => {
     const userId = localStorage.getItem('userId');
     const [loading, setLoading] = useState(false); // Define loading state
     const userData = useUserData();
@@ -26,18 +26,17 @@ const SideBar = () => {
     const [users, setUsers] = useState([]);
     const [usersData, setUsersData] = useState(null);
     const [nbrUsers, setNbrUsers] = useState(null)
-
     // Get the number of users
-    useEffect(()=>{
-        async function getUserNbr(){
-            if(userId){
+    useEffect(() => {
+        async function getUserNbr() {
+            if (userId) {
                 const response = await UsersNbr();
                 console.log('User number', response.data.count);
                 setNbrUsers(response.data.count)
             }
         }
         getUserNbr();
-    },[userId])
+    }, [userId])
 
     // Get all groups linked to user
     useEffect(() => {
@@ -132,19 +131,23 @@ const SideBar = () => {
                                 <p>{nbrUsers}</p>
                             </div>}
                         </div>
-                        <div className='most-recents-text-container mt-3'>
-                            <p className='most-recents-text'>Les plus récents</p>
-                        </div>
-                        <div className='mt-2'>
-                            {users && users.map((user, index) => (
-                                <div key={index} className='users-names-container'>
-                                    <p>{user.user_name}</p>
+                        {
+                            showUser && <div>
+                                <div className='most-recents-text-container mt-3'>
+                                    <p className='most-recents-text'>Les plus récents</p>
                                 </div>
-                            ))}
-                        </div>
-                        <div className='mt-2 list-all-container'>
-                            <Link to='/utilisateurs' className='list-all-user-link'>Tout afficher</Link>
-                        </div>
+                                <div className='mt-2'>
+                                    {users && users.map((user, index) => (
+                                        <div key={index} className='users-names-container'>
+                                            <p>{user.user_name}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className='mt-2 list-all-container'>
+                                    <Link to='/utilisateurs' className='list-all-user-link'>Tout afficher</Link>
+                                </div>
+                            </div>
+                        }
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>
                                 <img src={friendsIcon} alt="Friends icon" />
