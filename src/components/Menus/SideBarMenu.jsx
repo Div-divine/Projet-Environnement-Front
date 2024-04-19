@@ -10,7 +10,7 @@ import logOutIcon from '../../assets/svg/logout-solid.svg';
 import communityIcon from '../../assets/svg/community.svg';
 import useUserData from '../../api/UserInfoApi';
 import { useEffect, useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, Link} from 'react-router-dom';
 import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import FourUsers from '../../api/GetOnlyFourUsersApi';
 import UsersNbr from '../../api/NbrOfUsersApi';
@@ -132,14 +132,19 @@ const SideBar = () => {
                                 <p>{nbrUsers}</p>
                             </div>}
                         </div>
-                        <div className='mt-3'>
+                        <div className='most-recents-text-container mt-3'>
+                            <p className='most-recents-text'>Les plus récents</p>
+                        </div>
+                        <div className='mt-2'>
                             {users && users.map((user, index) => (
                                 <div key={index} className='users-names-container'>
                                     <p>{user.user_name}</p>
                                 </div>
                             ))}
                         </div>
-
+                        <div className='mt-2 list-all-container'>
+                            <Link to='/utilisateurs' className='list-all-user-link'>Tout afficher</Link>
+                        </div>
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>
                                 <img src={friendsIcon} alt="Friends icon" />

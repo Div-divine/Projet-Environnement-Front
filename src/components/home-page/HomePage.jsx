@@ -4,13 +4,14 @@ import addIcon from '../../assets/svg/add-square.svg';
 import eyeIcon from '../../assets/svg/eye-solid.svg';
 import { useEffect, useState } from "react";
 import useGroupsData from "../../api/AllGroupsDataApi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useUserData from "../../api/UserInfoApi";
 import { motion } from 'framer-motion';
 import UserWithGroups from "../../api/AddUserToGroupsApi";
 
 
 const RenderHome = () => {
+    const location = useLocation();
     const userData = useUserData();
     const [postId, setPostId] = useState(null);
 
@@ -21,6 +22,7 @@ const RenderHome = () => {
                 groupId: postId
             };
             UserWithGroups(data);
+            window.location.reload();
         }
     }, [userData, postId]);
 

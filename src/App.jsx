@@ -23,7 +23,9 @@ const router = createBrowserRouter([
   },
   { path: '/accueil', element: <RenderHome /> },
   {path: '/:name/:id', element: <RenderSinglePostPage />},
-  { path: '/chat', element: <ChatRoom /> }
+  { path: '/chat', element: <ChatRoom /> },
+  {path: '/utilisateurs', element: <p>Here am gonna list all users</p>}
+
 ])
 
 function App() {

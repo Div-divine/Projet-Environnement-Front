@@ -96,13 +96,37 @@
 }
 .users-names-container{
     background-color: #FF9C00;
-    color: white;
+    font-weight: 700;
     padding: 10px;
     width: 75%;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0px 0px 6px 0px black;
 }
+.list-all-user-link{
+    color: black;
+    text-decoration: none;
+    font-size: small;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.list-all-user-link:hover{
+    color: white;
+    text-decoration: none;
+}
+.list-all-container{
+    background-color: #0078be69;
+    color: white;
+    width: 50%;
+    padding: 2px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .users-total-nbr-container{
     display: flex;
     flex-wrap: wrap;
