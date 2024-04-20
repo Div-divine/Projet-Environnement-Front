@@ -5,7 +5,7 @@ const RenderSinglePostPage = () => {
     return <div className="group-page-container">
         <header>
             <nav>
-                <SideBar />
+                <SideBar showUser={true}/>
             </nav>
         </header>
         <main className='group-main-elements'>

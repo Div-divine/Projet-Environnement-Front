@@ -1,79 +1,93 @@
-.all-users-main-container{
+.users-and-sidebar-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 40px;
+    justify-content: space-evenly;
+    background-color: #F0ECE6;
+    margin-bottom: 30px;
+    padding: 10px 0px 10px 0px;
 }
-.all-users-container{
+
+.search-field {
+    border-radius: 20px;
+    padding: 7px;
     width: 300px;
-    height: auto;
-    border-radius: 20px 20px 0px 0px;
-    margin-bottom: 10px;
-    box-shadow: 0px 0px 3px 0px black;
+    border: 1px solid #09401123
 }
-.main-users{
-    padding-left: 50px;
-}
-.all-users-icon-container{
-    width: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #0000005c;
-    border-radius: 100%;
-    padding: 20px;
-    box-shadow: 0px 0px 1px 0px white;
-}
-.user-icon-section{
-    background-color: #094011a7;
-    border-radius: 20px 20px 0px 0px;
-    height: 150px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
 
-}
-.like-user-section{
-    background-color: #1b1b23c5;
+.search-field:hover {
+    background-color: #094011;
     color: white;
-    padding: 10px;
 }
-.user-name-icon{
-    width: 20px;
+
+.table-container {
+    background-color: white;
+    width: 1200px;
 }
-.like-icon{
-    width: 20px;
+
+.main-users {
+    padding-left: 80px;
 }
-.chat-icon-container{
-    width: 20px;
+
+.table {
+    width: 100%;
+    height: auto;
 }
-.user-name-text{
-    width: 70%;
+
+.table thead th {
+    background-color: #F0ECE6;
+}
+
+.table tbody tr th {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
 }
-.user-name-icon-and-text{
-    width: 40%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+
+.table tr:hover {
+    background-color: #A9BEAC;
 }
-.flex-user-and-like-icon{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 90%;
+
+.table-names-text {
+    font-family: "Crimson Text", serif;
+    font-size: small;
+}
+
+.table-header-text {
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+}
+
+.table-container {
+    box-shadow: 0px 0px 4px 0px #094011;
+}
+
+.best-users-text {
+    background-color: #094011;
+    padding: 6px;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
+    color: white;
+    border-radius: 20px
 }
-.chat-icon-and-text{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    width: 40%;
-    padding: 10px;
-    margin-top: 8px;
 
+.average-users-text {
+    background-color: #ffc107;
+    padding: 6px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border-radius: 20px
+}
+
+.unactive-users-text {
+    background-color:#dc3545;
+    padding: 6px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border-radius: 20px
 }

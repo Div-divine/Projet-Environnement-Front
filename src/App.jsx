@@ -9,7 +9,7 @@ import RenderHome from './components/home-page/HomePage';
 import ErrorPage from './components/Error-page/RouterError';
 import FirstMenu from './components/Menus/FirstPageMenu';
 import RenderSinglePostPage from './components/single-group-page/GroupPage';
-import RenderAllUsers from './components/display-all-users-page/DisplayUsers';
+import RenderAllUsers from './components/display-all-users-info-page/DisplayUsers';
 
 const router = createBrowserRouter([
   {
