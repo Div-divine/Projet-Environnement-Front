@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import SideBar from "../Menus/SideBarMenu";
 import '../../style/DisplayAllUsers.css'
-import AllUsers from "../../api/GetAllUsersApi";
 import climatChangeIcon from '../../assets/svg/climate-change.svg';
 import biodiversityIcon from '../../assets/svg/icon-biodiversity.svg';
 import wasteManagementIcon from '../../assets/svg/icon-wastemanagement.svg';
@@ -14,6 +13,13 @@ import userIcon from '../../assets/svg/user-solid.svg';
 import likeIcon from '../../assets/svg/heart-solid.svg';
 import chatIcon from '../../assets/svg/comment-solid.svg';
 import SearchBar from "../input-field/SearchBar";
+import UsersImgPath from "./UsersImages";
+import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
+import Popover from "./Popover";
+import PopoverContents from "./PopoverContents";
+
+
 
 
 
@@ -32,6 +38,8 @@ const RenderAllUsers = () => {
         waterIcon,
         windIcon
     ]
+    // get images path and save in the const to enable map
+    const imgPath = UsersImgPath();
 
     useEffect(() => {
         async function fetchData() {
@@ -60,7 +68,7 @@ const RenderAllUsers = () => {
                 if (user.groups.length < 2) {
                     return <p className="table-names-text unactive-users-text">Moin Engagé</p>
                 }
-                
+
             });
 
             // Set the status for each user individually
@@ -92,7 +100,7 @@ const RenderAllUsers = () => {
         return (<div className="home-page-container">
             <header>
                 <nav>
-                    <SideBar showUser={false} />
+                    <SideBar />
                 </nav>
             </header>
             <div className="users-and-sidebar-container">
@@ -107,7 +115,39 @@ const RenderAllUsers = () => {
                 />
             </div>
             <main className="main-elements main-users">
+                <div className="user-listing-overall-container">
+                    {filteredUserGroups.map((user, index) => (
+                        <div key={index} className="user-listing-container mb-3">
+                            <div className="user-image-container" key={index}>
+                                <img src={imgPath[index % imgPath.length]} alt="User" />
+                            </div>
+                            <div className="user-lower-container">
+                                <Popover content={<PopoverContents 
+                                pathHandler={imgPath[index % imgPath.length]}
+                                userNameHandler={user.user.user_name}
+                                groupHandler={user.groups}
+                                />}>
+                                    <motion.div
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.9 }}
+                                        className="mt-2"
+                                    >    <div>
+                                            <p className="user-name">{user.user.user_name}</p>
+                                        </div>
+                                    </motion.div>
+                                </Popover>
+                                <div className="mt-1">
+                                    <p className="user-group">{user.groups.length} Group membre</p>
+                                </div>
+                                <div className="add-user-button-container mt-1" >
+                                    <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 <div className="table-responsive">
+
                     <table className="table">
                         <thead>
                             <tr>

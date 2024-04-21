@@ -17,7 +17,9 @@ import UsersNbr from '../../api/NbrOfUsersApi';
 
 
 
-const SideBar = ({showUser}) => {
+const SideBar = () => {
+    const location = useLocation();
+    const currentPath = window.location.pathname;
     const userId = localStorage.getItem('userId');
     const [loading, setLoading] = useState(false); // Define loading state
     const userData = useUserData();
@@ -25,7 +27,8 @@ const SideBar = ({showUser}) => {
     const [userGroups, setUserGroups] = useState(null); // Define userGroups state
     const [users, setUsers] = useState([]);
     const [usersData, setUsersData] = useState(null);
-    const [nbrUsers, setNbrUsers] = useState(null)
+    const [nbrUsers, setNbrUsers] = useState(null);
+    const [styleMenu, setStyleMenu] = useState('');
     // Get the number of users
     useEffect(() => {
         async function getUserNbr() {
@@ -94,6 +97,19 @@ const SideBar = ({showUser}) => {
         }
     }, [usersData]);
 
+    useEffect(() => {
+        if (currentPath) {
+            const styleByLocation = () => {
+                if (currentPath === '/utilisateurs' || currentPath === '/admin/utilisateurs') {
+                    return 'user-background-style';
+                }
+                return 'friends-icon-and-text-container';
+            }
+            setStyleMenu(styleByLocation);
+        }
+        
+    }, [currentPath])
+
     // Check if userData is not null before accessing its properties
     if (userData) {
         return (<>
@@ -120,7 +136,7 @@ const SideBar = ({showUser}) => {
                                 <p className='user-welcom-text'>Salut {userData.user_name}</p>
                             </div>
                         </div>
-                        <div className='friends-icon-and-text-container'>
+                        {styleMenu && <Link to='/utilisateurs' className={styleMenu}>
                             <div className='community-icon'>
                                 <img src={communityIcon} alt="community icon" />
                             </div>
@@ -130,23 +146,8 @@ const SideBar = ({showUser}) => {
                             {nbrUsers && <div className='users-total-nbr-container'>
                                 <p>{nbrUsers}</p>
                             </div>}
-                        </div>
-                        {
-                            showUser && <div>
-                                <div className='most-recents-text-container mt-3'>
-                                    <p className='most-recents-text'>Les plus récents</p>
-                                </div>
-                                <div className='mt-2'>
-                                    {users && users.map((user, index) => (
-                                        <div key={index} className='users-names-container'>
-                                            <p>{user.user_name}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className='mt-2 list-all-container'>
-                                    <Link to='/utilisateurs' className='list-all-user-link'>Tout afficher</Link>
-                                </div>
-                            </div>
+                        </Link>
+
                         }
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>

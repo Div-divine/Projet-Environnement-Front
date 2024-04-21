@@ -75,6 +75,26 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin-top: 50px;
+    color: black;
+    padding: 5px 0px 5px 0px;
+}
+.friends-icon-and-text-container:hover{
+    background-color: #A9BEAC;
+    text-decoration: none;
+    color: white;
+}
+.user-background-style{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    color: white;
+    background-color: #A9BEAC;
+    padding: 5px 0px 5px 0px;
+}
+.user-background-style:hover{
+    text-decoration: none;
+    color: white;
 }
 .connected-freinds-container{
     display: flex;
@@ -132,12 +152,11 @@
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
-    background-color: #A9BEAC;
-    border-radius: 100%;
+    background-color: #094011;
     font-size: small;
     font-weight: 700;
-    color: black;
-    padding: 10px;
+    color: white;
+    padding: 0px 5px 0px 5px;
     height: auto;
 }
 

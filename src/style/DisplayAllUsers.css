@@ -18,11 +18,56 @@
     background-color: #094011;
     color: white;
 }
+.user-listing-overall-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
 .table-container {
     background-color: white;
     width: 1200px;
 }
+.user-image-container{
+    height: auto;
+}
+.user-image-container img{
+    border-radius: 12px 12px 0px 0px;
+}
+.user-lower-container{
+    padding: 5px;
+}
+
+.user-listing-container{
+    max-width: 200px;
+    height: auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0px 0px 3px 0px #094011;
+    padding: 1px 1px 10px 1px;
+}
+.add-btn-field{
+    padding: 10px;
+    background-color: #094011;
+    width: 99%;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+    font-family: "League Spartan", serif;
+}
+.user-name{
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    color:#094011
+}
+.user-group{
+    font-family: "Crimson Text", serif;
+    font-size: small;
+    font-weight: 700;
+    color: #00000073;
+}
+/*  ///////////////////////       ////////////////////////////////////////////////  */
 
 .main-users {
     padding-left: 80px;
@@ -83,7 +128,7 @@
 }
 
 .unactive-users-text {
-    background-color:#dc3545;
+    background-color: #dc3545;
     padding: 6px;
     width: 50%;
     margin-left: auto;

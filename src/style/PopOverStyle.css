@@ -1,0 +1,84 @@
+.popover-container{
+    padding: 15px 0px 15px 0px;
+}
+.popover-img-and-name-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.popover-img-container{
+    width: 30%;
+}
+.popover-img{
+    border-radius: 100%;
+}
+.popover-user-name{
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+}
+.popover-groups-name{
+    font-family: "Crimson Text", serif;
+    font-size: small;
+    font-weight: 700;
+    color: #094011a7;
+}
+.popover-name-and-contents-container{
+    width: 65%;
+}
+.popover-group-icon-and-groups-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.popover-group-icon-container{
+    width: 15%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.popover-groups-container{
+    width: 83%;
+}
+.popover-add-friend-btn-container{
+    padding: 10px;
+    background-color: #094011;
+    border: 0px;
+    border-radius: 20px;
+    color: white;
+    font-family: "League Spartan", serif;
+}
+.add-friend-and-msg-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.upper-container-icon-and-msg{
+    width: 50%;
+    background-color: #A9BEAC;
+    box-shadow: 0px 0px 1px 0px #094011;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.msg-and-icon-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;
+    align-items: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.msg-icon-container{
+    width: 20%;
+}
+.msg-container{
+    width: 80%;
+    font-family: "League Spartan", serif;
+    color: white;
+}
