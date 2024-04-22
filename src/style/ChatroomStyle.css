@@ -1,0 +1,10 @@
+.sent-message{
+    background-color: #A9BEAC;
+    padding: 5px;
+    color: white;
+}
+.received-message{
+    background-color: #ff9d008f;
+    padding: 5px;
+    color: white;
+}

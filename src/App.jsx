@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useEffect } from 'react';
 import './App.css';
 import FirstHome from './components/first-page/FirstPage';
 import SignUpPageRender from './components/sign-up-page/RegistrationPage';
@@ -24,10 +25,10 @@ const router = createBrowserRouter([
     ]
   },
   { path: '/accueil', element: <RenderHome /> },
-  {path: '/:name/:id', element: <RenderSinglePostPage />},
+  { path: '/:name/:id', element: <RenderSinglePostPage /> },
   { path: '/chat', element: <ChatRoom /> },
-  {path: '/utilisateurs', element: <RenderAllUsers />},
-  {path: '/admin/utilisateurs', element: <AdminRenderAllUsers />}
+  { path: '/utilisateurs', element: <RenderAllUsers /> },
+  { path: '/admin/utilisateurs', element: <AdminRenderAllUsers /> }
 
 ])
 

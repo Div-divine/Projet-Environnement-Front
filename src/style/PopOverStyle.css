@@ -74,6 +74,7 @@
     margin-right: auto;
 
 }
+
 .msg-icon-container{
     width: 20%;
 }
@@ -81,4 +82,10 @@
     width: 80%;
     font-family: "League Spartan", serif;
     color: white;
+}
+.msg-container:hover{
+    color: #094011;
+}
+a {
+    text-decoration: none;
 }

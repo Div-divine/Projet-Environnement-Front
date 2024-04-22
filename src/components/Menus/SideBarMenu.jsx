@@ -107,7 +107,7 @@ const SideBar = () => {
             }
             setStyleMenu(styleByLocation);
         }
-        
+
     }, [currentPath])
 
     // Check if userData is not null before accessing its properties
@@ -136,32 +136,28 @@ const SideBar = () => {
                                 <p className='user-welcom-text'>Salut {userData.user_name}</p>
                             </div>
                         </div>
-                        {styleMenu && <Link to='/utilisateurs' className={styleMenu}>
-                            <div className='community-icon'>
-                                <img src={communityIcon} alt="community icon" />
-                            </div>
-                            <div className='connected-freinds-container'>
-                                <p className='connected-freinds-text'>Utilisateurs</p>
-                            </div>
-                            {nbrUsers && <div className='users-total-nbr-container'>
-                                <p>{nbrUsers}</p>
-                            </div>}
-                        </Link>
+                        <div className='sidebar-users-section'>
+                            {styleMenu && <Link to='/utilisateurs' className={styleMenu}>
+                                <div className='community-icon'>
+                                    <img src={communityIcon} alt="community icon" />
+                                </div>
+                                <div className='connected-freinds-container'>
+                                    <p className='connected-freinds-text'>Utilisateurs</p>
+                                </div>
+                                {nbrUsers && <div className='users-total-nbr-container'>
+                                    <p>{nbrUsers}</p>
+                                </div>}
+                            </Link>
 
-                        }
+                            }
+                        </div>
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>
                                 <img src={friendsIcon} alt="Friends icon" />
                             </div>
                             <div className='connected-freinds-container'>
-                                <p className='connected-freinds-text'>Tes ami(e)s ajouté(e)s</p>
+                                <p className='connected-freinds-text'>Tes amis/amies</p>
                             </div>
-                        </div>
-                        <div className='most-recents-text-container'>
-                            <p className='most-recents-text'>Les plus récents</p>
-                        </div>
-                        <div className='most-recents-text-container'>
-                            <p className='most-recents-text'>Tout lister</p>
                         </div>
                         <div className='friends-icon-and-text-container'>
                             <div className='friends-icon'>
@@ -173,7 +169,7 @@ const SideBar = () => {
                         </div>
                         <div className='mt-3'>
                             {loading ? <div>Loading...</div> : groupNames.map((groupName, index) => (
-                                <div className='text-center group-names-container'>
+                                <div className='text-center group-names-container' key={index}>
                                     <NavLink key={index} className='navlink'
                                         to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}>
                                         <p>{groupName.group_name}</p>
@@ -184,7 +180,7 @@ const SideBar = () => {
                             {userGroups && userGroups.length === 0 && <div>Aucun group</div>}
                         </div>
 
-                        <div className='friends-icon-and-text-container'>
+                        <div className='friends-icon-and-text-container disconnect-container'>
                             <div className='friends-icon'>
                                 <img src={logOutIcon} alt="" />
                             </div>

@@ -13,21 +13,24 @@ import userIcon from '../../assets/svg/user-solid.svg';
 import likeIcon from '../../assets/svg/heart-solid.svg';
 import chatIcon from '../../assets/svg/comment-solid.svg';
 import SearchBar from "../input-field/SearchBar";
-import UsersImgPath from "./UsersImages";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import Popover from "./Popover";
 import PopoverContents from "./PopoverContents";
-
-
+import { useLocation } from "react-router-dom";
+import chatRoom from "../../api/creatingChatRoomApi";
 
 
 
 const RenderAllUsers = () => {
+    const location = useLocation();
     const userId = localStorage.getItem('userId');
+    const [clickedUserId, setClickedUserId] = useState(null);
     const [userGroups, setUserGroups] = useState([]);
-    const [userStatus, setUserStatus] = useState('');
     const [searchQuery, setSearchQuery] = useState(''); // State for search query
+    // Set users id's
+    const [user1Id, setUser1Id] = useState();
+    const [user2Id, setUser2Id] = useState();
     // Save icon paths in icons to be used in map
     const icons = [
         climatChangeIcon,
@@ -38,8 +41,35 @@ const RenderAllUsers = () => {
         waterIcon,
         windIcon
     ]
-    // get images path and save in the const to enable map
-    const imgPath = UsersImgPath();
+
+    // Function to handle click on a user and get the id of the clicked user
+    const handleUserClick = (userclickedId) => {
+        setClickedUserId(userclickedId);
+    };
+    useEffect(() => {
+        if (clickedUserId && userId) {
+            const usersToConnect = {
+                user1Id: userId,
+                user2Id: clickedUserId
+            }
+            async function linkUserToChatRoom() {
+                const createChatRoom = await chatRoom(usersToConnect);
+            }
+            linkUserToChatRoom();
+            setUser1Id(userId);
+            setUser2Id(clickedUserId);
+            // Redirection vers la page de chat
+            window.location.href = '/chat';
+
+        }
+    }, [clickedUserId, userId]);
+
+    useEffect(() => {
+        if (user1Id && user2Id) {
+            localStorage.setItem('user1', user1Id);
+            localStorage.setItem('user2', user2Id);
+        }
+    }, [user1Id, user2Id])
 
     useEffect(() => {
         async function fetchData() {
@@ -54,40 +84,11 @@ const RenderAllUsers = () => {
         fetchData();
     }, [userId]);
 
-    useEffect(() => {
-        if (userGroups && userGroups.length > 0) {
-            // Iterate over each user to set the status individually
-            const getStatus = userGroups.map(user => {
-                console.log('I dey here', user);
-                if (user.groups.length > 2) {
-                    return <p className="table-names-text best-users-text" >Trés Engagé</p>;
-                }
-                if (user.groups.length == 2) {
-                    return <p className="table-names-text average-users-text">Engagé</p>;
-                }
-                if (user.groups.length < 2) {
-                    return <p className="table-names-text unactive-users-text">Moin Engagé</p>
-                }
-
-            });
-
-            // Set the status for each user individually
-            setUserGroups(prevUserGroups => {
-                return prevUserGroups.map((user, index) => {
-                    return {
-                        ...user,
-                        userStatus: getStatus[index]
-                    };
-                });
-            });
-        }
-    }, [userGroups]);
-
-
     // Function to handle changes in the search input field
     const handleSearchChange = event => {
         setSearchQuery(event.target.value);
     };
+
 
     // Function to filter result by user name or group name
     const filteredUserGroups = userGroups.filter(user => {
@@ -104,7 +105,7 @@ const RenderAllUsers = () => {
                 </nav>
             </header>
             <div className="users-and-sidebar-container">
-                <div>
+                <div className="upper-users-text-container">
                     <p className="table-header-text">Les utilisateurs</p>
                 </div>
                 <SearchBar
@@ -119,13 +120,15 @@ const RenderAllUsers = () => {
                     {filteredUserGroups.map((user, index) => (
                         <div key={index} className="user-listing-container mb-3">
                             <div className="user-image-container" key={index}>
-                                <img src={imgPath[index % imgPath.length]} alt="User" />
+                                <img src={`../../src/${user.user.user_img}`} alt="User" />
                             </div>
                             <div className="user-lower-container">
-                                <Popover content={<PopoverContents 
-                                pathHandler={imgPath[index % imgPath.length]}
-                                userNameHandler={user.user.user_name}
-                                groupHandler={user.groups}
+                                <Popover content={<PopoverContents
+                                    pathHandler={`../../src/${user.user.user_img}`}
+                                    userNameHandler={user.user.user_name}
+                                    groupHandler={user.groups}
+                                    dataHandler={user.user.user_created}
+                                    ClickHandler={() => handleUserClick(user.user.user_id)}
                                 />}>
                                     <motion.div
                                         whileHover={{ scale: 1.1 }}
@@ -147,36 +150,6 @@ const RenderAllUsers = () => {
                     ))}
                 </div>
                 <div className="table-responsive">
-
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" className="text-center border-0"><p className="table-header-text">Utilisateur</p></th>
-                                <th scope="col" className="text-center border-0"><p className="table-header-text">Crée</p></th>
-                                <th scope="col" className="text-center border-0"><p className="table-header-text">Groups Membre</p></th>
-                                <th scope="col" className="text-center border-0"><p className="table-header-text">Status</p></th>
-                            </tr>
-                        </thead>
-                        <tbody className="table-container">
-                            {filteredUserGroups.map(user => (
-                                <tr key={user.user.user_id}>
-                                    <th className="text-center"><p className="table-names-text">{user.user.user_name}</p></th>
-                                    <td className="text-center"><p className="table-names-text">{user.user.user_created}</p></td>
-                                    <td className="text-center">
-                                        {user.groups.map(group => (
-                                            <p key={group.group_id} className="table-names-text">{group.group_name}</p>
-                                        ))}
-                                        {/* If user has no groups, display a message */}
-                                        {user.groups.length === 0 && <p className="table-names-text">Aucun group membre</p>}
-                                    </td>
-                                    <td className="text-center">
-                                        {user.userStatus && user.userStatus}
-                                    </td>
-
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
                 </div>
             </main>
         </div>)
