@@ -1,10 +1,143 @@
-.sent-message{
+.chatroom-main-container {
+    background-color: #A9BEAC;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatroom-inner-container {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 800px;
+    background-color: #F0ECE6;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0px 0px 0px;
+}
+
+.msg-iput-and-icons-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 20px 0px 20px;
+    background-color: #094011;
+    box-shadow: 0px 0px 3px 0px #094011;
+    padding: 10px 15px 10px 15px;
+}
+.form-upper-container{
+    width: 80%;
+}
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.receiver-img-container-in-chat{
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.receiver-img-container-in-chat img{
+    border-radius: 100%;
+    box-shadow: 0px 0px 5px 0px #094011;
+}
+.receiver-name-container-in-chat{
+    font-family: "League Spartan", serif;
+    font-weight: 500;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.message-container{
+    padding-left: 20px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 670px;
+}
+
+.msg-input-field {
+    width: 82%;
+    background-color: #857d7d;
+    box-shadow: 0px 0px 3px 0px #094011;
+}
+.msg-input-field::placeholder{
+    color: white
+}
+.submit-btn-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.msg-submit-btn {
+    height: 30px;
+    background-color: #E6933E;
+    color: black;
+    border-radius: 20px;
+    border: 0px;
+    font-family: "League Spartan", serif;
+    box-shadow: 0px 0px 3px 0px white;
+}
+
+.file-uploader-container {
+    width: 4%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.like-icon-container {
+    width: 4%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sent-message {
     background-color: #A9BEAC;
     padding: 5px;
     color: white;
 }
-.received-message{
+
+.received-message {
     background-color: #ff9d008f;
     padding: 5px;
     color: white;
+}
+.messages-contents-container{
+    max-width: 300px;
+    width: 100%;
+}
+
+.sender{
+    background-color: #094011;
+    color: rgba(255, 255, 255, 0.667);
+}
+.receiver {
+    background-color: #A9BEAC;
+}
+.flex-right{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+.msg-contents-inner-container{
+    border-radius: 20px;
+    margin-top: 10px;
+}
+.msg-text{
+    font-family: "Crimson Text", serif;
+}
+.msg-date{
+    font-family: "League Spartan", serif;
+    font-size: x-small; 
 }

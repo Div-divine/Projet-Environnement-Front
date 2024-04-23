@@ -60,8 +60,12 @@
 .welcom-text-container{
     width: 70%;
 }
-.sidebar-users-section{
-    margin-top: 100px;
+.flex-sidebar-lower-items{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 655px;
 }
 .friends-icon{
     width: 30px;
@@ -78,7 +82,7 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     color: black;
-    padding: 10px 0px 10px 0px;
+    padding: 40px 0px 10px 0px;
 }
 .friends-icon-and-text-container:hover{
     background-color: #A9BEAC;
@@ -181,7 +185,4 @@
 .active {
     color: white;
     font-weight: 700
-}
-.disconnect-container{
-    margin-top: 120px;
 }
