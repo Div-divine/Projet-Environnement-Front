@@ -11,6 +11,7 @@ import usersMsgInChatroom from '../../api/GetUsersMsgInChatroomApi';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale/fr';
 import getUserDataById from '../../api/GetUserDataByIdApi';
+import updateMessageStatusToRead from '../../api/UpdateMsgReadStatusApi';
 
 const socket = io.connect("http://localhost:3000");
 
@@ -28,17 +29,18 @@ const ChatRoom = () => {
 
     const [receiverImg, setReceiverImg] = useState('');
     const [receiverName, setReceiverName] = useState('');
+    const [viewedMessages, setViewedMessages] = useState([]);
 
     const fileInputRef = useRef(null);
 
     const handleClick = () => {
         fileInputRef.current.click();
-      };
-    
-      const handleFileChange = (e) => {
+    };
+
+    const handleFileChange = (e) => {
         const files = e.target.files;
         // Do something with the selected files
-      };
+    };
     // Get the receiver image using it id to query users table
     useEffect(() => {
         if (user2Id) {
@@ -126,7 +128,7 @@ const ChatRoom = () => {
 
 
     useEffect(() => {
-        socket.on('received_msg', () => {
+        socket.on('received_msg', async () => {
             async function senderMsgResponse() {
                 const response = await usersMsgInChatroom(user1Id, user2Id);
                 console.log('User chat room messages info to receiver: ', response)
@@ -134,12 +136,24 @@ const ChatRoom = () => {
                 setMessages(response);
             }
             senderMsgResponse();
+            // Check if the user2Id and chatroomMsg are available
+            if(connectedUserId != user1Id){
+                async function updateMsgState(){
+                    await Promise.all(chatroomMsg.map(async (msg)=>{
+                        await updateMessageStatusToRead({ msgId: msg.msg_id, chatroomId: room });
+                         // Add the message id to viewedMessages array
+                         setViewedMessages(prevMessages => [...prevMessages, msg.msg_id]);
+                    }))
+                }
+            }
+            
         });
-    }, [socket, user2Id]);
+    }, [socket, user2Id, connectedUserId, chatroomMsg]);
 
 
     useEffect(() => {
         if (messages) {
+            console.log('All messages data : ', messages);
             setChatroomMsg(messages.map((data, index) => {
                 return data
             }))
@@ -180,6 +194,8 @@ const ChatRoom = () => {
                         {chatroomMsg && chatroomMsg.map((msg, index) => {
                             const owner = msg.sender_id == connectedUserId ? 'sender' : 'receiver';
                             const formattedDate = formatDate(msg.msg_created);
+                            console.log('message id of msg :', msg.msg_content, ' is : ', msg.msg_id)
+
                             return (
                                 <div key={index} className={owner == 'sender' ? 'flex-right' : 'flex-left'}>
                                     <div className={`${index === chatroomMsg.length - 1 ? 'last-message' : ''} messages-contents-container`}>

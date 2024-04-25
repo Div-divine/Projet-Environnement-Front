@@ -7,7 +7,172 @@
 }
 
 .group-main-elements{
-    width: 1000px;
+    width: 1300px;
     margin-left: auto;
     margin-right: auto;
+}
+.group-inner-container{
+    width: 100%;
+    margin-left: 105px;
+}
+.group-img-container{
+    width: 100%;
+    height: 300px;
+}
+.group-img-container img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+}
+.group-name-container{
+    background-color: #094011;
+    padding: 6px 0px 6px 0px;
+    color: white;
+    font-family: "League Spartan", serif;
+}
+.users-img-container{
+    width: 3%;
+    height: auto;
+}
+.users-img-container img{
+    border-radius: 100%;
+    margin-top: 20px;
+}
+.user-upper-img-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+    background-color: white;
+}
+.public-text{
+    width: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.earth-icon-container{
+    width: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.anonymous-icon-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+}
+.flex-icon-and-group-status{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;
+    padding-top: 30px ;
+    background-color: white;
+}
+.user-post-and-group-description-container{
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.group-descriptions-inner{
+    background-color: white;
+    box-shadow: 0px 0px 2px 0px #094011;
+    border-radius: 2px;
+    padding: 10px;
+}
+.user-post-container{
+    width: 58%;
+}
+.user-img-and-post-field{
+    box-shadow: 0px 0px 2px 0px #094011;
+    padding: 20px;
+    background-color: white;
+}
+.group-description-container{
+    width: 39%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.user-connected-img-container{
+    width: 8%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.user-connected-img-container img{
+    border-radius: 100%;
+}
+.flex-post-field{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.post-input-field-container{
+    width: 90%;
+}
+.anonymous-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+    margin-top: 20px;
+}
+.anonymous-text-container{
+    width: 88%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.abt-group-container{
+    font-family: "Leaugue Spartan", serif ;
+    font-weight: 700;
+}
+.group-decsription-container{
+    font-family: "Crimson Text", serif;
+    margin-top: 20px;
+
+}
+.public-and-icon-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:baseline;
+    margin-top: 20px;
+}
+.post-earth-icon-container{
+    width: 5%;
+}
+.public-text-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+.policies-container{
+    background-color: white;
+    box-shadow: 0px 0px 2px 0px #094011;
+    padding: 20px;
+    border-radius: 2px;
 }

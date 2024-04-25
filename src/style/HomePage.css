@@ -37,7 +37,7 @@
 }
 .water-container {
     width: 100%;
-    height: 200px;
+    height: 400px;
     overflow: hidden;
     background-size: cover; /* This will ensure the image covers the container */
     background-position: center ; /* This will position the image mostly towards the center */

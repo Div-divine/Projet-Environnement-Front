@@ -19,6 +19,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 20px 0px 0px 0px;
+    border-radius: 20px 20px 0px 0px;
 }
 
 .msg-iput-and-icons-container{
@@ -111,7 +112,7 @@
 .received-message {
     background-color: #ff9d008f;
     padding: 5px;
-    color: white;
+    color: black;
 }
 .messages-contents-container{
     max-width: 300px;
@@ -119,19 +120,20 @@
 }
 
 .sender{
-    background-color: #094011;
-    color: rgba(255, 255, 255, 0.667);
+    background-color: #ff9d0023;
+    color: black;
 }
 .receiver {
-    background-color: #A9BEAC;
+    background-color: #37377636;
 }
 .flex-right{
     display: flex;
     flex-wrap: wrap;
     justify-content: end;
+    margin-right: 20px;
 }
 .msg-contents-inner-container{
-    border-radius: 20px;
+    border-radius: 0px 20px 0px 20px;
     margin-top: 10px;
 }
 .msg-text{

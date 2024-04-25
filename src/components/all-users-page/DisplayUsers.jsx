@@ -19,6 +19,7 @@ import Popover from "./Popover";
 import PopoverContents from "./PopoverContents";
 import { useLocation } from "react-router-dom";
 import chatRoom from "../../api/creatingChatRoomApi";
+import existsChatroom from "../../api/ExistChatRoomApi";
 
 
 
@@ -43,26 +44,32 @@ const RenderAllUsers = () => {
     ]
 
     // Function to handle click on a user and get the id of the clicked user
-    const handleUserClick = (userclickedId) => {
-        setClickedUserId(userclickedId);
-    };
-    useEffect(() => {
-        if (clickedUserId && userId) {
-            const usersToConnect = {
-                user1Id: userId,
-                user2Id: clickedUserId
-            }
-            async function linkUserToChatRoom() {
-                const createChatRoom = await chatRoom(usersToConnect);
-            }
-            linkUserToChatRoom();
-            setUser1Id(userId);
-            setUser2Id(clickedUserId);
-            // Redirection vers la page de chat
-            window.location.href = '/chat';
+    const handleUserClick = async (userClickedId) => {
+        setClickedUserId(userClickedId);
 
+        if (userId && userClickedId) {
+            try {
+                // Check if chatroom already exists
+                const chatroomIdData = await existsChatroom(userId, userClickedId);
+                if (chatroomIdData && chatroomIdData.chatroom_id) {
+                    // If chatroom already exists, set user ids and redirect to chat page
+                    setUser1Id(userId);
+                    setUser2Id(userClickedId);
+                    window.location.href = '/chat';
+                } else {
+                    // If chatroom doesn't exist, create it
+                    const usersToConnect = { user1Id: userId, user2Id: userClickedId };
+                    await chatRoom(usersToConnect);
+                    // Set user ids and redirect to chat page
+                    setUser1Id(userId);
+                    setUser2Id(userClickedId);
+                    window.location.href = '/chat';
+                }
+            } catch (error) {
+                console.error('Error handling user click:', error);
+            }
         }
-    }, [clickedUserId, userId]);
+    };
 
     useEffect(() => {
         if (user1Id && user2Id) {
