@@ -44,9 +44,9 @@ const FirstHome = () => {
                             <h2>Notre plus précieux héritage.</h2>
                         </div>
                         <div className="registration-demand-text">
-                            <p className="text-center">"Rejoignez notre communauté environnementale dynamique !</p>
-                            <p className="text-center">🌍 Inscrivez-vous dès maintenant pour un accès exclusif</p>
-                            <p className="text-center">aux groupes de discussion écologiques. Faisons la différence ensemble !"</p>
+                            <h1 className="text-center">"Rejoignez notre communauté environnementale dynamique !</h1>
+                            <h1 className="text-center">🌍 Inscrivez-vous dès maintenant pour un accès exclusif</h1>
+                            <h1 className="text-center">aux groupes de discussion écologiques. Faisons la différence ensemble !"</h1>
                         </div>
                         <div className="first-page-phrase2-container">
                             <h2>Recevoir nos newsletters</h2>

@@ -1,0 +1,120 @@
+.close-icon-container {
+    width: 5%;
+}
+
+.close-icon-upper-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 5px;
+}
+
+.group-name-in-rules {
+    color: #094011;
+}
+
+.popover-contents-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.group-image-container-in-popover {
+    width: 49%;
+}
+
+.image-and-group-welcom-container {
+    box-shadow: 0px 0px 2px 0px #094011;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.rules-container-in-popover {
+    width: 49%;
+    box-shadow: 0px 0px 2px 0px #094011;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.small-group-img-container {
+    width: 10%;
+}
+
+.small-group-img-container img {
+    border-radius: 100%;
+}
+
+.rules-text-and-number-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    margin-top: 15px;
+}
+
+.number-container {
+    background-color: #0000002b;
+    padding: 5px 7px 5px 7px;
+    border-radius: 100%;
+}
+
+.rules-text-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 7px
+}
+
+.rule-title-text {
+    font-family: "Leaugue Spartan", serif;
+    font-weight: 700;
+}
+
+.group-goal-text-container {
+    font-family: "Crimson Text", serif;
+    margin-top: 20px;
+
+}
+
+.bigger-group-img-container {
+    margin-top: 20px;
+}
+
+.display-all-rules-btn-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pop-rule-text {
+    font-family: "Crimson Text", serif;
+    font-size: small;
+    font-weight: 700;
+    color: #094011a7;
+    padding: 20px;
+}
+.group-add{
+    color: black;
+}
+.pop-icons-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+.pop-like-icon-container{
+    width: 10%;
+}
+.pop-add-and-text-conatiner{
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
