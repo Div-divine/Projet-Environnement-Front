@@ -18,6 +18,8 @@ import addIcon from '../../assets/svg/add-square.svg';
 import UserWithGroups from '../../api/AddUserToGroupsApi';
 import DisplayUploadedPosts from './UploadedPosts';
 import insertUserPostIntoGroup from '../../api/CreateUserPostIngroupApi';
+import DisplayIncognitoPopover from './IncognitoPostPopover';
+import insertUserPostIncognito from '../../api/CreateIncognitoPostApi';
 
 
 
@@ -31,8 +33,8 @@ const RenderSinglePostPage = () => {
     const [connectedUserData, setConnectedUserData] = useState(null);
     const [post, setPost] = useState('');
     const [groupId, setGroupId] = useState(null);
-    // Define a state to track whether the groupId is available
-    const [isGroupIdAvailable, setIsGroupIdAvailable] = useState(false);
+    // Define a state to track whether the post is incognito
+    const [isIncognito, setIsIncognito] = useState(false);
 
     // Set popover state
     const [isOpen, setIsOpen] = useState(false);
@@ -104,7 +106,11 @@ const RenderSinglePostPage = () => {
                     groupId: groupData.group_id,
                     userId
                 };
-                const newPost = await insertUserPostIntoGroup(postData);
+                if (!isIncognito) {
+                    const newPost = await insertUserPostIntoGroup(postData);
+                } else {
+                    const newPost = await insertUserPostIncognito(postData);
+                }
                 // Reset post
                 setPost('');
                 window.location.reload();
@@ -118,6 +124,14 @@ const RenderSinglePostPage = () => {
         }
     };
 
+    function handleIncognito() {
+        setIsIncognito(!isIncognito);
+        if (!isIncognito) {
+            console.log('Is incognito:', isIncognito);
+        } else {
+            console.log('I Got this')
+        }
+    };
 
     return <div className="group-page-container">
         <header>
@@ -164,6 +178,19 @@ const RenderSinglePostPage = () => {
                 <div className='user-post-and-group-description-container'>
                     <div className='user-post-container'>
                         <div className='user-img-and-post-field'>
+                            <DisplayPopover rules={<DisplayIncognitoPopover
+                                checkedHandler={isIncognito}
+                                toggleHandler={handleIncognito} />}
+                                children={<div className='anonymous-container'>
+                                    <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
+                                        classHandler='anonymous-icon-container'
+                                        children={<img src={incognitoIcon} alt=""
+                                        />} />
+                                    <div className='anonymous-text-container'>
+                                        <p>Faire un post à l'anonyma</p>
+                                    </div>
+                                </div>}
+                            />
                             <div className='flex-post-field'>
                                 <div className='user-connected-img-container'>
                                     {connectedUserData && <img src={`../../src/${connectedUserData.user_img}`} alt="" />}
@@ -173,14 +200,6 @@ const RenderSinglePostPage = () => {
                                         <textarea type="text-area" placeholder="Faire un post..." value={post} onChange={handleChange} className='form-control' rows="3" />
                                         <div className='posts-submit-btn'><input type="submit" value='Uploader' /></div>
                                     </form>
-                                </div>
-                            </div>
-                            <div className='anonymous-container'>
-                                <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
-                                    classHandler='anonymous-icon-container'
-                                    children={<img src={incognitoIcon} alt="" />} />
-                                <div className='anonymous-text-container'>
-                                    <p>Faire un post à l'anonyma</p>
                                 </div>
                             </div>
                         </div>

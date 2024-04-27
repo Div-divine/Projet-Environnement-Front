@@ -34,3 +34,36 @@
     margin-top: 20px;
     font-family: "Crimson Text", serif;
 }
+.incognito-form-check-label{
+    color: black;
+}
+.incognito-check-labels-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.incognito-input-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    margin-top: 10px;
+}
+.incognito-input-field{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.incognito-rule-text{
+    color: black;
+    background-color: #09401150;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 3px 0px #094011;
+}
+.incognito-pop-warning-text{
+    color: rgb(202, 8, 8);
+}

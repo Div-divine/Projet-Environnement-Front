@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import GetAllPosts from "../../api/GetPostsAndUser";
 import { formatDistanceToNow, differenceInMilliseconds } from "date-fns";
 import frLocale from 'date-fns/locale/fr'; // Import the French locale statically
-import '../../style/PostsStyle.css'
+import '../../style/PostsStyle.css';
+import incognitoIcon from '../../assets/svg/incognito.svg';
 
 const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
-    const [postIncognito, setPostIncognito] = useState(false);
     const [posts, setPosts] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
 
@@ -49,9 +49,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
                     posts && posts[index] && (
                         <div key={index} className="posts-display-inner-section">
                             <div className="posts-user-img-and-date-container">
-                                <div className="post-user-img-container"><img src={`../../src/${posts[index].user_img}`} alt="" /></div>
+                                <div className="post-user-img-container">{!posts[index].incognito ? <img src={`../../src/${posts[index].user_img}`} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
                                 <div className="post-date-container">
-                                    <div>{posts[index].user_name}</div> {/* Display the user name */}
+                                    <div>{!posts[index].incognito ? posts[index].user_name : 'Utilisateur Incognito'}</div> {/* Display the user name */}
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
                                 </div>
                             </div>
