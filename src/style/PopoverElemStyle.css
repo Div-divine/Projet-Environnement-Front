@@ -10,6 +10,10 @@
     align-items: flex-end;
     padding: 5px;
 }
+.close-icon-upper-container img:hover{
+    background-color: #ff000032;
+    border-radius: 100%;
+}
 
 .group-name-in-rules {
     color: #094011;

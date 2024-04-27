@@ -7,7 +7,6 @@ import allUsersOfGroup from '../../api/GetUsersOfAGroupApi';
 import earthIcon from '../../assets/svg/earth-africa-solid.svg';
 import incognitoIcon from '../../assets/svg/incognito.svg';
 import getUserDataById from '../../api/GetUserDataByIdApi';
-import { motion } from 'framer-motion';
 import eyeIcon from '../../assets/svg/orange-eye.svg';
 import likeIcon from '../../assets/svg/thumbs-up.svg';
 import policiesIcon from '../../assets/svg/policies.svg';
@@ -108,6 +107,7 @@ const RenderSinglePostPage = () => {
                 const newPost = await insertUserPostIntoGroup(postData);
                 // Reset post
                 setPost('');
+                window.location.reload();
             } else {
                 // Handle the case where post, groupId, or userId is not available
                 console.error('One or more required fields are missing');
@@ -190,9 +190,9 @@ const RenderSinglePostPage = () => {
                                 classHandler='post-earth-icon-container'
                                 children={<img src={policiesIcon} alt=""
                                     onClick={handleOpen} />} />
-                            <div className='public-text-container' onClick={handleOpen}>
-                                <p>Pour s'assurrer que tout se passe bien! </p>
-                            </div>
+                            <ScaleItem hover={{ scale: 1.05 }} tap={{ scale: 0.9 }}
+                                classHandler='public-text-container'
+                                children={<p onClick={handleOpen}>Pour s'assurrer que tout se passe bien! </p>} />
                         </div>
                         <div>
                             <RulesPopover isOpen={isOpen} onClose={handleClose}>
@@ -303,7 +303,7 @@ const RenderSinglePostPage = () => {
                             </RulesPopover>
                         </div>
                         <div className='post-in-group-text-section'>
-                            <DisplayUploadedPosts />
+                            {groupData && <DisplayUploadedPosts groupId={groupData.group_id} />}
                         </div>
                     </div>
                     <div className='group-description-container'>
@@ -337,6 +337,7 @@ const RenderSinglePostPage = () => {
                                 <p>Group ouvert à tous les utilisaeurs</p>
                             </div>
                         </div>
+                        <div className='white-right-space'></div>
                     </div>
                 </div>
             </div>

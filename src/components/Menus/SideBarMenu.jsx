@@ -110,6 +110,17 @@ const SideBar = () => {
 
     }, [currentPath])
 
+    const handleNavClick = () => {
+        // Set the timeout and store the timeout ID
+        const timeoutId = setTimeout(() => {
+            window.location.reload(); // Reload the window after a small delay
+        }, 60); // Adjust the delay time as needed
+        
+        // Clear the timeout if the component unmounts or the user navigates away
+        return () => clearTimeout(timeoutId);
+    };
+    
+
     // Check if userData is not null before accessing its properties
     if (userData) {
         return (<>
@@ -173,7 +184,8 @@ const SideBar = () => {
                                     {loading ? <div>Loading...</div> : groupNames.map((groupName, index) => (
                                         <div className='text-center group-names-container' key={index}>
                                             <NavLink key={index} className='navlink'
-                                                to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}>
+                                                to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}
+                                                onClick={handleNavClick}>
                                                 <p>{groupName.group_name}</p>
                                             </NavLink>
                                         </div>

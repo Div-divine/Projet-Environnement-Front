@@ -1,0 +1,36 @@
+.posts-display-inner-section{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 3px 0px #094011;
+}
+.posts-user-img-and-date-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    font-family: "League Spartan", serif;
+}
+.post-user-img-container{
+    width: 6%;
+    margin-right: 10px;
+}
+.post-user-img-container img{
+    border-radius: 100%;
+}
+.post-date-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.post-contents-container{
+    margin-top: 20px;
+    font-family: "Crimson Text", serif;
+}
