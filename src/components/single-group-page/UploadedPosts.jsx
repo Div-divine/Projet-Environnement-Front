@@ -6,13 +6,18 @@ import '../../style/PostsStyle.css';
 import incognitoIcon from '../../assets/svg/incognito.svg';
 import messageIcon from '../../assets/svg/message-regular.svg';
 import insertPostComment from "../../api/CreatePostCommentsApi";
+import getPostCommentsAndSender from "../../api/GetPostCommentsApi";
+import { useLocation } from "react-router-dom";
 
 const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
     const [posts, setPosts] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
     const [msg, setMsg] = useState({});
-    const userId = localStorage.getItem('userId')
+    const userId = localStorage.getItem('userId');
+    const [comments, setComments] = useState({});
+    const [commentFormsVisibility, setCommentFormsVisibility] = useState({});
+    const location = useLocation();
 
     useEffect(() => {
         if (groupId) {
@@ -53,11 +58,11 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
     const submitMsg = (e, postId, userId) => {
         e.preventDefault();
-        if(userId){
-            const insertPost = async (msg, post, user) =>{
+        if (userId) {
+            const insertPost = async (msg, post, user) => {
                 const userPostComment = {
                     commentMsg: msg,
-                    postId : post,
+                    postId: post,
                     userId: user
                 }
                 const response = await insertPostComment(userPostComment);
@@ -70,7 +75,31 @@ const DisplayUploadedPosts = ({ groupId }) => {
             ...prevState,
             [postId]: ''
         }));
+        window.location.reload();
+
     }
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const fetchedComments = {};
+            for (const post of posts) {
+                const postId = post.post_id;
+                const comments = await getPostCommentsAndSender(postId);
+                fetchedComments[postId] = comments;
+            }
+            setComments(fetchedComments);
+        };
+        if (posts) {
+            fetchComments();
+        }
+    }, [posts]);
+
+    const toggleCommentFormVisibility = (postId) => {
+        setCommentFormsVisibility(prevState => ({
+            ...prevState,
+            [postId]: !prevState[postId]
+        }));
+    };
 
     return (
         <div>
@@ -95,26 +124,40 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             </div> {/* Display posts user content and ensure newlines */}
 
                             <div className="message-icon-and-text-upper">
-                                {posts[index].post_id && <div className="message-icon-and-text-container">
+                                {posts[index].post_id && <div className="message-icon-and-text-container" onClick={() => toggleCommentFormVisibility(posts[index].post_id)}>
                                     <div className="post-message-icon-container">
                                         <img src={messageIcon} alt="comment icon" />
                                     </div>
-                                    <div className="comment-text-container text-center">Commentaire</div>
+                                    <div className="comment-text-container text-center">Commenter</div>
                                 </div>}
                             </div>
-                            {userId && <form onSubmit={(e) => submitMsg(e, posts[index].post_id, userId)}>
-                                <textarea 
-                                    type="text-area" 
-                                    placeholder="Laissez un commentaire..." 
-                                    value={msg[posts[index].post_id] || ''} 
-                                    onChange={(e) => handleMsg(e, posts[index].post_id)} 
-                                    className='form-control message-text-area' 
-                                    rows="3" 
+                            {commentFormsVisibility[posts[index].post_id] && userId && <form onSubmit={(e) => submitMsg(e, posts[index].post_id, userId)}>
+                                <textarea
+                                    type="text-area"
+                                    placeholder="Laissez un commentaire..."
+                                    value={msg[posts[index].post_id] || ''}
+                                    onChange={(e) => handleMsg(e, posts[index].post_id)}
+                                    className='form-control message-text-area'
+                                    rows="3"
                                 />
-                                <div className='posts-submit-btn'>
-                                    <input type="submit" value='Envoyer' />
-                                </div>
+                                {msg[posts[index].post_id] && (
+                                    <div className='posts-submit-btn'>
+                                        <input type="submit" value='Envoyer' />
+                                    </div>
+                                )}
                             </form>}
+                            {/* Display comments for the current post */}
+                            {Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id].map(comment => (
+                                <div key={comment.comment_id} className="comment-container mt-3">
+                                    <div className="comment-user-img">
+                                        <img src={`../../src/${comment.user_img}`} alt="" />
+                                    </div>
+                                    <div className="comment-text-and-user-name-conatiner">
+                                        <div className="user-commented-name">{comment.user_name}</div>
+                                        <div className="comment-msg">{comment.comment_msg}</div>
+                                    </div>
+                                </div>
+                            ))}
 
                         </div>
                     )

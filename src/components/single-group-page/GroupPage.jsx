@@ -28,7 +28,7 @@ const RenderSinglePostPage = () => {
     const [groupData, setGroupData] = useState(null);
     const [usersInGroup, setUserInGroup] = useState(null);
     const [connectedUserData, setConnectedUserData] = useState(null);
-    const [post, setPost] = useState('');
+    const [post, setPost] = useState(null);
     const [groupId, setGroupId] = useState(null);
     // Define a state to track whether the post is incognito
     const [isIncognito, setIsIncognito] = useState(false);
@@ -198,7 +198,7 @@ const RenderSinglePostPage = () => {
                                 <div className='post-input-field-container'>
                                     <form onSubmit={submitPost}>
                                         <textarea type="text-area" placeholder="Faire un post..." value={post} onChange={handleChange} className='form-control' rows="3" />
-                                        <div className='posts-submit-btn'><input type="submit" value='Uploader' /></div>
+                                        {post && <div className='posts-submit-btn'><input type="submit" value='Uploader' /></div>}
                                     </form>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@ const RenderSinglePostPage = () => {
                                 <p>À propos</p>
                             </div>
                             <div className='group-decsription-container'>
-                                {groupData && <p>Ce plate-forme a pour but de mener un combat pour la {groupData.group_action}</p>}
+                                {groupData && <p>Ce group a pour but de mener un combat pour la {groupData.group_action}.</p>}
                             </div>
                             <div className='public-and-icon-container'>
                                 <div className='post-earth-icon-container'>
@@ -236,7 +236,7 @@ const RenderSinglePostPage = () => {
                                 </div>
                             </div>
                             <div className='group-decsription-container'>
-                                <p>Le group étant ouvert à tous, ceci donne le droit à tous utilisateurs de visualiser tous les posts et l'auteur de post.</p>
+                                <p>Le group étant ouvert à tous, donne le droit à tous utilisateurs de visualiser tous les posts et l'auteur de post. Sauf les posts incognito où le nom et l'image de l'auteur de post ne sera visible qu'aux admins.</p>
                             </div>
                             <div className='public-and-icon-container'>
                                 <div className='post-earth-icon-container'>

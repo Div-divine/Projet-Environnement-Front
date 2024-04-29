@@ -3,6 +3,7 @@ import notifications from '../../assets/svg/notification.svg';
 import messages from '../../assets/svg/comment-solid.svg';
 import settings from '../../assets/svg/settings-solid.svg';
 import aliasIcon from '../../assets/svg/earth-africa-solid.svg';
+import homeIcon from '../../assets/svg/home-white.svg';
 import handshake from '../../assets/svg/handshake-simple-solid.svg';
 import friendsIcon from '../../assets/svg/users-solid.svg';
 import groups from '../../assets/svg/teamspeak.svg';
@@ -115,11 +116,11 @@ const SideBar = () => {
         const timeoutId = setTimeout(() => {
             window.location.reload(); // Reload the window after a small delay
         }, 60); // Adjust the delay time as needed
-        
+
         // Clear the timeout if the component unmounts or the user navigates away
         return () => clearTimeout(timeoutId);
     };
-    
+
 
     // Check if userData is not null before accessing its properties
     if (userData) {
@@ -128,6 +129,9 @@ const SideBar = () => {
                 <header>
                     <nav>
                         <div className='upper-side-bar-icon-container-flex'>
+                            <NavLink to='/accueil' className='upper-side-bar-icon-container'>
+                                <img src={homeIcon} alt="" />
+                            </NavLink>
                             <div className='upper-side-bar-icon-container'><img src={notifications} alt="" /></div>
                             <div className='upper-side-bar-icon-container'><img src={messages} alt="" /></div>
                             <div className='upper-side-bar-icon-container'><img src={settings} alt="" /></div>

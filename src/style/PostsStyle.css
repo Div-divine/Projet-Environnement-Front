@@ -96,3 +96,35 @@
     background-color: #a9beac71;
     color: black;
 }
+.comment-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+}
+.comment-text-and-user-name-conatiner{
+    width: 50%;
+    background-color: #00000013;
+    border-radius: 20px;
+    padding: 10px;
+}
+.comment-user-img{
+    width: 4%;
+    margin-right: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.comment-user-img img{
+    border-radius: 100%;
+}
+.user-commented-name{
+    font-family: "League Spartan", serif;
+    font-size: small;
+    font-weight: 700;
+}
+.comment-msg{
+    font-family: "Crimson Text", serif;
+    margin-top: 5px;
+}
