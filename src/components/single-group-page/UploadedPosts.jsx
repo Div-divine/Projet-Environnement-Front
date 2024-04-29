@@ -4,11 +4,15 @@ import { formatDistanceToNow, differenceInMilliseconds } from "date-fns";
 import frLocale from 'date-fns/locale/fr'; // Import the French locale statically
 import '../../style/PostsStyle.css';
 import incognitoIcon from '../../assets/svg/incognito.svg';
+import messageIcon from '../../assets/svg/message-regular.svg';
+import insertPostComment from "../../api/CreatePostCommentsApi";
 
 const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
     const [posts, setPosts] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
+    const [msg, setMsg] = useState({});
+    const userId = localStorage.getItem('userId')
 
     useEffect(() => {
         if (groupId) {
@@ -35,7 +39,38 @@ const DisplayUploadedPosts = ({ groupId }) => {
         if (posts) {
             setExistPost(true)
         }
-    }, [posts])
+    }, [posts]);
+
+    const handleMsg = (e, postId) => {
+        const newMsg = e.target.value;
+        console.log('handle msg Post id is: ', postId);
+        // Update the message for the specific post
+        setMsg(prevState => ({
+            ...prevState,
+            [postId]: newMsg
+        }));
+    }
+
+    const submitMsg = (e, postId, userId) => {
+        e.preventDefault();
+        if(userId){
+            const insertPost = async (msg, post, user) =>{
+                const userPostComment = {
+                    commentMsg: msg,
+                    postId : post,
+                    userId: user
+                }
+                const response = await insertPostComment(userPostComment);
+                return response;
+            }
+            insertPost(msg[postId], postId, userId);
+        }
+        // Clear the message for the specific post after submitting
+        setMsg(prevState => ({
+            ...prevState,
+            [postId]: ''
+        }));
+    }
 
     return (
         <div>
@@ -58,13 +93,36 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             <div className="post-contents-container" style={{ whiteSpace: 'pre-line' }}>
                                 {posts[index].post_content}
                             </div> {/* Display posts user content and ensure newlines */}
+
+                            <div className="message-icon-and-text-upper">
+                                {posts[index].post_id && <div className="message-icon-and-text-container">
+                                    <div className="post-message-icon-container">
+                                        <img src={messageIcon} alt="comment icon" />
+                                    </div>
+                                    <div className="comment-text-container text-center">Commentaire</div>
+                                </div>}
+                            </div>
+                            {userId && <form onSubmit={(e) => submitMsg(e, posts[index].post_id, userId)}>
+                                <textarea 
+                                    type="text-area" 
+                                    placeholder="Laissez un commentaire..." 
+                                    value={msg[posts[index].post_id] || ''} 
+                                    onChange={(e) => handleMsg(e, posts[index].post_id)} 
+                                    className='form-control message-text-area' 
+                                    rows="3" 
+                                />
+                                <div className='posts-submit-btn'>
+                                    <input type="submit" value='Envoyer' />
+                                </div>
+                            </form>}
+
                         </div>
                     )
                 ))}
             </div>
         </div>
     );
-    
+
 }
 
 export default DisplayUploadedPosts;

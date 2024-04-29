@@ -65,5 +65,34 @@
     box-shadow: 0px 0px 3px 0px #094011;
 }
 .incognito-pop-warning-text{
-    color: rgb(202, 8, 8);
+    color: #ca0808;
+}
+
+.message-icon-and-text-container{
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.post-message-icon-container{
+    width: 10%;
+    margin-right: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.message-icon-and-text-upper{
+    border-top: 1px solid #094011;
+    border-bottom: 1px solid #094011;
+    padding: 10px;
+    margin-top: 20px;
+}
+.message-text-area{
+    background-color: #a9beac71;
+    color: black;
 }

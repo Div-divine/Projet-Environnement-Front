@@ -14,7 +14,7 @@ const RenderHome = () => {
     const location = useLocation();
     const userData = useUserData();
     const [postId, setPostId] = useState(null);
-
+    
     useEffect(() => {
         if (userData && postId) {
             const data = {

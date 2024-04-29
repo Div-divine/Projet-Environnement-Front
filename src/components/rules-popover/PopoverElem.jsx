@@ -14,7 +14,7 @@ const RulesPopover = ({ isOpen, onClose, children }) => {
           boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
           padding: '10px',
           borderRadius: '5px',
-          zIndex: 10,
+          zIndex: isOpen ? 1 : -1,
           width: '600px'
         }}
       >
