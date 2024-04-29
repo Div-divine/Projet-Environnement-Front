@@ -21,10 +21,10 @@ const ChatRoom = () => {
     const user2Id = localStorage.getItem('user2');
     const [chatroomId, setChatroomId] = useState(null);
     // Set chatroom 
-    const [room, setRoom] = useState("");
+    const [room, setRoom] = useState(null);
     // Message status
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState('');
+    const [messages, setMessages] = useState(null);
     const [chatroomMsg, setChatroomMsg] = useState(null);
 
     const [receiverImg, setReceiverImg] = useState('');
@@ -81,8 +81,8 @@ const ChatRoom = () => {
         }
         async function getChatroomId(user1, user2) {
             const response = await chatRoomId(user1, user2);
-            console.log('chatroom id:', response);
-            setChatroomId(response.chatroom_id);
+            console.log('chatroom id from response:', response);
+            setChatroomId(response[0].chatroom_id);
         }
         // call functions here 
         getChatroomId(user1Id, user2Id);
@@ -98,7 +98,7 @@ const ChatRoom = () => {
 
     // Create the room here
     useEffect(() => {
-        if (room !== "") {
+        if (room != null) {
             socket.emit("join_room", room)
         }
     }, [room])
@@ -111,11 +111,13 @@ const ChatRoom = () => {
     const sendMsg = async (e) => {
         e.preventDefault();
         // Emit the message through socket
-        socket.emit("send_msg", { message, room, sender: user1Id, receiver: user2Id });
-
+        socket.emit("send_msg", { message, room: chatroomId, sender: user1Id, receiver: user2Id });
+    
+        console.log('chatroom is :',  chatroomId)
+    
         try {
             // Insert the message into the database
-            await insertUsersMsg({ message, user1Id, user2Id, chatroomId: room });
+            await insertUsersMsg({ message, user1Id, user2Id, chatroomId });
             const response = await usersMsgInChatroom(user1Id, user2Id);
             console.log('User chat room messages info to sender: ', response)
             // Concatenate the new message with the existing messages
@@ -125,6 +127,7 @@ const ChatRoom = () => {
         }
         setMessage('');
     };
+    
 
 
     useEffect(() => {
@@ -152,7 +155,7 @@ const ChatRoom = () => {
 
 
     useEffect(() => {
-        if (messages) {
+        if (messages != 'No message found' && messages) {
             console.log('All messages data : ', messages);
             setChatroomMsg(messages.map((data, index) => {
                 return data

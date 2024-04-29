@@ -20,6 +20,7 @@ import PopoverContents from "./PopoverContents";
 import { useLocation } from "react-router-dom";
 import chatRoom from "../../api/creatingChatRoomApi";
 import existsChatroom from "../../api/ExistChatRoomApi";
+import createFriends from "../../api/CreateFriendsApi";
 
 
 
@@ -70,6 +71,16 @@ const RenderAllUsers = () => {
             }
         }
     };
+
+    const addFriend = async (userClickedId) =>{
+         if(userId && userClickedId){
+            const friends = {
+                user1Id: userId,
+                user2Id: userClickedId
+            }
+              await createFriends(friends); 
+         }
+    }
 
     useEffect(() => {
         if (user1Id && user2Id) {
@@ -136,6 +147,7 @@ const RenderAllUsers = () => {
                                     groupHandler={user.groups}
                                     dataHandler={user.user.user_created}
                                     ClickHandler={() => handleUserClick(user.user.user_id)}
+                                    addFriendHandler={()=> addFriend(user.user.user_id)}
                                 />}>
                                     <motion.div
                                         whileHover={{ scale: 1.1 }}

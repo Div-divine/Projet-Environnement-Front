@@ -3,7 +3,8 @@ import MsgIcon from '../../assets/svg/comment-solid.svg';
 import '../../style/PopOverStyle.css';
 import { Link } from 'react-router-dom';
 
-const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandler, ClickHandler }) => {
+const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandler, ClickHandler, addFriendHandler }) => {
+
     return <div className='popover-container'>
         <div className='popover-img-and-name-container'>
             <div className='popover-img-container'>
@@ -34,7 +35,7 @@ const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandl
         </div>
         <div className='add-friend-and-msg-container'>
             <div>
-                <input type="button" value="Ajouter aux amis" className='popover-add-friend-btn-container' />
+                <input type="button" value="Ajouter aux amis" className='popover-add-friend-btn-container' onClick={(e)=>addFriendHandler(e.currentTarget.click)}/>
             </div>
             <div className='upper-container-icon-and-msg'>
                 <Link className='msg-and-icon-container' onClick={(e)=>ClickHandler(e.currentTarget.click)}>
