@@ -15,6 +15,7 @@ import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import FourUsers from '../../api/GetOnlyFourUsersApi';
 import UsersNbr from '../../api/NbrOfUsersApi';
+import GetAllUserFriends from '../../api/GettingUserFriendsApi';
 
 
 
@@ -30,6 +31,7 @@ const SideBar = () => {
     const [usersData, setUsersData] = useState(null);
     const [nbrUsers, setNbrUsers] = useState(null);
     const [styleMenu, setStyleMenu] = useState('');
+    const [nbrOfFriends, setNbrOfFriends] = useState(null);
     // Get the number of users
     useEffect(() => {
         async function getUserNbr() {
@@ -122,6 +124,19 @@ const SideBar = () => {
     };
 
 
+    // Get user friends 
+    useEffect(() => {
+        if (userId) {
+            const getfriends = async (id) => {
+                const response = await GetAllUserFriends(id)
+                console.log('User friends are:', response)
+                setNbrOfFriends(response.length)
+            }
+            getfriends(userId);
+        }
+
+    }, [userId])
+
     // Check if userData is not null before accessing its properties
     if (userData) {
         return (<>
@@ -161,7 +176,7 @@ const SideBar = () => {
                                         <div className='connected-freinds-container'>
                                             <p className='connected-freinds-text'>Utilisateurs</p>
                                         </div>
-                                        {nbrUsers && <div className='users-total-nbr-container'>
+                                        {<div className='users-total-nbr-container'>
                                             <p>{nbrUsers}</p>
                                         </div>}
                                     </Link>
@@ -169,19 +184,24 @@ const SideBar = () => {
                                     }
                                 </div>
                                 <div className='friends-icon-and-text-container'>
+
                                     <div className='friends-icon'>
                                         <img src={friendsIcon} alt="Friends icon" />
                                     </div>
                                     <div className='connected-freinds-container'>
-                                        <p className='connected-freinds-text'>Tes amis/amies</p>
+                                        <p className='connected-freinds-text'>Nombre d'amis</p>
                                     </div>
+                                    <div className='users-total-nbr-container'>
+                                        {nbrOfFriends}
+                                    </div>
+
                                 </div>
                                 <div className='friends-icon-and-text-container'>
                                     <div className='friends-icon'>
                                         <img src={groups} alt="" />
                                     </div>
                                     <div className='connected-freinds-container'>
-                                        <p className='connected-freinds-text'>Tes Groupes membre</p>
+                                        <p className='connected-freinds-text'>Groupes membre</p>
                                     </div>
                                 </div>
                                 <div className='mt-3'>
@@ -195,7 +215,7 @@ const SideBar = () => {
                                         </div>
                                     ))}
 
-                                    {userGroups && userGroups.length === 0 && <div>Aucun group</div>}
+                                    {userGroups && userGroups.length === 0 && <div className='text-center'>Aucun group</div>}
                                 </div>
                             </div>
 
