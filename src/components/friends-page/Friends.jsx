@@ -1,6 +1,6 @@
 import groupIcon from '../../assets/svg/teamspeak.svg';
 import MsgIcon from '../../assets/svg/comment-solid.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../../style/FriendsStyle.css';
 import GetAllUserFriends from '../../api/GettingUserFriendsApi';
 import { useState, useEffect } from 'react';
@@ -9,9 +9,10 @@ import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import existsChatroom from '../../api/ExistChatRoomApi';
 import chatRoom from '../../api/creatingChatRoomApi';
 import CustomModal from '../modalbox/CustomModalBox';
+import DeleteFriends from '../../api/DeleteUserFriendApi';
 
 const FriendsPage = () => {
-
+    const location = useLocation();
     const [freindsId, setFriendsId] = useState(null);
     const userId = localStorage.getItem('userId');
     const [friendsData, setFriendsData] = useState(null);
@@ -58,9 +59,16 @@ const FriendsPage = () => {
     };
 
     const handleConfirmDelete = () => {
-        // Perform delete action here
-        console.log('Delete action confirmed for user ID:', clickedUserId);
-        setIsModalOpen(false);
+        if (clickedUserId, location) {
+            // Perform delete action here
+            const performFriendDelete = async (user1, user2) => {
+                await DeleteFriends(user1, user2)
+            }
+            performFriendDelete(userId, clickedUserId)
+            console.log('Delete action confirmed for user ID:', clickedUserId);
+            setIsModalOpen(false);
+            window.location.reload()
+        }
     };
 
 
@@ -170,14 +178,14 @@ const FriendsPage = () => {
 
             </main>
             {isModalOpen && clickedUserId && (
-                    <CustomModal
-                        title="Supprimer l'utilisateur de votre liste d'amis"
-                        message="confirmer ?"
-                        buttonText="Supprimer"
-                        onClose={handleCloseModal}
-                        onButtonClick={handleConfirmDelete}
-                    />
-                )}
+                <CustomModal
+                    title="Supprimer l'utilisateur de votre liste d'amis"
+                    message="confirmer ?"
+                    buttonText="Supprimer"
+                    onClose={handleCloseModal}
+                    onButtonClick={handleConfirmDelete}
+                />
+            )}
         </div>
     );
 
