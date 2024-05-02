@@ -2,12 +2,16 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 25px;
 }
 .group-inner-container div{
-    width: 20%;
+    width: 24%;
     background-color: #f8f9fa;
     border-radius: 2px;
+    margin: 0px 5px 10px 0px;
 }
 .group-inner-container div div{
     width: 100%;
@@ -28,7 +32,7 @@
 }
 .popover-groups-name{
    padding-bottom: 10px;
-   line-height: 0.5px;
+   line-height: 0px;
    
 }
 .message-button{
@@ -40,7 +44,7 @@
     border: 0px;
 }
 .delete-button{
-    background-color: rgba(214, 8, 8, 0.753);
+    background-color: #d60808c0;
     color: White;
     padding: 5px;
     border-radius: 5px;

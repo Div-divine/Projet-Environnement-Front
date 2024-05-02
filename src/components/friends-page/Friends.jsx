@@ -8,6 +8,7 @@ import SideBar from '../Menus/SideBarMenu';
 import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import existsChatroom from '../../api/ExistChatRoomApi';
 import chatRoom from '../../api/creatingChatRoomApi';
+import CustomModal from '../modalbox/CustomModalBox';
 
 const FriendsPage = () => {
 
@@ -18,10 +19,10 @@ const FriendsPage = () => {
     const [user1Id, setUser1Id] = useState();
     const [user2Id, setUser2Id] = useState();
     const [clickedUserId, setClickedUserId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-     // Function to handle click on a user and get the id of the clicked user
-     const ClickHandler = async (userClickedId) => {
+    // Function to handle click on a user and get the id of the clicked user
+    const ClickHandler = async (userClickedId) => {
         setClickedUserId(userClickedId);
 
         if (userId && userClickedId) {
@@ -47,6 +48,28 @@ const FriendsPage = () => {
             }
         }
     };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleDeleteClick = (userId) => {
+        setClickedUserId(userId);
+        setIsModalOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        // Perform delete action here
+        console.log('Delete action confirmed for user ID:', clickedUserId);
+        setIsModalOpen(false);
+    };
+
+
+    useEffect(() => {
+        if (clickedUserId) {
+            console.log('User to delete :', clickedUserId)
+        }
+    }, [clickedUserId])
+
     useEffect(() => {
         if (user1Id && user2Id) {
             localStorage.setItem('user1', user1Id);
@@ -125,8 +148,8 @@ const FriendsPage = () => {
                                             </div>
                                             {/* Buttons */}
                                             <div className='btns-container'>
-                                                <input type="button" value='Messagerie'className='message-button' onClick={()=>ClickHandler(innerData.user_id)}/>
-                                                <input type="button" value='Supprimer' className='delete-button'/>
+                                                <input type="button" value='Messagerie' className='message-button' onClick={() => ClickHandler(innerData.user_id)} />
+                                                <input type="button" value='Supprimer' className='delete-button' onClick={() => handleDeleteClick(innerData.user_id)} />
                                             </div>
                                         </div>
                                     );
@@ -136,7 +159,7 @@ const FriendsPage = () => {
                                         <div key={index} >
                                             {userImage}
                                             {/* Display group name */}
-                                            {innerData.group_name ? <div className='popover-groups-name'>- {innerData.group_name}</div> : <div className='popover-groups-name'>- No Groups</div>}
+                                            {innerData.group_name ? <div className='popover-groups-name'>- {innerData.group_name}</div> : <div className='popover-groups-name'>- Aucun group membre</div>}
                                         </div>
                                     );
                                 })}
@@ -144,7 +167,17 @@ const FriendsPage = () => {
                         );
                     })}
                 </div>
+
             </main>
+            {isModalOpen && clickedUserId && (
+                    <CustomModal
+                        title="Supprimer l'utilisateur de votre liste d'amis"
+                        message="confirmer ?"
+                        buttonText="Supprimer"
+                        onClose={handleCloseModal}
+                        onButtonClick={handleConfirmDelete}
+                    />
+                )}
         </div>
     );
 
