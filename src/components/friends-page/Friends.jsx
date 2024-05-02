@@ -138,7 +138,7 @@ const FriendsPage = () => {
                 </nav>
             </header>
             <main className='group-main-elements'>
-                <div className='group-inner-container friends-upper-container'>
+                <div className='friend-group-inner-container friends-upper-container'>
                     {friendsData && friendsData.map((user, userIndex) => {
                         let userImageDisplayed = false;
                         return (
@@ -159,6 +159,7 @@ const FriendsPage = () => {
                                                 <input type="button" value='Messagerie' className='message-button' onClick={() => ClickHandler(innerData.user_id)} />
                                                 <input type="button" value='Supprimer' className='delete-button' onClick={() => handleDeleteClick(innerData.user_id)} />
                                             </div>
+                                            {innerData.group_name && <div className='member-group-title'>Membre de groups</div>}
                                         </div>
                                     );
                                     userImageDisplayed = true;

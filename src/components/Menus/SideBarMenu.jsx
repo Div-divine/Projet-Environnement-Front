@@ -222,15 +222,13 @@ const SideBar = () => {
                                 <div className='mt-3'>
                                     {loading ? <div>Loading...</div> : groupNames.map((groupName, index) => (
                                         <div className='text-center group-names-container' key={index}>
-                                            <NavLink key={index} className='navlink'
+                                            {groupName.group_name ? <NavLink key={index} className='navlink'
                                                 to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}
                                                 onClick={handleNavClick}>
                                                 <p>{groupName.group_name}</p>
-                                            </NavLink>
+                                            </NavLink> : <div className='text-center'>Aucun group</div> }
                                         </div>
                                     ))}
-
-                                    {userGroups && userGroups.length === 0 && <div className='text-center'>Aucun group</div>}
                                 </div>
                             </div>
 
