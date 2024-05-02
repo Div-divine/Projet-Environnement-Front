@@ -79,6 +79,7 @@ const RenderAllUsers = () => {
                 user2Id: userClickedId
             }
               await createFriends(friends); 
+              window.location.reload();
          }
     }
 
@@ -161,7 +162,7 @@ const RenderAllUsers = () => {
                                 <div className="mt-1">
                                     <p className="user-group">{user.groups.length} Group membre</p>
                                 </div>
-                                <div className="add-user-button-container mt-1" >
+                                <div className="add-user-button-container mt-1" onClick={()=> addFriend(user.user.user_id)}>
                                     <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center" />
                                 </div>
                             </div>

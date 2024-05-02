@@ -123,14 +123,14 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                 {posts[index].post_content}
                             </div> {/* Display posts user content and ensure newlines */}
 
-                            <div className="message-icon-and-text-upper">
-                                {posts[index].post_id && <div className="message-icon-and-text-container" onClick={() => toggleCommentFormVisibility(posts[index].post_id)}>
+                            {posts[index].post_id && <div className="message-icon-and-text-upper" onClick={() => toggleCommentFormVisibility(posts[index].post_id)}>
+                                {posts[index].post_id && <div className="message-icon-and-text-container">
                                     <div className="post-message-icon-container">
                                         <img src={messageIcon} alt="comment icon" />
                                     </div>
                                     <div className="comment-text-container text-center">Commenter</div>
                                 </div>}
-                            </div>
+                            </div>}
                             {commentFormsVisibility[posts[index].post_id] && userId && <form onSubmit={(e) => submitMsg(e, posts[index].post_id, userId)}>
                                 <textarea
                                     type="text-area"

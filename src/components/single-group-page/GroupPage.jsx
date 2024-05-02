@@ -28,7 +28,7 @@ const RenderSinglePostPage = () => {
     const [groupData, setGroupData] = useState(null);
     const [usersInGroup, setUserInGroup] = useState(null);
     const [connectedUserData, setConnectedUserData] = useState(null);
-    const [post, setPost] = useState(null);
+    const [post, setPost] = useState('');
     const [groupId, setGroupId] = useState(null);
     // Define a state to track whether the post is incognito
     const [isIncognito, setIsIncognito] = useState(false);
@@ -203,7 +203,7 @@ const RenderSinglePostPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <DisplayPopover rules={<div style={{backgroundColor: '#A9BEAC', padding: '10px', color : 'black', borderRadius: '2px'}}>Clickez sur l'icon ou sur la phrase!</div>}
+                        <DisplayPopover rules={<div style={{ backgroundColor: '#A9BEAC', padding: '10px', color: 'black', borderRadius: '2px' }}>Clickez sur l'icon ou sur la phrase!</div>}
                             children={<div className='public-and-icon-container policies-container'>
 
                                 <ScaleItem hover={{ scale: 1.3 }} tap={{ scale: 0.9 }}
@@ -214,43 +214,45 @@ const RenderSinglePostPage = () => {
                                     classHandler='public-text-container'
                                     children={<p onClick={handleOpen}>Pour s'assurrer que tout se passe bien! </p>} />
                             </div>} />
-                        {groupData && <DisplayRules isOpen={isOpen} handleClose={handleClose} groupData={groupData}/>}
+                        {groupData && <DisplayRules isOpen={isOpen} handleClose={handleClose} groupData={groupData} />}
                         <div className='post-in-group-text-section'>
                             {groupData && <DisplayUploadedPosts groupId={groupData.group_id} />}
                         </div>
                     </div>
                     <div className='group-description-container'>
-                        <div className='group-descriptions-inner'>
-                            <div className='abt-group-container'>
-                                <p>À propos</p>
-                            </div>
-                            <div className='group-decsription-container'>
-                                {groupData && <p>Ce group a pour but de mener un combat pour la {groupData.group_action}.</p>}
-                            </div>
-                            <div className='public-and-icon-container'>
-                                <div className='post-earth-icon-container'>
-                                    <img src={earthIcon} alt="" />
+                        <div className='sticky-section'>
+                            <div className='group-descriptions-inner'>
+                                <div className='abt-group-container'>
+                                    <p>À propos</p>
                                 </div>
-                                <div className='public-text-container'>
-                                    <p >Publique</p>
+                                <div className='group-decsription-container'>
+                                    {groupData && <p>Ce group a pour but de mener un combat pour la {groupData.group_action}.</p>}
+                                </div>
+                                <div className='public-and-icon-container'>
+                                    <div className='post-earth-icon-container'>
+                                        <img src={earthIcon} alt="" />
+                                    </div>
+                                    <div className='public-text-container'>
+                                        <p >Publique</p>
+                                    </div>
+                                </div>
+                                <div className='group-decsription-container'>
+                                    <p>Le group étant ouvert à tous, donne le droit à tous utilisateurs de visualiser tous les posts et l'auteur de post. Sauf les posts incognito où le nom et l'image de l'auteur de post ne sera visible qu'aux admins.</p>
+                                </div>
+                                <div className='public-and-icon-container'>
+                                    <div className='post-earth-icon-container'>
+                                        <img src={eyeIcon} alt="" />
+                                    </div>
+                                    <div className='public-text-container'>
+                                        <p>Visibilité</p>
+                                    </div>
+                                </div>
+                                <div className='group-decsription-container'>
+                                    <p>Group ouvert à tous les utilisaeurs</p>
                                 </div>
                             </div>
-                            <div className='group-decsription-container'>
-                                <p>Le group étant ouvert à tous, donne le droit à tous utilisateurs de visualiser tous les posts et l'auteur de post. Sauf les posts incognito où le nom et l'image de l'auteur de post ne sera visible qu'aux admins.</p>
-                            </div>
-                            <div className='public-and-icon-container'>
-                                <div className='post-earth-icon-container'>
-                                    <img src={eyeIcon} alt="" />
-                                </div>
-                                <div className='public-text-container'>
-                                    <p>Visibilité</p>
-                                </div>
-                            </div>
-                            <div className='group-decsription-container'>
-                                <p>Group ouvert à tous les utilisaeurs</p>
-                            </div>
+                            <div className='white-right-space'></div>
                         </div>
-                        <div className='white-right-space'></div>
                     </div>
                 </div>
             </div>

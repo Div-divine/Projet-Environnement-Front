@@ -82,12 +82,19 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     color: black;
-    padding: 40px 0px 10px 0px;
+    margin-top: 30px;
 }
 .friends-icon-and-text-container:hover{
     background-color: #A9BEAC;
     text-decoration: none;
     color: white;
+}
+.groups-icon-and-text-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    color: black;
+    padding: 40px 0px 10px 0px;
 }
 .user-background-style{
     display: flex;
@@ -101,6 +108,20 @@
 .user-background-style:hover{
     text-decoration: none;
     color: white;
+    padding: 10px 0px 10px 0px;
+}
+.friends-background-style{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    color: white;
+    background-color: #A9BEAC;
+    padding: 10px 0px 10px 0px;
+}
+.friends-background-style:hover{
+    text-decoration: none;
+    color: white;
+    padding: 10px 0px 10px 0px;
 }
 .connected-freinds-container{
     display: flex;
@@ -186,3 +207,4 @@
     color: white;
     font-weight: 700
 }
+

@@ -31,6 +31,7 @@ const SideBar = () => {
     const [usersData, setUsersData] = useState(null);
     const [nbrUsers, setNbrUsers] = useState(null);
     const [styleMenu, setStyleMenu] = useState('');
+    const [styleMenuFriends, setStyleMenuFriends] = useState('')
     const [nbrOfFriends, setNbrOfFriends] = useState(null);
     // Get the number of users
     useEffect(() => {
@@ -112,6 +113,18 @@ const SideBar = () => {
         }
 
     }, [currentPath])
+    useEffect(() => {
+        if (currentPath) {
+            const styleByLocation = () => {
+                if (currentPath === '/amis' || currentPath === '/admin/amis') {
+                    return 'friends-background-style';
+                }
+                return 'friends-icon-and-text-container';
+            }
+            setStyleMenuFriends(styleByLocation);
+        }
+
+    }, [currentPath])
 
     const handleNavClick = () => {
         // Set the timeout and store the timeout ID
@@ -183,20 +196,22 @@ const SideBar = () => {
 
                                     }
                                 </div>
-                                <div className='friends-icon-and-text-container'>
+                                <div className='sidebar-users-section'>
+                                    {styleMenu && <Link to='/amis' className={styleMenuFriends}>
+                                        <div className='community-icon'>
+                                            <img src={friendsIcon} alt="community icon" />
+                                        </div>
+                                        <div className='connected-freinds-container'>
+                                            <p className='connected-freinds-text'>Liste des amis</p>
+                                        </div>
+                                        {<div className='users-total-nbr-container'>
+                                            <p>{nbrOfFriends}</p>
+                                        </div>}
+                                    </Link>
 
-                                    <div className='friends-icon'>
-                                        <img src={friendsIcon} alt="Friends icon" />
-                                    </div>
-                                    <div className='connected-freinds-container'>
-                                        <p className='connected-freinds-text'>Nombre d'amis</p>
-                                    </div>
-                                    <div className='users-total-nbr-container'>
-                                        {nbrOfFriends}
-                                    </div>
-
+                                    }
                                 </div>
-                                <div className='friends-icon-and-text-container'>
+                                <div className='groups-icon-and-text-container'>
                                     <div className='friends-icon'>
                                         <img src={groups} alt="" />
                                     </div>
