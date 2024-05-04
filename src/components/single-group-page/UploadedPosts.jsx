@@ -7,7 +7,9 @@ import incognitoIcon from '../../assets/svg/incognito.svg';
 import messageIcon from '../../assets/svg/message-regular.svg';
 import insertPostComment from "../../api/CreatePostCommentsApi";
 import getPostCommentsAndSender from "../../api/GetPostCommentsApi";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import DeletePostAndComments from "../../api/DeletePostWithCommentsApi";
+import updateUserPost from "../../api/UpdatePostApi";
 
 const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
@@ -18,6 +20,10 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [comments, setComments] = useState({});
     const [commentFormsVisibility, setCommentFormsVisibility] = useState({});
     const location = useLocation();
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [updateValue, setUpdateValue] = useState({});
+    const [postIdBeingEdited, setPostIdBeingEdited] = useState(null);
+    const [updatedPost, setUpdatedPost] = useState(null);
 
     useEffect(() => {
         if (groupId) {
@@ -101,6 +107,80 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }));
     };
 
+    const deletePost = (postId) => {
+        if (postId) {
+            const deleteUserPost = async (id) => {
+                await DeletePostAndComments(id);
+            }
+
+            deleteUserPost(postId);
+            window.location.reload();
+        }
+    };
+   
+    // Submit form (textarea value) once Enter is clicked on keyboard and set the updated value
+    const handleKeyPress = async (event, postId, updateValue) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            try {
+                const values = Object.values(updateValue);
+                if(values.length > 0 && postId){
+                    console.log('Data updated successfully  in keypress:', values[0], 'Of post:', postId);
+                   await updateUserPost(postId, {postContent : values[0]})
+                   setUpdateValue(prevState => ({
+                    ...prevState,
+                    [postId]: ''
+                }));
+                setIsUpdate(false);
+                window.location.reload();
+                }
+            } catch (error) {
+                console.error('Error updating data:', error);
+            }
+        }
+    };
+
+    function updatePost(id, postContent) {
+        setIsUpdate(true);
+        // Check if the post is already being edited
+        if (postIdBeingEdited === id) {
+            // If it's already being edited, reset it
+            setPostIdBeingEdited(null);
+        } else {
+            // Otherwise, set the postIdBeingEdited to the current post id
+            setPostIdBeingEdited(id);
+            // Also update the content for this post
+            setUpdateValue(prevState => ({
+                ...prevState,
+                [id]: postContent
+            }));
+        }
+    }
+
+    // This resets the isUpdate to false once user clicked escape (échap) button on keyboard
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'Escape') {
+                setIsUpdate(false);
+            }
+        };
+    
+        window.addEventListener('keydown', handleKeyPress);
+    
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
+    
+    // Set isUpdate to false if Annuler is also clicked
+
+    function cancelUpdate(){
+        setIsUpdate(false);
+    }
+
+
     return (
         <div>
             {!existPost && (
@@ -120,7 +200,28 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                 </div>
                             </div>
                             <div className="post-contents-container" style={{ whiteSpace: 'pre-line' }}>
-                                {posts[index].post_content}
+                                {/* Render different content based on whether the post is being edited */}
+                                {posts[index].user_id == userId && posts[index].post_id === postIdBeingEdited && isUpdate ? (
+                                    <div className="update-text-area-container">
+                                        <textarea
+                                            value={updateValue[posts[index].post_id] || ''}
+                                            onChange={(event) => setUpdateValue(prevState => ({
+                                                ...prevState,
+                                                [posts[index].post_id]: event.target.value
+                                            }))}
+                                            onKeyPress={(event) => handleKeyPress(event, posts[index].post_id, updateValue)}
+                                            className="update-text-area"
+                                        />
+                                        <span>cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link>Enter</Link><span> Sur votre clavier</span>
+                                    </div>
+                                ) : (
+                                    // If the post is not being edited, render its content
+                                    posts[index].post_content
+                                )}
+                                {posts[index].user_id == userId && <div className="edit-and-delete-post-container">
+                                    <Link className="edit-post-text" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>
+                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].post_id)}>Supprimer</Link>
+                                </div>}
                             </div> {/* Display posts user content and ensure newlines */}
 
                             {posts[index].post_id && <div className="message-icon-and-text-upper" onClick={() => toggleCommentFormVisibility(posts[index].post_id)}>
