@@ -10,6 +10,7 @@ import getPostCommentsAndSender from "../../api/GetPostCommentsApi";
 import { useLocation, Link } from "react-router-dom";
 import DeletePostAndComments from "../../api/DeletePostWithCommentsApi";
 import updateUserPost from "../../api/UpdatePostApi";
+import DeleteUserComments from "../../api/DeleteCommentsApi";
 
 const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
@@ -23,7 +24,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [isUpdate, setIsUpdate] = useState(false);
     const [updateValue, setUpdateValue] = useState({});
     const [postIdBeingEdited, setPostIdBeingEdited] = useState(null);
-    const [updatedPost, setUpdatedPost] = useState(null);
 
     useEffect(() => {
         if (groupId) {
@@ -117,7 +117,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
             window.location.reload();
         }
     };
-   
+
     // Submit form (textarea value) once Enter is clicked on keyboard and set the updated value
     const handleKeyPress = async (event, postId, updateValue) => {
         if (event.key === 'Enter') {
@@ -125,15 +125,15 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
             try {
                 const values = Object.values(updateValue);
-                if(values.length > 0 && postId){
+                if (values.length > 0 && postId) {
                     console.log('Data updated successfully  in keypress:', values[0], 'Of post:', postId);
-                   await updateUserPost(postId, {postContent : values[0]})
-                   setUpdateValue(prevState => ({
-                    ...prevState,
-                    [postId]: ''
-                }));
-                setIsUpdate(false);
-                window.location.reload();
+                    await updateUserPost(postId, { postContent: values[0] })
+                    setUpdateValue(prevState => ({
+                        ...prevState,
+                        [postId]: ''
+                    }));
+                    setIsUpdate(false);
+                    window.location.reload();
                 }
             } catch (error) {
                 console.error('Error updating data:', error);
@@ -166,18 +166,23 @@ const DisplayUploadedPosts = ({ groupId }) => {
                 setIsUpdate(false);
             }
         };
-    
+
         window.addEventListener('keydown', handleKeyPress);
-    
+
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
         };
     }, []);
-    
+
     // Set isUpdate to false if Annuler is also clicked
 
-    function cancelUpdate(){
+    function cancelUpdate() {
         setIsUpdate(false);
+    }
+
+    async function deleteComment(commentId){
+            await DeleteUserComments(commentId);
+            window.location.reload();
     }
 
 
@@ -212,7 +217,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                             onKeyPress={(event) => handleKeyPress(event, posts[index].post_id, updateValue)}
                                             className="update-text-area"
                                         />
-                                        <span>cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link>Enter</Link><span> Sur votre clavier</span>
+                                        <span>Pour annuler, cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link className="validate-update-text">Enter</Link><span> Sur votre clavier</span>
                                     </div>
                                 ) : (
                                     // If the post is not being edited, render its content
@@ -256,6 +261,10 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     <div className="comment-text-and-user-name-conatiner">
                                         <div className="user-commented-name">{comment.user_name}</div>
                                         <div className="comment-msg">{comment.comment_msg}</div>
+                                        <div className="comment-edit-and-delete-container">
+                                            {userId == comment.user_id && <Link className="edit-post-text comment-edit" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>}
+                                            {userId == posts[index].user_id && <Link className="delete-post-text comment-edit" onClick={(e) => deleteComment(comment.comment_id)}>Supprimer</Link>}
+                                        </div>
                                     </div>
                                 </div>
                             ))}

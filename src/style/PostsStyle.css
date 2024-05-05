@@ -173,3 +173,22 @@
     text-decoration: none;
     color: #030352;
 }
+.validate-update-text{
+    color: #ffc107;
+    font-family: "League Spartan", serif;
+    font-weight: 500;
+}
+.validate-update-text:hover{
+    text-decoration: none;
+    color: #6a5105;
+}
+.comment-edit-and-delete-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+.comment-edit{
+    font-size: x-small;
+    font-weight: 500;
+}
