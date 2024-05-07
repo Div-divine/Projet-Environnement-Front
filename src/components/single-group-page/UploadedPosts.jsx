@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import GetAllPosts from "../../api/GetPostsAndUser";
-import { formatDistanceToNow, differenceInMilliseconds } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import frLocale from 'date-fns/locale/fr'; // Import the French locale statically
 import '../../style/PostsStyle.css';
 import incognitoIcon from '../../assets/svg/incognito.svg';
@@ -11,6 +11,7 @@ import { useLocation, Link } from "react-router-dom";
 import DeletePostAndComments from "../../api/DeletePostWithCommentsApi";
 import updateUserPost from "../../api/UpdatePostApi";
 import DeleteUserComments from "../../api/DeleteCommentsApi";
+import updateUserComment from "../../api/UpdateUserCommentApi";
 
 const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
@@ -24,7 +25,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [isUpdate, setIsUpdate] = useState(false);
     const [updateValue, setUpdateValue] = useState({});
     const [postIdBeingEdited, setPostIdBeingEdited] = useState(null);
-
+    const [commentUpdatestate, setCommentUpdatestate] = useState(false);
+    const [commentIdBeingEdited, setCommentIdBeingEdited] = useState(null);
+    const [commentUpdateValue, setCommentUpdateValue] = useState({});
     useEffect(() => {
         if (groupId) {
             const getData = async (id) => {
@@ -36,6 +39,18 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }
     }, [groupId]);
 
+    // Get all posts
+    function getGroupPosts(groupId){
+          if(groupId){
+            const getData = async (id) => {
+                const response = await GetAllPosts(id);
+                console.log('Posts from group are: ', response);
+                setPosts(response);
+            }
+            getData(groupId)
+          }
+    }
+
     useEffect(() => {
         if (posts) {
             const formattedDates = posts.map((data) => {
@@ -43,12 +58,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
                 return formatDistanceToNow(data.post_created, { locale: frLocale, addSuffix: true, includeSeconds: true });
             });
             setFormattedDates(formattedDates);
-        }
-    }, [posts]);
-
-    useEffect(() => {
-        if (posts) {
-            setExistPost(true)
         }
     }, [posts]);
 
@@ -62,7 +71,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }));
     }
 
-    const submitMsg = (e, postId, userId) => {
+    const submitMsg = async (e, postId, userId) => {
         e.preventDefault();
         if (userId) {
             const insertPost = async (msg, post, user) => {
@@ -81,24 +90,25 @@ const DisplayUploadedPosts = ({ groupId }) => {
             ...prevState,
             [postId]: ''
         }));
-        window.location.reload();
+        await fetchComments()
 
     }
-
-    useEffect(() => {
-        const fetchComments = async () => {
-            const fetchedComments = {};
+  // Function to fetch comments
+    const fetchComments = async () => {
+        console.log("Fetching comments...");
+        const fetchedComments = {};
+        if (posts) {
             for (const post of posts) {
                 const postId = post.post_id;
                 const comments = await getPostCommentsAndSender(postId);
+                console.log("Comments for post", postId, ":", comments);
                 fetchedComments[postId] = comments;
             }
             setComments(fetchedComments);
-        };
-        if (posts) {
-            fetchComments();
         }
-    }, [posts]);
+    };
+    
+
 
     const toggleCommentFormVisibility = (postId) => {
         setCommentFormsVisibility(prevState => ({
@@ -107,14 +117,14 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }));
     };
 
-    const deletePost = (postId) => {
-        if (postId) {
+    const deletePost = (postId, groupId ) => {
+        if (postId && groupId) {
             const deleteUserPost = async (id) => {
                 await DeletePostAndComments(id);
             }
 
             deleteUserPost(postId);
-            window.location.reload();
+            getGroupPosts(groupId);
         }
     };
 
@@ -180,11 +190,67 @@ const DisplayUploadedPosts = ({ groupId }) => {
         setIsUpdate(false);
     }
 
-    async function deleteComment(commentId){
-            await DeleteUserComments(commentId);
-            window.location.reload();
+    async function deleteComment(commentId) {
+        await DeleteUserComments(commentId);
+        await fetchComments();
     }
 
+    function updateComment(commentId, value) {
+        console.log('Comment id to update:', commentId);
+        // Close the previously opened edit textarea if any
+        setCommentIdBeingEdited((prevCommentId) => {
+            if (prevCommentId === commentId) {
+                return null;
+            } else {
+                return commentId;
+            }
+        });
+
+        // Toggle the comment update state to show/hide the edit textarea
+        setCommentUpdatestate((prevState) => !prevState);
+
+        // Set the content for the current comment
+        setCommentUpdateValue({ [commentId]: value });
+    }
+
+    useEffect(() => {
+        if (commentUpdateValue) {
+            const updateValue = Object.values(commentUpdateValue);
+            console.log('Comment update value is:', updateValue[0]);
+
+        }
+    }, [commentUpdateValue]);
+
+    async function keyPressUpdateComment(event, commentId, updateCommentValue) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            try {
+                const values = Object.values(updateCommentValue);
+                if (values.length > 0 && commentId) {
+                    await updateUserComment(commentId, { updateContent: values[0] })
+                    setCommentUpdateValue(prevState => ({
+                        ...prevState,
+                        [commentId]: ''
+                    }));
+                    setCommentUpdatestate(false);
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Error updating comment:', error);
+            }
+        }
+    }
+
+    
+    useEffect(() => {
+        if (posts) {
+            setExistPost(true);
+            console.log('fetched comment in use effect ...')
+            // Fetch comments when posts are available
+            fetchComments();
+        }
+    }, [posts]);
 
     return (
         <div>
@@ -206,7 +272,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             </div>
                             <div className="post-contents-container" style={{ whiteSpace: 'pre-line' }}>
                                 {/* Render different content based on whether the post is being edited */}
-                                {posts[index].user_id == userId && posts[index].post_id === postIdBeingEdited && isUpdate ? (
+                                {posts[index].user_id == userId && posts[index].post_id == postIdBeingEdited && isUpdate ? (
                                     <div className="update-text-area-container">
                                         <textarea
                                             value={updateValue[posts[index].post_id] || ''}
@@ -225,7 +291,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                 )}
                                 {posts[index].user_id == userId && <div className="edit-and-delete-post-container">
                                     <Link className="edit-post-text" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>
-                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].post_id)}>Supprimer</Link>
+                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].post_id, posts[index].group_id)}>Supprimer</Link>
                                 </div>}
                             </div> {/* Display posts user content and ensure newlines */}
 
@@ -260,10 +326,32 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     </div>
                                     <div className="comment-text-and-user-name-conatiner">
                                         <div className="user-commented-name">{comment.user_name}</div>
-                                        <div className="comment-msg">{comment.comment_msg}</div>
+                                        {/* Edit comment field */}
+                                        {userId == comment.user_id && commentIdBeingEdited == comment.comment_id && commentUpdatestate && (
+                                            <div className="update-comment-form-container">
+                                                <form>
+                                                    <textarea
+                                                        value={commentUpdateValue[comment.comment_id] || ''}
+                                                        onChange={(e) => setCommentUpdateValue(prevState => ({
+                                                            ...prevState,
+                                                            [comment.comment_id]: e.target.value
+                                                        }))}
+                                                        onKeyPress={(e) => keyPressUpdateComment(e, comment.comment_id, commentUpdateValue)}
+                                                    />
+                                                </form>
+                                            </div>
+                                        )}
+
+                                        {commentIdBeingEdited != comment.comment_id && <div className="comment-msg">{comment.comment_msg}</div>}
                                         <div className="comment-edit-and-delete-container">
-                                            {userId == comment.user_id && <Link className="edit-post-text comment-edit" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>}
-                                            {userId == posts[index].user_id && <Link className="delete-post-text comment-edit" onClick={(e) => deleteComment(comment.comment_id)}>Supprimer</Link>}
+                                            {/* Allow editing only if userId matches comment.user_id */}
+                                            {userId == comment.user_id && (
+                                                <Link className="edit-post-text comment-edit" onClick={() => updateComment(comment.comment_id, comment.comment_msg)}>Editer</Link>
+                                            )}
+                                            {/* Allow deletion if userId matches post.user_id or if userId matches comment.user_id */}
+                                            {(userId == posts[index].user_id || userId == comment.user_id) && (
+                                                <Link className="delete-post-text comment-edit" onClick={() => deleteComment(comment.comment_id)}>Supprimer</Link>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

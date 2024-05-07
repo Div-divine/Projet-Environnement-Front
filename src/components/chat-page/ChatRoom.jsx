@@ -99,7 +99,7 @@ const ChatRoom = () => {
     // Create the room here
     useEffect(() => {
         if (room != null) {
-            socket.emit("join_room", room)
+            socket.emit("join_room", { room: room, senderId: user1Id })
         }
     }, [room])
 
@@ -112,14 +112,14 @@ const ChatRoom = () => {
         e.preventDefault();
         // Emit the message through socket
         socket.emit("send_msg", { message, room: chatroomId, sender: user1Id, receiver: user2Id });
-    
-        console.log('chatroom is :',  chatroomId)
-    
+
+        console.log('chatroom is :', chatroomId)
+
         try {
             // Insert the message into the database
             await insertUsersMsg({ message, user1Id, user2Id, chatroomId });
             const response = await usersMsgInChatroom(user1Id, user2Id);
-            console.log('User chat room messages info to sender: ', response)
+            console.log('User chat room messages info to sender....: ', response)
             // Concatenate the new message with the existing messages
             setMessages(response);
         } catch (error) {
@@ -127,31 +127,36 @@ const ChatRoom = () => {
         }
         setMessage('');
     };
-    
+
 
 
     useEffect(() => {
         socket.on('received_msg', async () => {
+            await updateMessageStatus();
             async function senderMsgResponse() {
                 const response = await usersMsgInChatroom(user1Id, user2Id);
-                console.log('User chat room messages info to receiver: ', response)
+                console.log('User chat room messages info to receiver: ', response);
                 // Concatenate the new received message with the existing messages
                 setMessages(response);
             }
             senderMsgResponse();
-            // Check if the user2Id and chatroomMsg are available
-            if(connectedUserId != user1Id){
-                async function updateMsgState(){
-                    await Promise.all(chatroomMsg.map(async (msg)=>{
-                        await updateMessageStatusToRead({ msgId: msg.msg_id, chatroomId: room });
-                         // Add the message id to viewedMessages array
-                         setViewedMessages(prevMessages => [...prevMessages, msg.msg_id]);
-                    }))
-                }
-            }
-            
+
         });
-    }, [socket, user2Id, connectedUserId, chatroomMsg]);
+
+        // Function to update the message status
+        const updateMessageStatus = async () => {
+            try {
+                if (messages) {
+                    // Call your API to update the message status
+                    await updateMessageStatusToRead(messages.map(msg => msg.msg_id), chatroomId);
+                    console.log('Message status updated successfully');
+                }
+
+            } catch (error) {
+                console.error('Error updating message status:', error);
+            }
+        };
+    }, [socket, user2Id, connectedUserId, chatroomMsg, messages]);
 
 
     useEffect(() => {

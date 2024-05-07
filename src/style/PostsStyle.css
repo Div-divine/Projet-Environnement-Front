@@ -192,3 +192,9 @@
     font-size: x-small;
     font-weight: 500;
 }
+.update-comment-form-container form textarea {
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border-color: #09401125;
+}
