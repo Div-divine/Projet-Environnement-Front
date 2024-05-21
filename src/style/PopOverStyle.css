@@ -19,8 +19,10 @@
 .popover-groups-name{
     font-family: "Crimson Text", serif;
     font-size: small;
-    font-weight: 700;
     color: #094011a7;
+   width: 100%;
+   height: auto;
+   line-height: 2rem;
 }
 .popover-name-and-contents-container{
     width: 65%;

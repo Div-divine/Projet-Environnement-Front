@@ -14,9 +14,7 @@ const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandl
                 <div>
                     <p className='popover-user-name'>{userNameHandler}</p>
                 </div>
-                <div>
-                    <p className='popover-groups-name mt-2'>Compte crée :  {dataHandler}</p>
-                </div>
+                <div className='popover-groups-name mt-2'>Compte crée:  {dataHandler}</div>
                 <div className='popover-group-icon-and-groups-container'>
                     <div className='popover-group-icon-container'>
                         <img src={groupIcon} alt="group icon" />

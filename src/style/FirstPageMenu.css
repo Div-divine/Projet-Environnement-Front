@@ -1,3 +1,16 @@
+@media (max-width: 767px){
+    .big-screeen-first-page-menu{
+        display: none;
+    }
+}
+
+@media (min-width: 767px){
+    .mobile-and-small-tablette-first-page-menu{
+        display: none;
+    }
+}
+
+
 .menu-container {
     width: 100%;
     height: auto;
@@ -53,4 +66,10 @@
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
+}
+.mobile-and-small-tablette-first-page-menu{
+    background:#094011;
+    color: #ffffff;
+    width: 100%;
+    height: auto;
 }

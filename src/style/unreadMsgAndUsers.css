@@ -1,0 +1,54 @@
+.unread-msg-main-container{
+    background-color: #A9BEAC;
+    min-height: 100vh;
+    padding-top: 50px;
+}
+.unread-msg-and-users-container{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffffdd;
+    margin-top: 15px;
+    border-radius: 10px;
+    padding: 30px 10px 30px 10px;
+    box-shadow: 0px 0px 2px 0px #094011;
+}
+.usr-img-container{
+    width: 5%;
+    margin-right: 10px;
+}
+.usr-img-container img{
+    border-radius: 50%;
+}
+.usr-img-unread-msg-and-date-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+}
+.unread-usr-name-and-msg-container{
+    width: 90%;
+}
+.unread-msg{
+    margin-top: 10px;
+    color: #094011;
+}
+.name-font{
+    font-family: "League Spartan", serif;
+    font-size: small;
+    color: #0940119d;
+}
+.msg-and-chat-btn-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.msg-and-chat-btn-container div input{
+    padding: 10px 25px 10px 25px;
+    border: 0px;
+    box-shadow: 0px 0px 2px 0px #094011;
+    background: #A9BEAC;
+    font-family: "League Spartan", serif;
+}
+.chat-btn-container{
+    margin-top: 15px;
+}

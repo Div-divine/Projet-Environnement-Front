@@ -13,6 +13,9 @@ import RenderSinglePostPage from './components/single-group-page/GroupPage';
 import AdminRenderAllUsers from './components/admin/display-all-users-info-page/DisplayUsers';
 import RenderAllUsers from './components/all-users-page/DisplayUsers';
 import FriendsPage from './components/friends-page/Friends';
+import DisplayUnreadMsgUsers from './components/unread-msg-page/UnreadMsgAndUsers';
+
+
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,7 @@ const router = createBrowserRouter([
   { path: '/chat', element: <ChatRoom /> },
   { path: '/utilisateurs', element: <RenderAllUsers /> },
   { path: '/amis', element: <FriendsPage/> },
+  { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/> },
   { path: '/admin/utilisateurs', element: <AdminRenderAllUsers /> }
 
 ])

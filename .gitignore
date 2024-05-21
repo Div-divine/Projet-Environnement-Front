@@ -26,3 +26,12 @@ dist-ssr
 # Ignore images and svg 
 src/assets*
 logo/*
+
+
+.env
+
+firebase.json
+.firebaserc
+.firebase/*
+dist/*
+

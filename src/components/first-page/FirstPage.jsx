@@ -14,18 +14,28 @@ const FirstHome = () => {
 
     const RecevoirNewsLetterInput = ({ placeholderHandler }) => {
         const newsletterStyle = {
-            width: '470px',
             height: '35px',
             backgroundColor: 'none',
             border: '0px',
             boxShadow: '1px 1px green'
         }
-        const [value, setValue] = useStoreValueInputedInField();
+        const [value, setValue] = useState('');
+
+        function changeValue(e){
+            setValue(e.target.value)
+        }
+
+       // Prevent newsletter form submit
+        function preventSubmit(e){
+            e.preventDefault();
+            setValue('');
+        }
 
         return <>
-            <form action="/" method="post">
+            <form onSubmit={(e)=>{preventSubmit(e)}}>
                 <div className="first-page-newletter-container">
-                    <input type="text" placeholder={placeholderHandler} style={newsletterStyle} value={value} onChange={setValue} />
+                    <input type="text" placeholder={placeholderHandler} style={newsletterStyle} value={value} onChange={(e)=>changeValue(e)}
+                    className="newsletter-input-field" />
                 </div>
                 <div>
                     <GreenSbmtBtn value='Envoyer' />

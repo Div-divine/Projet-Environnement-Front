@@ -13,7 +13,7 @@ import { fr } from 'date-fns/locale/fr';
 import getUserDataById from '../../api/GetUserDataByIdApi';
 import updateMessageStatusToRead from '../../api/UpdateMsgReadStatusApi';
 
-const socket = io.connect("http://localhost:3000");
+const socket = io.connect("http://localhost:3000/");
 
 const ChatRoom = () => {
     const connectedUserId = localStorage.getItem('userId');

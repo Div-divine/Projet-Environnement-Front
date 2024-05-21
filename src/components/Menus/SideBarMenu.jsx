@@ -16,6 +16,7 @@ import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import FourUsers from '../../api/GetOnlyFourUsersApi';
 import UsersNbr from '../../api/NbrOfUsersApi';
 import GetAllUserFriends from '../../api/GettingUserFriendsApi';
+import GetUnreadMsg from '../../api/GetUnreadMsgAndUsersApi';
 
 
 
@@ -33,6 +34,8 @@ const SideBar = () => {
     const [styleMenu, setStyleMenu] = useState('');
     const [styleMenuFriends, setStyleMenuFriends] = useState('')
     const [nbrOfFriends, setNbrOfFriends] = useState(null);
+    const [unreadMsgData, setUnreadMsgData] = useState(null);
+    const [isOpen, setIsOpen] = useState(false)
     // Get the number of users
     useEffect(() => {
         async function getUserNbr() {
@@ -148,8 +151,23 @@ const SideBar = () => {
             getfriends(userId);
         }
 
-    }, [userId])
+    }, [userId]);
 
+    useEffect(() => {
+            const getUnread = async (receiverId) => {
+                const response = await GetUnreadMsg(receiverId);
+                console.log('Unread msg data are:', response);
+                setUnreadMsgData(response);
+            }
+            getUnread(userId)
+    }, [userId]);
+
+    // Disconnect user
+    function disconnectUser(){
+        localStorage.clear();
+        window.location.href = '/'
+
+    }
     // Check if userData is not null before accessing its properties
     if (userData) {
         return (<>
@@ -161,7 +179,10 @@ const SideBar = () => {
                                 <img src={homeIcon} alt="" />
                             </NavLink>
                             <div className='upper-side-bar-icon-container'><img src={notifications} alt="" /></div>
-                            <div className='upper-side-bar-icon-container'><img src={messages} alt="" /></div>
+                            <NavLink className='upper-side-bar-icon-container' to='/messages-non-lus'>
+                            {unreadMsgData && <div className='unread-msg-count-container'>{unreadMsgData.length}</div>}
+                                <img src={messages} alt="" className='msg-img'/>
+                            </NavLink>
                             <div className='upper-side-bar-icon-container'><img src={settings} alt="" /></div>
                         </div>
                         <div className='alias-icon-container'>
@@ -226,13 +247,13 @@ const SideBar = () => {
                                                 to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}
                                                 onClick={handleNavClick}>
                                                 <p>{groupName.group_name}</p>
-                                            </NavLink> : <div className='text-center'>Aucun group</div> }
+                                            </NavLink> : <div className='text-center'>Aucun group</div>}
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className='friends-icon-and-text-container'>
+                            <div className='friends-icon-and-text-container' onClick={disconnectUser}>
                                 <div className='friends-icon'>
                                     <img src={logOutIcon} alt="" />
                                 </div>

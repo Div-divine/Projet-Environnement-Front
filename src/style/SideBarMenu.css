@@ -7,6 +7,10 @@
     height: 100%;
     overflow: auto;
 }
+a, a:hover {
+    text-decoration: none;
+    color: black;
+}
 
 .upper-side-bar-icon-container {
     width: 20px;
@@ -207,4 +211,12 @@
     color: white;
     font-weight: 700
 }
-
+.unread-msg-count-container{
+    border-radius: 100%;
+    background-color: red;
+    text-align: center;
+    width: 45%;
+    padding: 1px;
+    font-size: x-small;
+    font-weight: 700;
+}
