@@ -1,0 +1,60 @@
+.burger-menu-container{
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow: auto;
+    display: block;
+    background: #27442f;
+}
+.burger-menu-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.close-menu-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: baseline;
+    padding: 20px 0px 0px 30px;
+}
+.close-menu-icon{
+    margin-right: 10px;
+}
+.opened-menu-logo-container{
+    margin-left: auto;
+    margin-right: auto;
+}
+.opened-menu-btns-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+.opened_menu-logo-and-btns-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 9;
+}
+.connect-btn input{
+    padding: 10px 30px 10px 30px;
+    box-shadow: 0 4px 4px 0 #00000040;
+    background: #27442f;
+    color: white;
+}
+.create-account-btn input{
+    margin-top: 10px;
+    padding: 10px 20px 10px 20px;
+    background: #27442f;
+    color: white;
+    box-shadow: 0 4px 4px 0 #00000040;
+}

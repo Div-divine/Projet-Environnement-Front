@@ -1,6 +1,6 @@
 import '../../../style/small-screen-menu.css'
 import logo from '../../../assets/images/logo-site-environnement.png';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 const SmallMenu = ({ menuHandler }) => {
     const location = useLocation();
@@ -20,11 +20,11 @@ const SmallMenu = ({ menuHandler }) => {
         </div>
         <div className='logo-container'>
             <div className='logo'>
-                <img src={logo} alt="Timeo logo" onClick={redirectHomePage} />
+                <img src={logo} alt="logo" onClick={redirectHomePage} />
             </div>
             <div className='logo-text' onClick={redirectHomePage} >EcoConscience</div>
         </div>
-        <div className='menu-user-profil-icon'><i className="fa-regular fa-user" /></div>
+        <Link className='menu-user-profil-icon' to='/connexion'><i className="fa-regular fa-user" /></Link>
     </div>
 }
 

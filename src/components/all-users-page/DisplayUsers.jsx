@@ -13,7 +13,7 @@ import userIcon from '../../assets/svg/user-solid.svg';
 import likeIcon from '../../assets/svg/heart-solid.svg';
 import chatIcon from '../../assets/svg/comment-solid.svg';
 import SearchBar from "../input-field/SearchBar";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Popover from "./Popover";
 import PopoverContents from "./PopoverContents";
@@ -72,15 +72,15 @@ const RenderAllUsers = () => {
         }
     };
 
-    const addFriend = async (userClickedId) =>{
-         if(userId && userClickedId){
+    const addFriend = async (userClickedId) => {
+        if (userId && userClickedId) {
             const friends = {
                 user1Id: userId,
                 user2Id: userClickedId
             }
-              await createFriends(friends); 
-              window.location.reload();
-         }
+            await createFriends(friends);
+            window.location.reload();
+        }
     }
 
     useEffect(() => {
@@ -118,11 +118,7 @@ const RenderAllUsers = () => {
 
     if (userId) {
         return (<div className="home-page-container">
-            <header>
-                <nav>
-                    <SideBar />
-                </nav>
-            </header>
+            <SideBar />
             <div className="users-and-sidebar-container">
                 <div className="upper-users-text-container">
                     <p className="table-header-text">Les utilisateurs</p>
@@ -134,7 +130,7 @@ const RenderAllUsers = () => {
                     classNameHandler="search-field"
                 />
             </div>
-            <main className="main-elements main-users">
+            <main className="main-elements">
                 <div className="user-listing-overall-container">
                     {filteredUserGroups.map((user, index) => (
                         <div key={index} className="user-listing-container mb-3">
@@ -142,34 +138,41 @@ const RenderAllUsers = () => {
                                 <img src={`../../src/${user.user.user_img}`} alt="User" />
                             </div>
                             <div className="user-lower-container">
-                                <Popover content={<PopoverContents
-                                    pathHandler={`../../src/${user.user.user_img}`}
-                                    userNameHandler={user.user.user_name}
-                                    groupHandler={user.groups}
-                                    dataHandler={user.user.user_created}
-                                    ClickHandler={() => handleUserClick(user.user.user_id)}
-                                    addFriendHandler={()=> addFriend(user.user.user_id)}
-                                />}>
-                                    <motion.div
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        className="mt-2"
-                                    >    <div>
-                                            <p className="user-name">{user.user.user_name}</p>
-                                        </div>
-                                    </motion.div>
-                                </Popover>
+                                <div className="user-name-and-popover-container">
+                                    <Popover content={<PopoverContents
+                                        pathHandler={`../../src/${user.user.user_img}`}
+                                        userNameHandler={user.user.user_name}
+                                        groupHandler={user.groups}
+                                        dataHandler={user.user.user_created}
+                                        ClickHandler={() => handleUserClick(user.user.user_id)}
+                                        addFriendHandler={() => addFriend(user.user.user_id)}
+                                    />}>
+                                        <motion.div
+                                            whileHover={{ scale: 1.1 }}
+                                            whileTap={{ scale: 0.9 }}
+                                            className="mt-2"
+                                        >    <div>
+                                                <p className="user-name">{user.user.user_name}</p>
+                                            </div>
+                                        </motion.div>
+                                    </Popover>
+                                </div>
+                                <div className="user-name-for-small-screen">
+                                    <p className="user-name">{user.user.user_name}</p>
+                                </div>
                                 <div className="mt-1">
                                     <p className="user-group">{user.groups.length} Group membre</p>
                                 </div>
-                                <div className="add-user-button-container mt-1" onClick={()=> addFriend(user.user.user_id)}>
-                                    <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center" />
+                                <div className="add-user-button-container mt-1" onClick={() => addFriend(user.user.user_id)}>
+                                    <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center big-input-add" />
+                                    <input type="button" value="Ajouter" className="add-btn-field text-center small-input-add" />
+                                </div>
+                                <div className="small-screen-msg-input-container">
+                                    <input type="button" value="Message" className="add-btn-field text-center small-screen-msg-input" onClick={() => handleUserClick(user.user.user_id)} />
                                 </div>
                             </div>
                         </div>
                     ))}
-                </div>
-                <div className="table-responsive">
                 </div>
             </main>
         </div>)

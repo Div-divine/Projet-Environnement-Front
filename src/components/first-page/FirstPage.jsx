@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import '../../style/FirstPage.css';
-import useStoreValueInputedInField from "../../custom-hooks/HookFormInputController";
 import GreenSbmtBtn from "../button/GreenSubmitBtn";
 
 const FirstHome = () => {

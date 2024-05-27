@@ -183,11 +183,7 @@ const ChatRoom = () => {
 
     return (
         <div>
-            <header>
-                <nav>
-                    <SideBar />
-                </nav>
-            </header>
+            <SideBar />
             <main className='chatroom-main-container'>
                 <div className='chatroom-inner-container'>
                     <div className="message-container">

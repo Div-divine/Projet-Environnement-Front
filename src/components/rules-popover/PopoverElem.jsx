@@ -4,7 +4,7 @@ import '../../style/PopoverElemStyle.css';
 
 const RulesPopover = ({ isOpen, onClose, children }) => {
     return (
-      <motion.div
+      <motion.div className="rules-popover-container"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
         transition={{ duration: 0.2 }}
@@ -15,7 +15,6 @@ const RulesPopover = ({ isOpen, onClose, children }) => {
           padding: '10px',
           borderRadius: '5px',
           zIndex: isOpen ? 1 : -1,
-          width: '600px'
         }}
       >
         <motion.div className="close-icon-upper-container">

@@ -23,7 +23,7 @@ const DisplayUnreadMsgUsers = () => {
             async function getData(id) {
                 const data = await GetUnreadMsg(id)
                 console.log('Unread Msg Datas:', data)
-                if(data != 'No unread message found'){
+                if (data != 'No unread message found') {
                     setUnreadMsgAndUsers(data);
                 }
             }
@@ -109,11 +109,7 @@ const DisplayUnreadMsgUsers = () => {
 
 
     return <>
-        <header>
-            <nav>
-                <SideBar />
-            </nav>
-        </header>
+        <SideBar />
         <main className="unread-msg-main-container">
             {groupedMessages.map((data, index) => (
                 formattedDates[index] && (
@@ -137,7 +133,7 @@ const DisplayUnreadMsgUsers = () => {
                                         {formattedDates[index]}
                                     </div>
                                     <div className="chat-btn-container">
-                                        <input type="button" value="Chat" onClick={()=>openChatRoom(data.sender_user_id)}/>
+                                        <input type="button" value="Chat" onClick={() => openChatRoom(data.sender_user_id)} />
                                     </div>
                                 </div>
                             </div>

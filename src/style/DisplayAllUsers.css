@@ -6,12 +6,14 @@
     margin-bottom: 30px;
     padding: 10px 0px 10px 0px;
 }
-.upper-users-text-container{
+
+.upper-users-text-container {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
 }
+
 .search-field {
     border-radius: 20px;
     padding: 7px;
@@ -23,27 +25,33 @@
     background-color: #094011;
     color: white;
 }
-.user-listing-overall-container{
+
+.user-listing-overall-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content:baseline;
+    justify-content: baseline;
 }
 
 .table-container {
     background-color: white;
     width: 1200px;
 }
-.user-image-container{
+
+.user-image-container {
     height: auto;
+    width: 100%;
+    overflow: hidden;
 }
-.user-image-container img{
+
+.user-image-container img {
     border-radius: 12px 12px 0px 0px;
 }
-.user-lower-container{
+
+.user-lower-container {
     padding: 5px;
 }
 
-.user-listing-container{
+.user-listing-container {
     max-width: 200px;
     height: auto;
     background-color: white;
@@ -56,7 +64,8 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.add-btn-field{
+
+.add-btn-field {
     padding: 10px;
     background-color: #094011;
     width: 99%;
@@ -66,22 +75,101 @@
     border-radius: 12px;
     font-family: "League Spartan", serif;
 }
-.user-name{
+
+.user-name {
     font-family: "Crimson Text", serif;
     font-weight: 700;
-    color:#094011
+    color: #094011
 }
-.user-group{
+
+.user-group {
     font-family: "Crimson Text", serif;
     font-size: small;
     font-weight: 700;
     color: #00000073;
 }
+
 /*  ///////////////////////       ////////////////////////////////////////////////  */
 
-.main-users {
-    padding-left: 80px;
+@media(min-width: 962px) {
+    .user-listing-overall-container {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
+
+@media(max-width: 962px) {
+    .user-listing-overall-container {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .user-listing-overall-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+}
+
+@media(max-width: 1050px) {
+    .user-listing-container {
+        width: 30%;
+    }
+
+    .add-btn-field {
+        font-size: small;
+        padding: 5px;
+    }
+
+    .user-lower-container {
+        width: 100%;
+    }
+}
+
+@media(max-width: 546px) {
+    .user-listing-container {
+        width: 45%;
+    }
+}
+
+@media(max-width: 360px) {
+    .big-input-add{
+        display: none;
+    }
+    .small-input-add {
+        display: block;
+    }
+}
+
+@media(min-width: 360px) {
+    .small-input-add {
+        display: none;
+    }
+    .big-input-add{
+        display: block;
+    }
+}
+@media(min-width: 1200px){
+    .user-name-and-popover-container{
+        display: block;
+    }
+    .user-name-for-small-screen{
+        display: none;
+    }
+}
+
+
+@media(max-width: 1200px){
+    .user-name-and-popover-container{
+        display: none;
+    }
+    .user-name-for-small-screen{
+        display: block;
+    }
+}
+
 
 .table {
     width: 100%;
@@ -128,7 +216,7 @@
 }
 
 .average-users-text {
-    background-color: #ffc107;
+    background: #ffc107;
     padding: 6px;
     width: 50%;
     margin-left: auto;
@@ -145,4 +233,23 @@
     margin-right: auto;
     color: white;
     border-radius: 20px
+}
+.small-screen-msg-input-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.small-screen-msg-input{
+    background: #A9BEAC;
+    border: 0px;
+    width: auto;
+    height: auto;
+    color: #000000;
+    margin-top: 10px;
+}
+.small-screen-msg-input:hover{
+    font-weight: 700;
+    color: #ffffff;
 }

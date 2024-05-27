@@ -122,7 +122,9 @@ const SignInPageRender = () => {
                             />
                         </div>
                     </div>
-
+                    <div className='option-create-acc-upper-container'>
+                        <Link className='creat-acc-option' to='/inscription'>Créer un compte ?</Link>
+                    </div>
                     <GreenSbmtBtn value='Enregistrer' />
                 </form>
             </div>
@@ -133,7 +135,7 @@ const SignInPageRender = () => {
     useEffect(() => {
         setSignInBgrd(location.pathname === "/connexion" || location.pathname === "/connexion/");
     }, [location]);
-    const id = 2;
+
     return <>
         <main className="sign-in-main-body">
             <div className={signInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>

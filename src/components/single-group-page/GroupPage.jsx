@@ -134,11 +134,7 @@ const RenderSinglePostPage = () => {
     };
 
     return <div className="group-page-container">
-        <header>
-            <nav>
-                <SideBar />
-            </nav>
-        </header>
+        <SideBar />
         <main className='group-main-elements'>
             <div className='group-inner-container'>
                 {groupData && <div >
@@ -203,7 +199,7 @@ const RenderSinglePostPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <DisplayPopover rules={<div style={{ backgroundColor: '#A9BEAC', padding: '10px', color: 'black', borderRadius: '2px' }}>Clickez sur l'icon ou sur la phrase!</div>}
+                        <DisplayPopover rules={<div className='big-screen-rule-option-text'>Clickez sur l'icon ou sur la phrase!</div>}
                             children={<div className='public-and-icon-container policies-container'>
 
                                 <ScaleItem hover={{ scale: 1.3 }} tap={{ scale: 0.9 }}
@@ -248,7 +244,7 @@ const RenderSinglePostPage = () => {
                                     </div>
                                 </div>
                                 <div className='group-decsription-container'>
-                                    <p>Group ouvert à tous les utilisaeurs</p>
+                                    <p>Group ouvert à tous les utilisateurs</p>
                                 </div>
                             </div>
                             <div className='white-right-space'></div>

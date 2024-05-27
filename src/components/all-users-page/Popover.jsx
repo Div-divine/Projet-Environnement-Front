@@ -38,7 +38,7 @@ const Popover = ({ content, children }) => {
     >
       <div>{children}</div>
       {isHovered && (
-        <motion.div
+        <motion.div className="popover-for-texts-container"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
@@ -46,7 +46,6 @@ const Popover = ({ content, children }) => {
           style={{
             position: "absolute",
             bottom: "70%",
-            left: "50%",
             transform: "translateX(-50%)",
             background: "white",
             padding: "0.5rem",
@@ -55,7 +54,7 @@ const Popover = ({ content, children }) => {
           }}
           onMouseEnter={handlePopoverMouseEnter}
           onMouseLeave={handlePopoverMouseLeave}
-        > <div style={{width: '300px'}}>
+        > <div className="popover-content-container">
             {content}
           </div>
         </motion.div>

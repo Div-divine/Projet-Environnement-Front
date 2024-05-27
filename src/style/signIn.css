@@ -41,3 +41,39 @@
 .sign-in-return-icon {
     margin-top: 70px;
 }
+.creat-acc-option{
+    color: #ffffff;
+    padding-left: 10%;
+}
+.creat-acc-option:hover{
+    font-weight: 700;
+    color: #ffffff;
+}
+.option-create-acc-upper-container{
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px){
+    .registration-field-container{
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        height: auto;
+    }
+}
+@media (max-width: 520px){
+    .input-filed-container input,
+    .input-label-container,
+    .input-filed-container{
+        width: 100%;
+        height: auto;
+    }
+    .creat-acc-option{
+        padding-left: 0;
+    }
+}
+@media (max-width: 350px){
+    .sign-in-form-title-text{
+        font-size: 25px;
+    }
+}

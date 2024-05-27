@@ -10,7 +10,8 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
-.close-icon-upper-container img:hover{
+
+.close-icon-upper-container img:hover {
     background-color: #ff000032;
     border-radius: 100%;
 }
@@ -29,6 +30,12 @@
     width: 49%;
 }
 
+@media (max-width: 705px) {
+    .welcom-container-in-popover {
+        display: none;
+    }
+}
+
 .image-and-group-welcom-container {
     box-shadow: 0px 0px 2px 0px #094011;
     padding: 10px;
@@ -40,6 +47,14 @@
     box-shadow: 0px 0px 2px 0px #094011;
     padding: 10px;
     border-radius: 2px;
+}
+
+@media (max-width: 705px) {
+    .rules-container-in-popover {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .small-group-img-container {
@@ -103,22 +118,99 @@
     color: #094011a7;
     padding: 20px;
 }
-.group-add{
+
+.group-add {
     color: black;
 }
-.pop-icons-container{
+
+.pop-icons-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     margin-top: 10px;
 }
-.pop-like-icon-container{
+
+.pop-like-icon-container {
     width: 10%;
 }
-.pop-add-and-text-conatiner{
+
+.pop-add-and-text-conatiner {
     width: 40%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+
+@media (min-width: 608px) {
+    .rules-popover-container {
+        width: 600px;
+    }
+}
+
+@media (max-width: 608px) {
+    .rules-popover-container {
+        width: 99%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .close-icon-container {
+        width: 8%;
+    }
+}
+
+@media (max-width: 449px) {
+    .rules-text-container {
+        font-size: small
+    }
+}
+
+.popover-for-texts-container {
+    left: 50%
+}
+
+@media (max-width: 514px) {
+    .popover-for-texts-container {
+        left: 0px
+    }
+}
+
+.popover-content-container {
+    width: 300px;
+}
+
+@media (max-width: 402px) {
+    .popover-content-container {
+        width: 250px;
+    }
+    .rules-container-in-popover{
+        width: 95%;
+    }
+    .popover-contents-container{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .close-icon-container{
+        width: 12%;
+    }
+}
+@media (max-width: 300px){
+    .pop-rule-text{
+        font-size: x-small;
+    }
+}
+@media (max-width: 320px){
+    .user-img-and-post-field{
+        padding: 8px;
+    }
+}
+@media (max-width: 265px){
+    .close-icon-container{
+        width: 15%;
+    }
 }

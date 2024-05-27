@@ -71,7 +71,7 @@
 }
 .registration-field-container {
     background-color: #05260ecf;
-    padding: 40px 10px 40px 10px;
+    padding: 10px 10px 10px 10px;
     border-radius: 20px;
 }
 label {
@@ -84,6 +84,7 @@ label {
 .registration-section-container {
     width: 100%;
     height: auto;
+    padding-top: 30px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -114,4 +115,28 @@ label {
     font-family: "League Spartan", sans-serif;
     color: #FFA500;
     font-size: small;
+}
+
+@media (max-width: 520px){
+    .input-and-label-container,
+    .input-label-container,
+    .input-filed-container input,
+    .pwd-rule-text-container,
+    .ckeckbox-with-label-container div{
+        width: 100%;
+        height: auto;
+    }
+}
+@media (max-width: 350px){
+    .registeration-form-title-text{
+        font-size: 25px;
+    }
+    .input-error-msg,
+    .input-label-container,
+    .condition-label-responsive-text{
+        font-size: small;
+    }
+}
+.input-error-msg{
+    color: #ff0000;
 }

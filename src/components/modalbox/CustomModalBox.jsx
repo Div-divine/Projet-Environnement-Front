@@ -10,8 +10,8 @@ const CustomModal = ({ title, message, buttonText, onClose, onButtonClick }) => 
   };
 
   const handleButtonClick = () => {
-    setIsOpen(false);
     onButtonClick();
+    setIsOpen(false);
   };
 
   return (

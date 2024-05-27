@@ -28,6 +28,10 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [commentUpdatestate, setCommentUpdatestate] = useState(false);
     const [commentIdBeingEdited, setCommentIdBeingEdited] = useState(null);
     const [commentUpdateValue, setCommentUpdateValue] = useState({});
+    const [expandedPosts, setExpandedPosts] = useState({});
+
+    const postContainer = document.querySelectorAll('.post-text-container')
+
     useEffect(() => {
         if (groupId) {
             const getData = async (id) => {
@@ -40,22 +44,22 @@ const DisplayUploadedPosts = ({ groupId }) => {
     }, [groupId]);
 
     // Get all posts
-    function getGroupPosts(groupId){
-          if(groupId){
+    function getGroupPosts(groupId) {
+        if (groupId) {
             const getData = async (id) => {
                 const response = await GetAllPosts(id);
                 console.log('Posts from group are: ', response);
                 setPosts(response);
             }
             getData(groupId)
-          }
+        }
     }
 
     useEffect(() => {
         if (posts) {
             const formattedDates = posts.map((data) => {
                 // Format the time difference for each post
-                return formatDistanceToNow(data.post_created, { locale: frLocale, addSuffix: true, includeSeconds: true });
+                return formatDistanceToNow(new Date(data.post_created), { locale: frLocale, addSuffix: true, includeSeconds: true });
             });
             setFormattedDates(formattedDates);
         }
@@ -90,10 +94,11 @@ const DisplayUploadedPosts = ({ groupId }) => {
             ...prevState,
             [postId]: ''
         }));
-        await fetchComments()
-
+        await fetchComments();
+        window.location.reload();
     }
-  // Function to fetch comments
+
+    // Function to fetch comments
     const fetchComments = async () => {
         console.log("Fetching comments...");
         const fetchedComments = {};
@@ -107,8 +112,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
             setComments(fetchedComments);
         }
     };
-    
-
 
     const toggleCommentFormVisibility = (postId) => {
         setCommentFormsVisibility(prevState => ({
@@ -117,7 +120,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }));
     };
 
-    const deletePost = (postId, groupId ) => {
+    const deletePost = (postId, groupId) => {
         if (postId && groupId) {
             const deleteUserPost = async (id) => {
                 await DeletePostAndComments(id);
@@ -137,7 +140,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                 const values = Object.values(updateValue);
                 if (values.length > 0 && postId) {
                     console.log('Data updated successfully  in keypress:', values[0], 'Of post:', postId);
-                    await updateUserPost(postId, { postContent: values[0] })
+                    await updateUserPost(postId, { postContent: values[0] });
                     setUpdateValue(prevState => ({
                         ...prevState,
                         [postId]: ''
@@ -169,7 +172,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
     }
 
     // This resets the isUpdate to false once user clicked escape (échap) button on keyboard
-
     useEffect(() => {
         const handleKeyPress = (event) => {
             if (event.key === 'Escape') {
@@ -185,7 +187,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
     }, []);
 
     // Set isUpdate to false if Annuler is also clicked
-
     function cancelUpdate() {
         setIsUpdate(false);
     }
@@ -228,7 +229,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
             try {
                 const values = Object.values(updateCommentValue);
                 if (values.length > 0 && commentId) {
-                    await updateUserComment(commentId, { updateContent: values[0] })
+                    await updateUserComment(commentId, { updateContent: values[0] });
                     setCommentUpdateValue(prevState => ({
                         ...prevState,
                         [commentId]: ''
@@ -242,15 +243,50 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }
     }
 
-    
     useEffect(() => {
         if (posts) {
             setExistPost(true);
-            console.log('fetched comment in use effect ...')
+            console.log('fetched comment in use effect ...');
             // Fetch comments when posts are available
             fetchComments();
         }
     }, [posts]);
+
+    function displayAllPostContent(id) {
+        if (id) {
+            console.log('post to open id clicked:', id);
+            setExpandedPosts(prevState => ({
+                ...prevState,
+                [id]: true
+            }));
+
+            const openPostContentElements = document.getElementsByClassName(`post-num-${id}`);
+
+            for (let element of openPostContentElements) {
+                element.style.maxHeight = 'none';
+                element.style.overflow = 'auto';
+            }
+        }
+    }
+
+    function ReduicePostContent(id) {
+        if (id) {
+            console.log('post to open id clicked:', id);
+            setExpandedPosts(prevState => ({
+                ...prevState,
+                [id]: false
+            }));
+
+            const openPostContentElements = document.getElementsByClassName(`post-num-${id}`);
+
+            for (let element of openPostContentElements) {
+                element.style.maxHeight = '60px';
+                element.style.overflow = 'hidden';
+            }
+        }
+    }
+
+
 
     return (
         <div>
@@ -287,7 +323,15 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     </div>
                                 ) : (
                                     // If the post is not being edited, render its content
-                                    posts[index].post_content
+                                    <div>
+                                        <div className={`post-text-container post-num-${posts[index].post_id}`}>{posts[index].post_content}</div>
+                                        {/* Check if post content height is greater than 59px  to display afficher tout and reduire div*/}
+                                        {postContainer[index] && postContainer[index].offsetHeight > 59 && <div className="display-all-text-main-container">
+                                            {!expandedPosts[posts[index].post_id] ?
+                                                <div className="display-all-post-content"><span onClick={() => displayAllPostContent(posts[index].post_id)}>Tout afficher...</span></div>
+                                                : <div className="display-all-post-content"><span onClick={() => ReduicePostContent(posts[index].post_id)}>Reduire</span></div>}
+                                        </div>}
+                                    </div>
                                 )}
                                 {posts[index].user_id == userId && <div className="edit-and-delete-post-container">
                                     <Link className="edit-post-text" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>
@@ -300,7 +344,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     <div className="post-message-icon-container">
                                         <img src={messageIcon} alt="comment icon" />
                                     </div>
-                                    <div className="comment-text-container text-center">Commenter</div>
+                                    {Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id] ? <div className="comment-text-container text-center">{comments[posts[index].post_id].length} Commentaires</div>
+                                        : <div className="comment-text-container text-center">Commentaires</div>}
                                 </div>}
                             </div>}
                             {commentFormsVisibility[posts[index].post_id] && userId && <form onSubmit={(e) => submitMsg(e, posts[index].post_id, userId)}>
@@ -319,7 +364,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                 )}
                             </form>}
                             {/* Display comments for the current post */}
-                            {Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id].map(comment => (
+                            {commentFormsVisibility[posts[index].post_id] && userId && Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id].map(comment => (
                                 <div key={comment.comment_id} className="comment-container mt-3">
                                     <div className="comment-user-img">
                                         <img src={`../../src/${comment.user_img}`} alt="" />
@@ -356,14 +401,12 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     </div>
                                 </div>
                             ))}
-
                         </div>
                     )
                 ))}
             </div>
         </div>
     );
-
 }
 
 export default DisplayUploadedPosts;

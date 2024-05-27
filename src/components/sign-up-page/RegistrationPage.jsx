@@ -38,7 +38,6 @@ const RegistrationInputBox = () => {
     const emailPattern = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/gm;
     // Assign pattern to password
     const pwdPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const invalidPwd = { color: 'red' }
     const handleStrength = useMemo(
         () => {
             // Get rid of the error messages once the input fields are filled
@@ -70,7 +69,7 @@ const RegistrationInputBox = () => {
                 return "Faible"
             }
             if (!pwdPattern.test(pwd) && pwd.length >= 8) {
-                return <span style={invalidPwd}>Invalide</span>
+                return <span className='input-error-msg'>Invalide</span>
             }
             if (pwdPattern.test(pwd) && pwd.length >= 8) {
                 return "Super :)"
@@ -99,7 +98,7 @@ const RegistrationInputBox = () => {
                     setEmailErrorMsg('Saississer un email')
                 }
                 if (!emailPattern.test(email) && email.length > 1) {
-                    setEmailErrorMsg('Saississez un email valid')
+                    setEmailErrorMsg('Saississez un email valide')
                 }
                 if (pwd.length < 1) {
                     setPwdErrorMsg('Entrer un mot de passe')
@@ -126,7 +125,7 @@ const RegistrationInputBox = () => {
             }
         }
     };
-    // Handle login Error message is error exists. This uses the length of loginErrorMsg
+    // Handle login Error message if error exists. This uses the length of loginErrorMsg
     const DisplayRegistrationErrorMsg = ({ loginErrorMsgHandler }) => {
         const registrationErrorMsgStyle = {
             color: 'white',
@@ -138,13 +137,13 @@ const RegistrationInputBox = () => {
         }
 
         return <div className='text-center mb-5' style={registrationErrorMsgStyle}>
-                <p>{registrationError}</p>
+                <p>{loginErrorMsgHandler}</p>
             </div>
     }
 
     return <div className='container'>
 
-        {registrationError && <DisplayRegistrationErrorMsg />}
+        {registrationError && <DisplayRegistrationErrorMsg loginErrorMsgHandler={registrationError}/>}
         <div className='registration-field-container'>
             <div className='mb-3 text-center'>
                 <p className='registeration-form-title-text'>Inscription</p>
@@ -166,7 +165,7 @@ const RegistrationInputBox = () => {
                     </div>
                 </div>
                 <div className='input-filed-container mb-3'>
-                    <p style={{ color: 'red' }}>{nameErrorMsg}</p>
+                    <p className='input-error-msg'>{nameErrorMsg}</p>
                 </div>
                 <div className='input-and-label-container'>
                     <div className='mb-3 input-label-container'>
@@ -184,7 +183,7 @@ const RegistrationInputBox = () => {
                     </div>
                 </div>
                 <div className='input-filed-container mb-3'>
-                    <p style={{ color: 'red' }}>{emailErrorMsg}</p>
+                    <p className='input-error-msg'>{emailErrorMsg}</p>
                 </div>
                 <div className='input-and-label-container'>
                     <div className='mb-3 input-label-container'>
@@ -208,7 +207,7 @@ const RegistrationInputBox = () => {
                     <p style={{ color: 'red', fontSize: 'small' }}>{pwdRuleError}</p>
                 </div>
                 <div className='input-filed-container mb-3'>
-                    <p style={{ color: 'red' }}>{pwdErrorMsg}</p>
+                    <p className='input-error-msg'>{pwdErrorMsg}</p>
                 </div>
                 <div className='input-and-label-container'>
                     <div className='mb-3 input-label-container'>
@@ -226,14 +225,15 @@ const RegistrationInputBox = () => {
                     </div>
                 </div>
                 <div className='input-filed-container mb-3'>
-                    <p style={{ color: 'red' }}>{pwdConfError}</p>
+                    <p className='input-error-msg'>{pwdConfError}</p>
                 </div>
                 <div className='mb-5 ckeckbox-with-label-container'>
                     <div>
                         <span className='checkbox-container-margin'>
                             <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
                         </span>
-                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation" labelStyle={conditionStyle} />
+                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation" 
+                        labelStyle={conditionStyle} />
                     </div>
                 </div>
 
@@ -259,10 +259,6 @@ const SignUpPageRender = () => {
         <main className="registration-main-body">
             {/* set background image if in the current url */}
             <div className={isRegister ? "register-background animated-bg" : "animated-bg"}>
-                <div className='container'>
-                    <div className='return-icon-and-text-container'>
-                    </div>
-                </div>
                 <div className='registration-section-container'>
                     <RegistrationInputBox />
                 </div>

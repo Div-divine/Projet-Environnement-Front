@@ -9,18 +9,20 @@
     color: #ff4500;
 }
 
-.animated-bg {
-    animation: slideRight 12s linear infinite;
-    /* Adjust duration and other properties as needed */
-}
-
-@keyframes slideRight {
-    from {
-        background-position: 100% 0;
+@media (min-width: 767px) {
+    .animated-bg {
+        animation: slideRight 12s linear infinite;
+        /* Adjust duration and other properties as needed */
     }
 
-    to {
-        background-position: 0% 0;
+    @keyframes slideRight {
+        from {
+            background-position: 100% 0;
+        }
+
+        to {
+            background-position: 0% 0;
+        }
     }
 }
 
@@ -107,21 +109,45 @@
     padding-top: 20px;
     margin-bottom: 40px;
 }
-.registration-demand-text{
-    color:#05260E;
+
+.registration-demand-text {
+    color: #05260E;
     font-family: "Leaugue Spartan";
     font-weight: 700;
     font-size: 25px;
     line-height: 2rem;
     margin-top: 70px;
 }
+
 @media (min-width: 767px) {
-    .newsletter-input-field{
+    .newsletter-input-field {
         width: 40%;
     }
 }
+
 @media (max-width: 767px) {
-    .newsletter-input-field{
+    .newsletter-input-field {
         width: 80%;
+    }
+    .first-page-phrase1-container,
+    .first-page-phrase2-container{
+        font-size: 30px;
+        padding-top: 80px;
+    }
+    .registration-demand-text{
+        font-size: 20px;
+        margin-top: 50px;
+    }
+}
+@media (max-width: 377px) {
+
+    .first-page-phrase1-container,
+    .first-page-phrase2-container{
+        font-size: 25px;
+        padding-top: 60px;
+    }
+    .registration-demand-text{
+        font-size: 17px;
+        margin-top: 30px;
     }
 }

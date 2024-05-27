@@ -13,9 +13,24 @@
     padding: 30px 10px 30px 10px;
     box-shadow: 0px 0px 2px 0px #094011;
 }
+@media (max-width: 962px){
+    .unread-msg-and-users-container{
+        width: 70%;
+    }
+}
+@media (max-width: 505px){
+    .unread-msg-and-users-container{
+        width: 90%;
+    }
+}
 .usr-img-container{
     width: 5%;
     margin-right: 10px;
+}
+@media (max-width: 505px){
+    .usr-img-container{
+        width: 8%;
+    }
 }
 .usr-img-container img{
     border-radius: 50%;
@@ -23,7 +38,16 @@
 .usr-img-unread-msg-and-date-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: baseline;
+    justify-content: flex-start;
+}
+@media (max-width: 505px){
+    .usr-img-unread-msg-and-date-container{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
 .unread-usr-name-and-msg-container{
     width: 90%;

@@ -1,7 +1,12 @@
+@media(max-width: 962px){
+    .side-bar-container{
+        display: none;
+    }
+}
 .side-bar-container {
     margin: 0;
     padding: 0;
-    width: 200px;
+    width: 15%;
     background-color: #F0ECE6;
     position: fixed;
     height: 100%;
@@ -69,7 +74,7 @@ a, a:hover {
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-between;
-    height: 655px;
+    min-height: 655px;
 }
 .friends-icon{
     width: 30px;

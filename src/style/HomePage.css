@@ -5,16 +5,40 @@
     height: 100%;
     overflow: auto;
 }
-.main-elements {
-    width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+@media(max-width: 1090px) and (min-width: 962px){
+    .main-elements{
+        margin-left: 50px;
+    }
 }
+
+@media(max-width: 962px){
+    .main-elements{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .main-body-container{
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media(min-width: 962px){
+    .main-elements {
+        width: 100%;
+        margin-left: 7%;
+        margin-right: auto;
+    }
+    .main-body-container{
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 .welcom-msg-container{
     background-color: #ffffff6e;
     padding: 30px;
     border-radius: 20px;
-    margin-left: 100px;
     margin-top: 20px;
     margin-bottom: 50px;
 }
@@ -29,7 +53,6 @@
 }
 .group-upper-title-container{
     border-top: 2px solid white;
-    margin-left: 100px;
     padding: 30px 0px 30px 0px;
 }
 .group-upper-title{
@@ -68,9 +91,6 @@
     background-color: #0000006b;
     z-index: 1; /* Set a lower z-index to ensure it stays behind the content */
     pointer-events: none;
-}
-.groups-container{
-    margin-left: 100px;
 }
 
 .water-icon-conatiner{

@@ -11,7 +11,7 @@ const DisplayRules = ({ isOpen, handleClose, groupData}) => {
         <>
             <RulesPopover isOpen={isOpen} onClose={handleClose}>
                 <div className='popover-contents-container'>
-                    <div className='group-image-container-in-popover'>
+                    <div className='group-image-container-in-popover welcom-container-in-popover'>
                         <div className='image-and-group-welcom-container'>
                             <div className='small-group-img-container'>
                                 {groupData && <img src={`../../src/${groupData.group_img}`} alt="" className='group-img' />}
@@ -78,7 +78,7 @@ const DisplayRules = ({ isOpen, handleClose, groupData}) => {
                             <div
                                 className='rules-text-and-number-container'>
                                 <div className='number-container text-center'>5</div>
-                                <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 0.9 }} classHandler='rules-text-container' children='Respect de la Vie Privée' />
+                                <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 0.9 }} classHandler='rules-text-container' children='Vie Privée' />
                             </div>
                         </>} />
                         <DisplayPopover rules={<>

@@ -1,5 +1,5 @@
 import Axios from "axios";
-const DeleteFriends = async (user1Id, user2Id) => {
+const deleteFriends = async (user1Id, user2Id) => {
     const token = localStorage.getItem('token');
     try {
         Axios.defaults.headers.common['Authorization'] = token;
@@ -11,4 +11,4 @@ const DeleteFriends = async (user1Id, user2Id) => {
     }
 }
 
-export default DeleteFriends;
+export default deleteFriends;

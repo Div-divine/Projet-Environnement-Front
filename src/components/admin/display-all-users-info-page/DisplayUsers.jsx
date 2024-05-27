@@ -89,11 +89,7 @@ const AdminRenderAllUsers = () => {
 
     if (userId) {
         return (<div className="home-page-container">
-            <header>
-                <nav>
-                    <SideBar />
-                </nav>
-            </header>
+            <SideBar />
             <div className="users-and-sidebar-container">
                 <div>
                     <p className="table-header-text">Les utilisateurs</p>
