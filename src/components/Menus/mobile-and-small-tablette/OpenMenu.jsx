@@ -1,5 +1,5 @@
 import '../../../style/open-small-menu.css';
-import logo from '../../../assets/images/logo-site-environnement.png';
+import logo from '../../../assets/logo-site-environnement.png';
 import { useLocation, Link } from 'react-router-dom';
 
 const HamburgerMenu = ({ closeMenu }) => {

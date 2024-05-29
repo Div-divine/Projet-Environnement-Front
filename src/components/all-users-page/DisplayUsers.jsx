@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import SideBar from "../Menus/SideBarMenu";
 import '../../style/DisplayAllUsers.css'
-import climatChangeIcon from '../../assets/svg/climate-change.svg';
-import biodiversityIcon from '../../assets/svg/icon-biodiversity.svg';
-import wasteManagementIcon from '../../assets/svg/icon-wastemanagement.svg';
-import teamSpeakIcon from '../../assets/svg/teamspeak.svg';
-import threeIcon from '../../assets/svg/three.svg';
-import waterIcon from '../../assets/svg/water-icon.svg';
-import windIcon from '../../assets/svg/wind-solid.svg';
+import climatChangeIcon from '../../assets/climate-change.svg';
+import biodiversityIcon from '../../assets/icon-biodiversity.svg';
+import wasteManagementIcon from '../../assets/icon-wastemanagement.svg';
+import teamSpeakIcon from '../../assets/teamspeak.svg';
+import threeIcon from '../../assets/three.svg';
+import waterIcon from '../../assets/water-icon.svg';
+import windIcon from '../../assets/wind-solid.svg';
 import JoinAllGroupsToUsers from "../../api/ListAllJoinUserWithGroupsApi";
-import userIcon from '../../assets/svg/user-solid.svg';
-import likeIcon from '../../assets/svg/heart-solid.svg';
-import chatIcon from '../../assets/svg/comment-solid.svg';
+import userIcon from '../../assets/user-solid.svg';
+import likeIcon from '../../assets/heart-solid.svg';
+import chatIcon from '../../assets/comment-solid.svg';
 import SearchBar from "../input-field/SearchBar";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";

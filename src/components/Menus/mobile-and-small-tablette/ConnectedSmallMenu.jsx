@@ -1,9 +1,9 @@
-import messages from '../../../assets/svg/comment-solid.svg';
-import settings from '../../../assets/svg/settings-solid.svg';
-import homeIcon from '../../../assets/svg/home-white.svg';
-import friendsIcon from '../../../assets/svg/users-solid.svg';
-import groups from '../../../assets/svg/teamspeak.svg';
-import communityIcon from '../../../assets/svg/community.svg';
+import messages from '../../../assets/comment-solid.svg';
+import settings from '../../../assets/settings-solid.svg';
+import homeIcon from '../../../assets/home-white.svg';
+import friendsIcon from '../../../assets/users-solid.svg';
+import groups from '../../../assets/teamspeak.svg';
+import communityIcon from '../../../assets/community.svg';
 import '../../../style/connected-small-screen-menu.css';
 import GetUnreadMsg from '../../../api/GetUnreadMsgAndUsersApi';
 import { useState, useEffect } from 'react';

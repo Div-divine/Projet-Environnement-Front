@@ -1,7 +1,7 @@
 import SideBar from "../Menus/SideBarMenu";
 import '../../style/HomePage.css';
-import addIcon from '../../assets/svg/add-square.svg';
-import eyeIcon from '../../assets/svg/eye-solid.svg';
+import addIcon from '../../assets/add-square.svg';
+import eyeIcon from '../../assets/eye-solid.svg';
 import { useEffect, useState } from "react";
 import useGroupsData from "../../api/AllGroupsDataApi";
 import { Link, useLocation } from "react-router-dom";

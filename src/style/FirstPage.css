@@ -1,6 +1,6 @@
 .root-background {
     /* Add your background image properties here */
-    background-image: url('../assets/images/first-home-background-image.png');
+    background-image: url('../assets/first-home-background-image.png');
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;

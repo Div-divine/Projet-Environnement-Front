@@ -1,5 +1,5 @@
 import '../../../style/open-small-menu.css';
-import logo from '../../../assets/images/logo-site-environnement.png';
+import logo from '../../../assets/logo-site-environnement.png';
 import { useLocation, Link, NavLink } from 'react-router-dom';
 import UserWithAddedGroups from '../../../api/UserWithGroupsApi';
 import { useState, useEffect } from 'react';

@@ -1,6 +1,6 @@
 .register-background {
     /* Add your background image properties here */
-    background-image: url('../assets/images/sign-up-background-image.jpg');
+    background-image: url('../assets/sign-up-background-image.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;

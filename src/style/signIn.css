@@ -1,6 +1,6 @@
 .sign-in-background {
     /* Add your background image properties here */
-    background-image: url('../assets/images/waterfall.png');
+    background-image: url('../assets/waterfall.png');
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;

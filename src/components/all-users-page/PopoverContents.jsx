@@ -1,5 +1,5 @@
-import groupIcon from '../../assets/svg/teamspeak.svg';
-import MsgIcon from '../../assets/svg/comment-solid.svg';
+import groupIcon from '../../assets/teamspeak.svg';
+import MsgIcon from '../../assets/comment-solid.svg';
 import '../../style/PopOverStyle.css';
 import { Link } from 'react-router-dom';
 

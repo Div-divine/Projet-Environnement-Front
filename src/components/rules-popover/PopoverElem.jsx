@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import closeIcon from '../../assets/svg/close.svg';
+import closeIcon from '../../assets/close.svg';
 import '../../style/PopoverElemStyle.css';
 
 const RulesPopover = ({ isOpen, onClose, children }) => {

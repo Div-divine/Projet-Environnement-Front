@@ -3,8 +3,8 @@ import GetAllPosts from "../../api/GetPostsAndUser";
 import { formatDistanceToNow } from "date-fns";
 import frLocale from 'date-fns/locale/fr'; // Import the French locale statically
 import '../../style/PostsStyle.css';
-import incognitoIcon from '../../assets/svg/incognito.svg';
-import messageIcon from '../../assets/svg/message-regular.svg';
+import incognitoIcon from '../../assets/incognito.svg';
+import messageIcon from '../../assets/message-regular.svg';
 import insertPostComment from "../../api/CreatePostCommentsApi";
 import getPostCommentsAndSender from "../../api/GetPostCommentsApi";
 import { useLocation, Link } from "react-router-dom";
