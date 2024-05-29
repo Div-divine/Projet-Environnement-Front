@@ -1,16 +1,16 @@
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px) {
     .big-screeen-first-page-menu {
         display: none;
     }
 }
 
-@media (min-width: 767px) {
+@media only screen and (min-width: 767px) {
     .mobile-and-small-tablette-first-page-menu {
         display: none;
     }
 }
 
-@media (max-width: 958px) {
+@media only screen and (max-width: 958px) {
     .logo-with-text-inner-container {
         display: flex;
         flex-wrap: wrap;
@@ -20,7 +20,7 @@
     }
 }
 
-@media (max-width: 882px) {
+@media only screen and (max-width: 882px) {
     .logo-text {
         font-size: small;
     }
@@ -30,7 +30,7 @@
 .menu-container {
     width: 100%;
     height: auto;
-    background-color: #05260edc;
+    background-color: #094011;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -99,4 +99,11 @@
     color: #ffffff;
     width: 100%;
     height: auto;
+}
+.stick-menu-top{
+    width: 100%;
+    position: sticky;
+    overflow: hidden;
+    top: 0;
+    z-index: 20;
 }

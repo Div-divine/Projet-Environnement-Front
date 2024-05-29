@@ -9,7 +9,7 @@
     color: #ff4500;
 }
 
-@media (min-width: 767px) {
+@media only screen and (min-width: 767px) {
     .animated-bg {
         animation: slideRight 12s linear infinite;
         /* Adjust duration and other properties as needed */
@@ -119,13 +119,13 @@
     margin-top: 70px;
 }
 
-@media (min-width: 767px) {
+@media only screen and (min-width: 767px) {
     .newsletter-input-field {
         width: 40%;
     }
 }
 
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px) {
     .newsletter-input-field {
         width: 80%;
     }
@@ -139,7 +139,7 @@
         margin-top: 50px;
     }
 }
-@media (max-width: 377px) {
+@media only screen and (max-width: 377px) {
 
     .first-page-phrase1-container,
     .first-page-phrase2-container{

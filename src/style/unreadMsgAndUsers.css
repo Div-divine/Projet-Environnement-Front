@@ -13,12 +13,15 @@
     padding: 30px 10px 30px 10px;
     box-shadow: 0px 0px 2px 0px #094011;
 }
-@media (max-width: 962px){
+@media only screen and (max-width: 962px){
     .unread-msg-and-users-container{
         width: 70%;
     }
+    .unread-msg-main-container{
+        padding-top: 0px;
+    }
 }
-@media (max-width: 505px){
+@media only screen and (max-width: 505px){
     .unread-msg-and-users-container{
         width: 90%;
     }
@@ -27,7 +30,7 @@
     width: 5%;
     margin-right: 10px;
 }
-@media (max-width: 505px){
+@media only screen and (max-width: 505px){
     .usr-img-container{
         width: 8%;
     }
@@ -40,7 +43,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
 }
-@media (max-width: 505px){
+@media only screen and (max-width: 505px){
     .usr-img-unread-msg-and-date-container{
         display: flex;
         flex-wrap: wrap;

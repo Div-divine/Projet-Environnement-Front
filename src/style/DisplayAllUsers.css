@@ -25,6 +25,35 @@
     background-color: #094011;
     color: white;
 }
+@media only screen and (max-width: 316px) {
+    .users-and-sidebar-container{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+}
+@media only screen and (max-width: 316px) {
+    .search-field{
+        width: 295px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+}
+@media only screen and (max-width: 316px) {
+    .search-field{
+        width: 100%;
+    }
+    .search-field::placeholder{
+        font-size: small;
+        font-weight: 500;
+    }
+
+    
+}
 
 .user-listing-overall-container {
     display: flex;
@@ -91,15 +120,27 @@
 
 /*  ///////////////////////       ////////////////////////////////////////////////  */
 
-@media(min-width: 962px) {
+.small-screen-users-count{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    font-size: small;
+    font-weight: 700;
+    font-family: "Crimson Text", serif;
+}
+
+@media only screen and (min-width: 962px) {
     .user-listing-overall-container {
         width: 80%;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 18%;
+    }
+    .small-screen-users-count{
+        display: none;
     }
 }
 
-@media(max-width: 962px) {
+@media only screen and (max-width: 962px) {
     .user-listing-overall-container {
         width: 95%;
         margin-left: auto;
@@ -111,9 +152,12 @@
         flex-wrap: wrap;
         justify-content: space-around;
     }
+    .small-screen-users-count{
+        display: block;
+    }
 }
 
-@media(max-width: 1050px) {
+@media only screen and (max-width: 1050px) {
     .user-listing-container {
         width: 30%;
     }
@@ -128,13 +172,13 @@
     }
 }
 
-@media(max-width: 546px) {
+@media only screen and (max-width: 546px) {
     .user-listing-container {
         width: 45%;
     }
 }
 
-@media(max-width: 360px) {
+@media only screen and (max-width: 360px) {
     .big-input-add{
         display: none;
     }
@@ -143,7 +187,7 @@
     }
 }
 
-@media(min-width: 360px) {
+@media only screen and (min-width: 360px) {
     .small-input-add {
         display: none;
     }
@@ -151,7 +195,7 @@
         display: block;
     }
 }
-@media(min-width: 1200px){
+@media only screen and (min-width: 1200px){
     .user-name-and-popover-container{
         display: block;
     }
@@ -161,7 +205,7 @@
 }
 
 
-@media(max-width: 1200px){
+@media only screen and (max-width: 1200px){
     .user-name-and-popover-container{
         display: none;
     }

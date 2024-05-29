@@ -87,8 +87,15 @@
     box-shadow: 0px 0px 3px 0px white;
 }
 
+.like-and-file-icon-container{
+    width: 20%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
 .file-uploader-container {
-    width: 4%;
+    width: 20%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -96,7 +103,7 @@
 }
 
 .like-icon-container {
-    width: 4%;
+    width: 20%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -143,3 +150,76 @@
     font-family: "League Spartan", serif;
     font-size: x-small; 
 }
+@media only screen and (max-width: 962px){
+    .chatroom-inner-container{
+        width: 70%;
+        height: 100vh;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+    }
+    .chatroom-main-container{
+        padding-bottom: 20px;
+    }
+}
+@media only screen and (max-width: 585px){
+    .chatroom-inner-container{
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media only screen and (max-width: 358px){
+    .chatroom-inner-container{
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media only screen and (max-width: 689px){
+    .form-container{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .submit-btn-container{
+        width: 100%;
+        margin-top: 10px;
+    }
+    .msg-input-field{
+        width: 100%;
+    }
+    .msg-submit-btn{
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media only screen and (max-width: 456px){
+    .like-icon-container{
+        width: 30%;
+        margin-left: 10px;
+    }
+    .like-and-file-icon-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+}
+@media only screen and (max-width: 456px){
+    .like-icon-container{
+        width: 40%;
+    }
+    .file-uploader-container {
+        width: 30%;
+    }
+    .msg-submit-btn{
+        width: 50%;
+    }
+    .msg-iput-and-icons-container{
+        padding: 10px 5px 10px 5px;
+    }
+}
+

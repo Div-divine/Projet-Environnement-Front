@@ -30,7 +30,7 @@
     width: 49%;
 }
 
-@media (max-width: 705px) {
+@media only screen and (max-width: 705px) {
     .welcom-container-in-popover {
         display: none;
     }
@@ -49,7 +49,7 @@
     border-radius: 2px;
 }
 
-@media (max-width: 705px) {
+@media only screen and (max-width: 705px) {
     .rules-container-in-popover {
         width: 70%;
         margin-left: auto;
@@ -142,13 +142,13 @@
     align-items: center;
 }
 
-@media (min-width: 608px) {
+@media only screen and (min-width: 608px) {
     .rules-popover-container {
         width: 600px;
     }
 }
 
-@media (max-width: 608px) {
+@media only screen and (max-width: 608px) {
     .rules-popover-container {
         width: 99%;
         margin-left: auto;
@@ -160,7 +160,7 @@
     }
 }
 
-@media (max-width: 449px) {
+@media only screen and (max-width: 449px) {
     .rules-text-container {
         font-size: small
     }
@@ -170,7 +170,7 @@
     left: 50%
 }
 
-@media (max-width: 514px) {
+@media only screen and (max-width: 514px) {
     .popover-for-texts-container {
         left: 0px
     }
@@ -180,7 +180,7 @@
     width: 300px;
 }
 
-@media (max-width: 402px) {
+@media only screen and (max-width: 402px) {
     .popover-content-container {
         width: 250px;
     }
@@ -199,17 +199,17 @@
         width: 12%;
     }
 }
-@media (max-width: 300px){
+@media only screen and (max-width: 300px){
     .pop-rule-text{
         font-size: x-small;
     }
 }
-@media (max-width: 320px){
+@media only screen and (max-width: 320px){
     .user-img-and-post-field{
         padding: 8px;
     }
 }
-@media (max-width: 265px){
+@media only screen and (max-width: 265px){
     .close-icon-container{
         width: 15%;
     }

@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import useUserData from "../../api/UserInfoApi";
 import { motion } from 'framer-motion';
 import UserWithGroups from "../../api/AddUserToGroupsApi";
+import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
 
 
 const RenderHome = () => {
@@ -42,9 +43,10 @@ const RenderHome = () => {
     return <div className="home-page-container">
         <SideBar />
         <main className="main-elements">
+        <DisplayConnectedSmallMenu />
             <div className="main-body-container">
                 <div className="text-center welcom-msg-container">
-                    <p className="welcom-msg">Merci de nous rejoindre dans notre mission pour sauver la planète ! </p>
+                    <p className="welcom-msg">Merci de nous avoir rejoint dans cette mission pour sauver la planète ! </p>
                     <p className="welcom-msg"><span className="welcom-msg-green">Vos actions font toute la différence</span></p>
                 </div>
                 <div className="group-upper-title-container">
@@ -92,7 +94,7 @@ const RenderHome = () => {
                                 </div>
                                 <div className="action-text-container">
                                     <div className="text-center action-text"><p>Actions</p></div>
-                                    <div>
+                                    <div className="action-description-container">
                                         <p className="text-center">-{data.group_action.split(',')[0]}</p>
                                         {data.group_action.split(',')[1] && <p className="text-center mt-2">-{data.group_action.split(',')[1]}</p>}
                                     </div>

@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale/fr';
 import getUserDataById from '../../api/GetUserDataByIdApi';
 import updateMessageStatusToRead from '../../api/UpdateMsgReadStatusApi';
+import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 
 const socket = io.connect("http://localhost:3000/");
 
@@ -185,6 +186,7 @@ const ChatRoom = () => {
         <div>
             <SideBar />
             <main className='chatroom-main-container'>
+                <DisplayConnectedSmallMenu />
                 <div className='chatroom-inner-container'>
                     <div className="message-container">
                         <div className='receiver-img-and-name-in-chat'>
@@ -216,18 +218,6 @@ const ChatRoom = () => {
                         })}
                     </div>
                     <div className='msg-iput-and-icons-container'>
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            style={{ display: 'none' }}
-                            onChange={handleFileChange}
-                        />
-                        <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className='file-uploader-container' onClick={handleClick}>
-                            <img src={fileUploadIcon} alt="file uploader icon" />
-                        </motion.div>
                         <div className='form-upper-container'>
                             <form onSubmit={sendMsg} className='form-container'>
                                 <textarea type="text-area" placeholder="Message..." value={message} onChange={handleChange} className='form-control msg-input-field' rows="3" />
@@ -239,11 +229,25 @@ const ChatRoom = () => {
                                 </motion.div>
                             </form>
                         </div>
-                        <motion.div className='like-icon-container'
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}>
-                            <img src={likeIcon} alt="thumb up icon" />
-                        </motion.div>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
+                        <div className='like-and-file-icon-container'>
+                            <motion.div
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className='file-uploader-container' onClick={handleClick}>
+                                <img src={fileUploadIcon} alt="file uploader icon" />
+                            </motion.div>
+                            <motion.div className='like-icon-container'
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}>
+                                <img src={likeIcon} alt="thumb up icon" />
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
             </main >

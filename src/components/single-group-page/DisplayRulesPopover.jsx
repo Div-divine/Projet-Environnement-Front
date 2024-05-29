@@ -1,10 +1,6 @@
 import RulesPopover from "../rules-popover/PopoverElem";
 import ScaleItem from "../scale-items-with-motion/Framer-motion";
-import { Link } from "react-router-dom";
 import DisplayPopover from "../rules-popover/DisplayPopOver";
-import likeIcon from '../../assets/svg/thumbs-up.svg';
-import commentIcon from '../../assets/svg/comment-solid.svg';
-import addIcon from '../../assets/svg/add-square.svg';
 
 const DisplayRules = ({ isOpen, handleClose, groupData}) => {
     return (

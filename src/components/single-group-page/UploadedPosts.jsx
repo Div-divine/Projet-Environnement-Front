@@ -32,6 +32,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
     const postContainer = document.querySelectorAll('.post-text-container')
 
+
     useEffect(() => {
         if (groupId) {
             const getData = async (id) => {
@@ -77,10 +78,13 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
     const submitMsg = async (e, postId, userId) => {
         e.preventDefault();
+
         if (userId) {
             const insertPost = async (msg, post, user) => {
+                // Remove special characters except parentheses, brackets, and exclamation marks preceded by a letter
+                const cleanedText = msg.replace(/(?!\b\w)!|[^\w\s\(\)\[\]]/gi, '').trim();
                 const userPostComment = {
-                    commentMsg: msg,
+                    commentMsg: cleanedText,
                     postId: post,
                     userId: user
                 }
@@ -367,7 +371,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             {commentFormsVisibility[posts[index].post_id] && userId && Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id].map(comment => (
                                 <div key={comment.comment_id} className="comment-container mt-3">
                                     <div className="comment-user-img">
-                                        <img src={`../../src/${comment.user_img}`} alt="" />
+                                        <img src={`../../src/${comment.user_img}`} alt="comment use image" />
                                     </div>
                                     <div className="comment-text-and-user-name-conatiner">
                                         <div className="user-commented-name">{comment.user_name}</div>

@@ -1,10 +1,10 @@
-@media(max-width: 765px) {
+@media only screen and (max-width: 765px) {
     .friend-group-inner-container div {
         width: 30%;
     }
 }
 
-@media(max-width: 610px) {
+@media only screen and (max-width: 610px) {
     .friend-group-inner-container div {
         width: 45%;
     }
@@ -22,33 +22,31 @@
         height: auto;
     }
 }
-@media(max-width: 300px){
+@media only screen and (max-width: 300px){
     .friend-group-inner-container div {
         width: 90%;
         margin-left: auto;
         margin-right: auto;
     }
 }
-@media(min-width: 610px) {
+@media only screen and (min-width: 610px) {
     .friend-group-inner-container {
         width: 80%;
-        padding: 20px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 18%;
     }
 }
 
-@media(min-width: 765px) {
+@media only screen and (min-width: 765px) {
     .friend-group-inner-container div {
         width: 24%;
         margin: 0px 5px 10px 0px;
     }
 }
 
-@media(max-width: 765px) {
+@media only screen and (max-width: 765px) {
     .friend-group-inner-container div {
         margin: 0px 3px 8px 0px;
     }
@@ -117,4 +115,25 @@
 
 .member-group-title {
     font-family: "Leaugue Spartan", serif;
+}
+
+.small-screnn-nmb-of-frineds{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    font-size: small;
+    font-weight: 700;
+    font-family: "Crimson Text", serif;
+}
+@media only screen and (min-width: 962px){
+    .small-screnn-nmb-of-frineds{
+        display: none;
+    }
+}
+@media only screen and (max-width: 962px){
+    .friend-group-inner-container{
+        margin-top: 0px;
+        margin-top: 20px;
+    }
 }

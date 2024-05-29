@@ -1,4 +1,4 @@
-@media(max-width: 962px){
+@media only screen and (max-width: 962px){
     .side-bar-container{
         display: none;
     }

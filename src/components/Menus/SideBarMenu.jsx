@@ -1,5 +1,4 @@
 import '../../style/SideBarMenu.css';
-import notifications from '../../assets/svg/notification.svg';
 import messages from '../../assets/svg/comment-solid.svg';
 import settings from '../../assets/svg/settings-solid.svg';
 import aliasIcon from '../../assets/svg/earth-africa-solid.svg';
@@ -35,7 +34,6 @@ const SideBar = () => {
     const [styleMenuFriends, setStyleMenuFriends] = useState('')
     const [nbrOfFriends, setNbrOfFriends] = useState(null);
     const [unreadMsgData, setUnreadMsgData] = useState(null);
-    const [isOpen, setIsOpen] = useState(false)
     // Get the number of users
     useEffect(() => {
         async function getUserNbr() {
@@ -92,6 +90,7 @@ const SideBar = () => {
             localStorage.setItem('userId', userData.user_id);
         }
     }, [userData]);
+
     useEffect(() => {
         if (userGroups) {
             setGroupNames(userGroups.map(data => data));
@@ -154,16 +153,18 @@ const SideBar = () => {
     }, [userId]);
 
     useEffect(() => {
+        if (userId) {
             const getUnread = async (receiverId) => {
                 const response = await GetUnreadMsg(receiverId);
                 console.log('Unread msg data are:', response);
                 setUnreadMsgData(response);
             }
             getUnread(userId)
+        }
     }, [userId]);
 
     // Disconnect user
-    function disconnectUser(){
+    function disconnectUser() {
         localStorage.clear();
         window.location.href = '/'
 
@@ -171,6 +172,7 @@ const SideBar = () => {
     // Check if userData is not null before accessing its properties
     if (userData) {
         return (<>
+
             <div className='side-bar-container'>
                 <header>
                     <nav>
@@ -178,10 +180,9 @@ const SideBar = () => {
                             <NavLink to='/accueil' className='upper-side-bar-icon-container'>
                                 <img src={homeIcon} alt="" />
                             </NavLink>
-                            <div className='upper-side-bar-icon-container'><img src={notifications} alt="" /></div>
                             <NavLink className='upper-side-bar-icon-container' to='/messages-non-lus'>
-                            {unreadMsgData && <div className='unread-msg-count-container'>{unreadMsgData.length}</div>}
-                                <img src={messages} alt="" className='msg-img'/>
+                                {unreadMsgData && <div className='unread-msg-count-container'>{unreadMsgData.length}</div>}
+                                <img src={messages} alt="" className='msg-img' />
                             </NavLink>
                             <div className='upper-side-bar-icon-container'><img src={settings} alt="" /></div>
                         </div>

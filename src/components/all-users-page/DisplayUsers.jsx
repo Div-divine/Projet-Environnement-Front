@@ -21,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import chatRoom from "../../api/creatingChatRoomApi";
 import existsChatroom from "../../api/ExistChatRoomApi";
 import createFriends from "../../api/CreateFriendsApi";
+import DisplayConnectedSmallMenuy from "../Menus/DisplaySmallScreenConnectedMenu";
 
 
 
@@ -119,6 +120,7 @@ const RenderAllUsers = () => {
     if (userId) {
         return (<div className="home-page-container">
             <SideBar />
+            <DisplayConnectedSmallMenuy />
             <div className="users-and-sidebar-container">
                 <div className="upper-users-text-container">
                     <p className="table-header-text">Les utilisateurs</p>
@@ -131,6 +133,7 @@ const RenderAllUsers = () => {
                 />
             </div>
             <main className="main-elements">
+                <div className="small-screen-users-count">Total utilisateurs:  {filteredUserGroups.length + 1}</div>
                 <div className="user-listing-overall-container">
                     {filteredUserGroups.map((user, index) => (
                         <div key={index} className="user-listing-container mb-3">

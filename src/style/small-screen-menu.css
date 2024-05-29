@@ -1,3 +1,4 @@
+
 .small-menu-upper-container {
     display: flex;
     flex-wrap: wrap;
@@ -52,7 +53,7 @@
     color: #ffffff;
 }
 
-@media (max-width: 712px) {
+@media only screen and (max-width: 712px) {
     .logo-text {
         font-size: small;
     }
@@ -62,7 +63,7 @@
     }
 }
 
-@media (max-width: 464px) {
+@media only screen and (max-width: 464px) {
     .logo-container {
         display: flex;
         flex-wrap: wrap;

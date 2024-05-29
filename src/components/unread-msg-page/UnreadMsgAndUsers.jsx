@@ -7,6 +7,7 @@ import '../../style/unreadMsgAndUsers.css'
 import existsChatroom from "../../api/ExistChatRoomApi";
 import chatRoom from "../../api/creatingChatRoomApi";
 import { useLocation } from "react-router-dom";
+import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
 
 const DisplayUnreadMsgUsers = () => {
     const location = useLocation();
@@ -109,8 +110,9 @@ const DisplayUnreadMsgUsers = () => {
 
 
     return <>
-        <SideBar />
+            <SideBar />
         <main className="unread-msg-main-container">
+            <DisplayConnectedSmallMenu />
             {groupedMessages.map((data, index) => (
                 formattedDates[index] && (
                     <div key={index} className="unread-msg-and-users-container">

@@ -17,7 +17,7 @@ import insertUserPostIntoGroup from '../../api/CreateUserPostIngroupApi';
 import DisplayIncognitoPopover from './IncognitoPostPopover';
 import insertUserPostIncognito from '../../api/CreateIncognitoPostApi';
 import DisplayRules from './DisplayRulesPopover';
-
+import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 
 
 const RenderSinglePostPage = () => {
@@ -32,6 +32,10 @@ const RenderSinglePostPage = () => {
     const [groupId, setGroupId] = useState(null);
     // Define a state to track whether the post is incognito
     const [isIncognito, setIsIncognito] = useState(false);
+    const [unauthorizedPost, setUnauthorizedPost] = useState(false);
+
+    // Remove white spaces and special characters from post
+    const postWithoutSpecialCharaters = post.replace(/[^\w\s]/gi, '').trim()
 
 
     // Set popover state
@@ -101,19 +105,24 @@ const RenderSinglePostPage = () => {
         try {
             // Check if post, groupId, and userId are available
             if (post && groupData && userId) {
-                const postData = {
-                    postContent: post,
-                    groupId: groupData.group_id,
-                    userId
-                };
-                if (!isIncognito) {
-                    const newPost = await insertUserPostIntoGroup(postData);
+
+                if (postWithoutSpecialCharaters.length > 0) {
+                    const postData = {
+                        postContent: postWithoutSpecialCharaters,
+                        groupId: groupData.group_id,
+                        userId
+                    };
+                    if (!isIncognito) {
+                        await insertUserPostIntoGroup(postData);
+                    } else {
+                        await insertUserPostIncognito(postData);
+                    }
+                    // Reset post
+                    setPost('');
+                    window.location.reload();
                 } else {
-                    const newPost = await insertUserPostIncognito(postData);
+                    setUnauthorizedPost(true);
                 }
-                // Reset post
-                setPost('');
-                window.location.reload();
             } else {
                 // Handle the case where post, groupId, or userId is not available
                 console.error('One or more required fields are missing');
@@ -133,9 +142,18 @@ const RenderSinglePostPage = () => {
         }
     };
 
+    // Remove unauthorized message once post content is changed
+    useEffect(() => {
+        if (post && postWithoutSpecialCharaters.length > 0) {
+            setUnauthorizedPost(false);
+        }
+    }, [post]);
+
+
     return <div className="group-page-container">
         <SideBar />
         <main className='group-main-elements'>
+            <DisplayConnectedSmallMenu />
             <div className='group-inner-container'>
                 {groupData && <div >
                     <div className='group-img-container'>
@@ -170,7 +188,7 @@ const RenderSinglePostPage = () => {
                         children={<button onClick={(e) => setGroupId(groupData.group_id)} >Faire partir du group</button>}
                     />}
                 </div>
-
+                {unauthorizedPost && <div className='unauthorised-container'>Non authorisé !</div>}
                 <div className='user-post-and-group-description-container'>
                     <div className='user-post-container'>
                         <div className='user-img-and-post-field'>

@@ -8,6 +8,7 @@ import existsChatroom from '../../api/ExistChatRoomApi';
 import chatRoom from '../../api/creatingChatRoomApi';
 import CustomModal from '../modalbox/CustomModalBox';
 import deleteFriends from '../../api/DeleteUserFriendApi';
+import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 
 const FriendsPage = () => {
   const location = useLocation();
@@ -117,6 +118,8 @@ const FriendsPage = () => {
     <div className="group-page-container">
       <SideBar />
       <main className='main-elements'>
+        <DisplayConnectedSmallMenu />
+        {friendsData && <div className='small-screnn-nmb-of-frineds'>Total amis: {friendsData.length}</div>}
         <div className='friend-group-inner-container friends-upper-container user-listing-overall-container'>
           {friendsData && friendsData.map((user, userIndex) => {
             let userImageDisplayed = false;

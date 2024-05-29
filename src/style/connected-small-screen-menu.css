@@ -1,0 +1,150 @@
+@media only screen and (max-width: 962px) {
+    .connected-small-menu-upper-container {
+        display: block;
+        width: 100%;
+        background: #F0ECE6;
+        height: 100px;
+        border-radius: 0px 0px 10px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 20px 10px 20px;
+        position: sticky;
+        overflow: hidden;
+        top: 0;
+        z-index: 20;
+        box-shadow: 0 4px 4px 0 #00000040;
+    }
+}
+
+@media only screen and (min-width: 962px) {
+    .connected-small-menu-upper-container {
+        display: none;
+    }
+}
+
+.connected-small-screen-menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.connected-small-screen-home-icon-container {
+    width: 3%;
+}
+
+.connected-small-screen-setting-icon-container {
+    width: 3%;
+}
+
+.connected-small-screen-other-icons-container {
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.connected-small-screen-other-icons-container div {
+    width: 25%;
+}
+
+.connected-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.connected-icons-container {
+    width: 30%;
+    margin-right: 5px;
+}
+
+.connected-menu-text {
+    font-size: small;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 860px) {
+    .connected-small-screen-home-icon-container {
+        width: 4%;
+    }
+
+    .connected-small-screen-setting-icon-container {
+        width: 4%;
+    }
+
+    .connected-icons-container {
+        width: 33%;
+    }
+}
+
+@media only screen and (max-width: 785px) {
+    .connected-icons-container {
+        width: 38%;
+    }
+}
+
+@media only screen and (max-width: 725px) {
+    .connected-icons-container {
+        width: 42%;
+    }
+}
+
+@media only screen and (max-width: 625px) {
+    .connected-icons-container {
+        width: 48%;
+    }
+}
+
+@media only screen and (max-width: 505px) {
+    .connected-small-screen-other-icons-container {
+        width: 50%;
+    }
+
+    .connected-small-screen-home-icon-container {
+        width: 5%;
+    }
+
+    .connected-small-screen-setting-icon-container {
+        width: 5%;
+    }
+
+    .connected-icons-container {
+        width: 52%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .connected-small-screen-other-icons-container {
+        width: 60%;
+    }
+
+    .connected-small-screen-home-icon-container {
+        width: 10%;
+    }
+
+    .connected-small-screen-setting-icon-container {
+        width: 10%;
+    }
+
+    .connected-small-screen-other-icons-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .connected-small-screen-other-icons-container {
+        width: 65%;
+    }
+}
+.connected-unread-msg-count-container{
+    background-color: #ff0000;
+    border-radius: 50%;
+    padding: 5px;
+}

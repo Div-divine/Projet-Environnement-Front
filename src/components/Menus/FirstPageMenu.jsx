@@ -37,17 +37,11 @@ const FirstMenu = () => {
         fontWeight: isHovered2 ? '700' : '',
     };
 
-    // const handleWhiteGlobeClick = () => {
-    //     if (selectRef.current) {
-    //         selectRef.current.focus();
-    //     }
-    // };
-
     const [language, setLanguage] = useSelectOptionValue('French')
 
     return (
-        <>
-            <header>
+        <div>
+            <header className="stick-menu-top">
                 <nav className="first-page-stick-menu-top">
                     <div className="big-screeen-first-page-menu">
                         <div className="menu-container">
@@ -112,7 +106,7 @@ const FirstMenu = () => {
             <div>
                 <Outlet />
             </div>
-        </>
+        </div>
     );
 };
 
