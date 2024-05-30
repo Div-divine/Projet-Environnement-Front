@@ -125,7 +125,7 @@ const SignInPageRender = () => {
                     <div className='option-create-acc-upper-container'>
                         <Link className='creat-acc-option' to='/inscription'>Créer un compte ?</Link>
                     </div>
-                    <GreenSbmtBtn value='Enregistrer' />
+                    <GreenSbmtBtn value='Valider' />
                 </form>
             </div>
         </div>

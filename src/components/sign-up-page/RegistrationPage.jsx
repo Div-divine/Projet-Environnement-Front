@@ -76,8 +76,11 @@ const RegistrationInputBox = () => {
             }
         }, [pwd]);
 
+    // Remove white spaces and special characters from name
+    const nameWithoutSpacialChar = name.replace(/[^\w\s]/gi, '').trim();
+
     const registrationFormData = {
-        username: name, // Assuming 'name' corresponds to the username input field
+        username: nameWithoutSpacialChar, // Assuming 'name' corresponds to the username input field
         email: email,
         password: pwd
     };
@@ -85,13 +88,12 @@ const RegistrationInputBox = () => {
         e.preventDefault();
         // Once the form is submitted remove the password yellow rule to give way to the red error password rule message
         setRuleText('');
-        console.log(checked)
         try {
-            if (pwdConf !== pwd || name.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd) || !checked) {
+            if (pwdConf !== pwd || nameWithoutSpacialChar.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd) || !checked) {
                 if (pwdConf != pwd) {
                     setPwdConfError('Confirmation mot de passe incorrect')
                 }
-                if (name.length < 1) {
+                if (nameWithoutSpacialChar.length < 1) {
                     setNameErrorMsg('Saissisez un nom')
                 }
                 if (email.length < 1) {
@@ -111,6 +113,7 @@ const RegistrationInputBox = () => {
                 }
                 return false;
             }
+
             console.log(registrationFormData);
             // Post user info to api from api/UserRegistrationApi
             const responseData = await PostUserInfo(registrationFormData);
@@ -137,13 +140,13 @@ const RegistrationInputBox = () => {
         }
 
         return <div className='text-center mb-5' style={registrationErrorMsgStyle}>
-                <p>{loginErrorMsgHandler}</p>
-            </div>
+            <p>{loginErrorMsgHandler}</p>
+        </div>
     }
 
     return <div className='container'>
 
-        {registrationError && <DisplayRegistrationErrorMsg loginErrorMsgHandler={registrationError}/>}
+        {registrationError && <DisplayRegistrationErrorMsg loginErrorMsgHandler={registrationError} />}
         <div className='registration-field-container'>
             <div className='mb-3 text-center'>
                 <p className='registeration-form-title-text'>Inscription</p>
@@ -232,8 +235,8 @@ const RegistrationInputBox = () => {
                         <span className='checkbox-container-margin'>
                             <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
                         </span>
-                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation" 
-                        labelStyle={conditionStyle} />
+                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation"
+                            labelStyle={conditionStyle} />
                     </div>
                 </div>
 

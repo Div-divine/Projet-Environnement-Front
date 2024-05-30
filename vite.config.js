@@ -7,8 +7,5 @@ export default defineConfig({
     outDir: 'dist', // Specify the output directory
     assetsDir: 'src/assets', // Specify the directory for static assets
     assetsInclude: ['**/*.json', '**/*.svg', '**/*.jpg', '**/*.png', '**/*.css', '**/*.js'], // Include specific file types
-    rollupOptions: {
-      // Additional Rollup options
-    },
   },
 });
