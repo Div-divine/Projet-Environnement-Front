@@ -20,6 +20,7 @@ import insertUserPostIncognito from "../../api/CreateIncognitoPostApi";
 import getUserDataById from "../../api/GetUserDataByIdApi";
 import { useParams } from "react-router-dom";
 import singleGroupData from "../../api/SingleGroupDataApi";
+import userQuitGroupSatus from "../../api/getUserQuitGroupStatusApi";
 
 
 
@@ -52,7 +53,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [expandedPosts, setExpandedPosts] = useState({});
 
 
-    const postContainer = document.querySelectorAll('.post-text-container')
+    const postContainer = document.querySelectorAll('.post-text-container');
 
     function handleIncognito() {
         setIsIncognito(!isIncognito);
@@ -436,9 +437,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
                     posts && posts[index] && (
                         <div key={index} className="posts-display-inner-section">
                             <div className="posts-user-img-and-date-container">
-                                <div className="post-user-img-container">{!posts[index].incognito ? <img src={`../../src/${posts[index].user_img}`} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
+                                <div className="post-user-img-container">{!posts[index].incognito && !posts[index].post_user_quit ? <img src={`../../src/${posts[index].user_img}`} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
                                 <div className="post-date-container">
-                                    <div>{!posts[index].incognito ? posts[index].user_name : 'Utilisateur Incognito'}</div> {/* Display the user name */}
+                                    <div>{!posts[index].incognito ? ( !posts[index].post_user_quit ? posts[index].user_name : 'L\'auteur du post a quitté le groupe') : 'Utilisateur Incognito'}</div> {/* Display the user name */}
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
                                 </div>
                             </div>
@@ -503,10 +504,10 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             {commentFormsVisibility[posts[index].post_id] && userId && Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id].map(comment => (
                                 <div key={comment.comment_id} className="comment-container mt-3">
                                     <div className="comment-user-img">
-                                        <img src={`../../src/${comment.user_img}`} alt="comment use image" />
+                                        {!comment.mask_comment_user ? <img src={`../../src/${comment.user_img}`} alt="comment use image" /> : <img src={incognitoIcon} alt="" />}
                                     </div>
                                     <div className="comment-text-and-user-name-conatiner">
-                                        <div className="user-commented-name">{comment.user_name}</div>
+                                        <div className="user-commented-name">{!comment.mask_comment_user ? comment.user_name : 'L\'auteur de ce commentaire a quitté le group'}</div>
                                         {/* Edit comment field */}
                                         {userId == comment.user_id && commentIdBeingEdited == comment.comment_id && commentUpdatestate && (
                                             <div className="update-comment-form-container">
