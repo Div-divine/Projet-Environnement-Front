@@ -16,6 +16,7 @@ import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu'
 import GetUserInGroup from '../../api/GetUserIfInAGroupApi';
 import CustomModal from '../modalbox/CustomModalBox';
 import userQuitsGroup from '../../api/HandleUserQuitsGroupApi';
+import userQuitGroupSatus from '../../api/getUserQuitGroupStatusApi';
 
 const RenderSinglePostPage = () => {
     // Access the id parameter from the URL
@@ -29,7 +30,6 @@ const RenderSinglePostPage = () => {
     const [isMemId, setISMemId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [clickedGroupId, setClickedGroupId] = useState(null);
-    const [userQuitGroup, setUserQuitGroup] = useState(false)
 
     useEffect(() => {
         if (id && userId) {
@@ -44,6 +44,21 @@ const RenderSinglePostPage = () => {
         }
 
     }, [id, userId])
+
+    // Change user membership status once he is no more part of group
+    useEffect(() => {
+        if (userId && id) {
+            async function getStatusQuit(user, group) {
+                const response = await userQuitGroupSatus(user, group);
+                console.log('Quit group status:', response)
+                if (response.quit_group == 1) {
+                    setAlreadyMember(false);
+                }
+                return response;
+            }
+            getStatusQuit(userId, id);
+        }
+    }, [userId, id])
 
     useEffect(() => {
         if (isMemId) {
@@ -114,15 +129,14 @@ const RenderSinglePostPage = () => {
 
     const handleQuitGroup = async () => {
         if (userId && clickedGroupId) {
-          try {
-            await userQuitsGroup(clickedGroupId, { userId });
-            setUserQuitGroup(true);
-            window.location.href='/accueil';
-          } catch (error) {
-            console.error('Error deleting friend:', error);
-          }
+            try {
+                await userQuitsGroup(clickedGroupId, { userId });
+                window.location.href = '/accueil';
+            } catch (error) {
+                console.error('Error deleting friend:', error);
+            }
         }
-      };
+    };
     return <div className="group-page-container">
         <SideBar />
         <main className='group-main-elements'>
@@ -159,7 +173,7 @@ const RenderSinglePostPage = () => {
                     {groupData && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
                         children={!alreadyMember ? <button className='add-group-btn' onClick={(e) => setGroupId(groupData.group_id)} >Faire partir du groupe</button>
-                            :  <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button>}
+                            : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button>}
                     />}
                 </div>
                 <div className='user-post-and-group-description-container'>
