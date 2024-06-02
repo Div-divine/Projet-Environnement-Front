@@ -19,10 +19,10 @@ const CustomModal = ({ title, message, buttonText, onClose, onButtonClick }) => 
       <div className="modal-content">
         <div className="modal-header">
           <h2>{title}</h2>
-          <button onClick={handleClose} className='modal-close-btn'>Fermer</button>
+          <button onClick={handleClose} className='modal-close-btn'>Retour</button>
         </div>
         <div className="modal-body">
-          <p>{message}</p>
+          <div>{message}</div>
         </div>
         <div className="modal-footer">
           <button onClick={handleButtonClick} className='modal-delete-btn'>{buttonText}</button>

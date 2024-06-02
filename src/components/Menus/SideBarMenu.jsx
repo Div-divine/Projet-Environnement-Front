@@ -27,8 +27,6 @@ const SideBar = () => {
     const userData = useUserData();
     const [groupNames, setGroupNames] = useState([]);
     const [userGroups, setUserGroups] = useState(null); // Define userGroups state
-    const [users, setUsers] = useState([]);
-    const [usersData, setUsersData] = useState(null);
     const [nbrUsers, setNbrUsers] = useState(null);
     const [styleMenu, setStyleMenu] = useState('');
     const [styleMenuFriends, setStyleMenuFriends] = useState('')
@@ -68,8 +66,6 @@ const SideBar = () => {
             if (userId) {
                 try {
                     const response = await FourUsers(userId);
-                    setUsersData(response.data)
-                    console.log('Users listing: ', response.data);
                     //setUserGroups(response.data);
                 } catch (error) {
                     console.error('Error fetching user groups:', error);
@@ -97,11 +93,6 @@ const SideBar = () => {
         }
     }, [userGroups]);
 
-    useEffect(() => {
-        if (usersData) {
-            setUsers(usersData.map(data => data));
-        }
-    }, [usersData]);
 
     useEffect(() => {
         if (currentPath) {
@@ -144,7 +135,6 @@ const SideBar = () => {
         if (userId) {
             const getfriends = async (id) => {
                 const response = await GetAllUserFriends(id)
-                console.log('User friends are:', response)
                 setNbrOfFriends(response.length)
             }
             getfriends(userId);

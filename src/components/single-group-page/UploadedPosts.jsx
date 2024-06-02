@@ -12,10 +12,31 @@ import DeletePostAndComments from "../../api/DeletePostWithCommentsApi";
 import updateUserPost from "../../api/UpdatePostApi";
 import DeleteUserComments from "../../api/DeleteCommentsApi";
 import updateUserComment from "../../api/UpdateUserCommentApi";
+import DisplayIncognitoPopover from './IncognitoPostPopover';
+import DisplayPopover from "../rules-popover/DisplayPopOver";
+import ScaleItem from "../scale-items-with-motion/Framer-motion";
+import insertUserPostIntoGroup from "../../api/CreateUserPostIngroupApi";
+import insertUserPostIncognito from "../../api/CreateIncognitoPostApi";
+import getUserDataById from "../../api/GetUserDataByIdApi";
+import { useParams } from "react-router-dom";
+import singleGroupData from "../../api/SingleGroupDataApi";
+
+
 
 const DisplayUploadedPosts = ({ groupId }) => {
+
+    // Define a state to track whether the post is incognito
+    const [isIncognito, setIsIncognito] = useState(false);
     const [existPost, setExistPost] = useState(false);
     const [posts, setPosts] = useState(null);
+    const [post, setPost] = useState('');
+     // Access the id parameter from the URL
+     const { id } = useParams();
+    const [groupData, setGroupData] = useState(null);
+    // Remove white spaces and special characters from post
+    const [unauthorizedPost, setUnauthorizedPost] = useState(false);
+    const postWithoutSpecialCharaters = post.replace(/[^\w\s]/gi, '').trim()
+    const [connectedUserData, setConnectedUserData] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
     const [msg, setMsg] = useState({});
     const userId = localStorage.getItem('userId');
@@ -30,8 +51,74 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [commentUpdateValue, setCommentUpdateValue] = useState({});
     const [expandedPosts, setExpandedPosts] = useState({});
 
+
     const postContainer = document.querySelectorAll('.post-text-container')
 
+    function handleIncognito() {
+        setIsIncognito(!isIncognito);
+    };
+
+     // Handle submission of posts
+     const submitPost = async (e) => {
+        e.preventDefault();
+        try {
+            // Check if post, groupId, and userId are available
+            if (post && groupData && userId) {
+
+                if (postWithoutSpecialCharaters.length > 0) {
+                    const postData = {
+                        postContent: post.trim(),
+                        groupId: groupData.group_id,
+                        userId
+                    };
+                    if (!isIncognito) {
+                        await insertUserPostIntoGroup(postData);
+                    } else {
+                        await insertUserPostIncognito(postData);
+                    }
+                    getGroupPosts(groupData.group_id);
+                    // Reset post
+                    setPost('');
+                    // Unckeck the check box once the post having an incognito state is submitted
+                    setIsIncognito(false);
+
+                } else {
+                    setUnauthorizedPost(true);
+                }
+            } else {
+                // Handle the case where post, groupId, or userId is not available
+                console.error('One or more required fields are missing');
+            }
+        } catch (error) {
+            // Handle errors
+            console.error('Uploading post failed:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (userId) {
+            async function getUserData(id) {
+                const response = await getUserDataById(id);
+                setConnectedUserData(response.user);
+            }
+            getUserData(userId)
+        }
+    }, [userId]);
+
+    const handleChange = (e) => {
+        setPost(e.target.value);
+    }
+
+    useEffect(() => {
+        if (id) {
+            async function getGroupData(id) {
+                const response = await singleGroupData(id);
+                console.log('group data response are :', response);
+                setGroupData(response);
+            }
+            getGroupData(id);
+        }
+    }, [id])
 
     useEffect(() => {
         if (groupId) {
@@ -55,6 +142,24 @@ const DisplayUploadedPosts = ({ groupId }) => {
             getData(groupId)
         }
     }
+
+    useEffect(() => {
+        if (id) {
+            async function getGroupData(id) {
+                const response = await singleGroupData(id);
+                console.log('group data response are :', response);
+                setGroupData(response);
+            }
+            getGroupData(id);
+        }
+    }, [id])
+
+    // Remove unauthorized message once post content is changed
+    useEffect(() => {
+        if (post && postWithoutSpecialCharaters.length > 0) {
+            setUnauthorizedPost(false);
+        }
+    }, [post]);
 
     useEffect(() => {
         if (posts) {
@@ -82,14 +187,16 @@ const DisplayUploadedPosts = ({ groupId }) => {
         if (userId) {
             const insertPost = async (msg, post, user) => {
                 // Remove special characters except parentheses, brackets, and exclamation marks preceded by a letter
-                const cleanedText = msg.replace(/(?!\b\w)!|[^\w\s\(\)\[\]]/gi, '').trim();
-                const userPostComment = {
-                    commentMsg: cleanedText,
-                    postId: post,
-                    userId: user
+                const cleanedMsg = msg.replace(/[^\w\s]/gi, '').trim()
+                if (cleanedMsg.length > 0) {
+                    const userPostComment = {
+                        commentMsg: msg.trim(),
+                        postId: post,
+                        userId: user
+                    }
+                    await insertPostComment(userPostComment);
+                    await fetchComments();
                 }
-                const response = await insertPostComment(userPostComment);
-                return response;
             }
             insertPost(msg[postId], postId, userId);
         }
@@ -98,8 +205,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
             ...prevState,
             [postId]: ''
         }));
-        await fetchComments();
-        window.location.reload();
     }
 
     // Function to fetch comments
@@ -142,9 +247,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
             try {
                 const values = Object.values(updateValue);
-                if (values.length > 0 && postId) {
-                    console.log('Data updated successfully  in keypress:', values[0], 'Of post:', postId);
-                    await updateUserPost(postId, { postContent: values[0] });
+                const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim()
+                if (values.length > 0 && postId && newUpdate.length > 0) {
+                    await updateUserPost(postId, { postContent: values[0].trim() });
                     setUpdateValue(prevState => ({
                         ...prevState,
                         [postId]: ''
@@ -232,14 +337,15 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
             try {
                 const values = Object.values(updateCommentValue);
-                if (values.length > 0 && commentId) {
-                    await updateUserComment(commentId, { updateContent: values[0] });
+                const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim()
+                if (values.length > 0 && commentId && newUpdate.length > 0) {
+                    await updateUserComment(commentId, { updateContent: values[0].trim() });
                     setCommentUpdateValue(prevState => ({
                         ...prevState,
                         [commentId]: ''
                     }));
                     setCommentUpdatestate(false);
-                    window.location.reload();
+                    window.location.reload()
                 }
             } catch (error) {
                 console.error('Error updating comment:', error);
@@ -250,7 +356,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
     useEffect(() => {
         if (posts) {
             setExistPost(true);
-            console.log('fetched comment in use effect ...');
             // Fetch comments when posts are available
             fetchComments();
         }
@@ -294,6 +399,33 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
     return (
         <div>
+             {unauthorizedPost && <div className='unauthorised-container'>Post Non authorisé !</div>}
+            <div className='user-img-and-post-field'>
+                <DisplayPopover className='anonymous-container' rules={<DisplayIncognitoPopover
+                    checkedHandler={isIncognito}
+                    toggleHandler={handleIncognito} />}
+                    children={<div className='anonymous-container'>
+                        <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
+                            classHandler='anonymous-icon-container'
+                            children={<img src={incognitoIcon} alt=""
+                            />} />
+                        <div className='anonymous-text-container'>
+                            <p>Faire un post à l'anonyma ?</p>
+                        </div>
+                    </div>}
+                />
+                <div className='flex-post-field'>
+                    <div className='user-connected-img-container'>
+                        {connectedUserData && <img src={`../../src/${connectedUserData.user_img}`} alt="" />}
+                    </div>
+                    <div className='post-input-field-container'>
+                        <form onSubmit={submitPost}>
+                            <textarea type="text-area" placeholder="Faire un post..." value={post} onChange={handleChange} className='form-control' rows="3" />
+                            {post && <div className='posts-submit-btn'><input type="submit" value='Uploader' /></div>}
+                        </form>
+                    </div>
+                </div>
+            </div>
             {!existPost && (
                 <div className="no-post-in-group-text">
                     <p>Soyez celui à poser la première pierre d'un mouvement pour un avenir plus vert. Faites-y un post.</p>
@@ -323,7 +455,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                             onKeyPress={(event) => handleKeyPress(event, posts[index].post_id, updateValue)}
                                             className="update-text-area"
                                         />
-                                        <span>Pour annuler, cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link className="validate-update-text">Enter</Link><span> Sur votre clavier</span>
+                                        <span>Pour annuler, cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link className="validate-update-text">Entrée</Link><span> Sur votre clavier</span>
                                     </div>
                                 ) : (
                                     // If the post is not being edited, render its content

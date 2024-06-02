@@ -2,22 +2,19 @@ import '../../style/SingleGroupPage.css';
 import SideBar from '../Menus/SideBarMenu';
 import singleGroupData from '../../api/SingleGroupDataApi';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import allUsersOfGroup from '../../api/GetUsersOfAGroupApi';
 import earthIcon from '../../assets/earth-africa-solid.svg';
-import incognitoIcon from '../../assets/incognito.svg';
-import getUserDataById from '../../api/GetUserDataByIdApi';
 import eyeIcon from '../../assets/orange-eye.svg';
 import policiesIcon from '../../assets/policies.svg';
 import DisplayPopover from '../rules-popover/DisplayPopOver';
 import ScaleItem from '../scale-items-with-motion/Framer-motion';
 import UserWithGroups from '../../api/AddUserToGroupsApi';
 import DisplayUploadedPosts from './UploadedPosts';
-import insertUserPostIntoGroup from '../../api/CreateUserPostIngroupApi';
-import DisplayIncognitoPopover from './IncognitoPostPopover';
-import insertUserPostIncognito from '../../api/CreateIncognitoPostApi';
 import DisplayRules from './DisplayRulesPopover';
 import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
+import GetUserInGroup from '../../api/GetUserIfInAGroupApi';
+import CustomModal from '../modalbox/CustomModalBox';
 
 
 const RenderSinglePostPage = () => {
@@ -27,16 +24,33 @@ const RenderSinglePostPage = () => {
     // Store group data
     const [groupData, setGroupData] = useState(null);
     const [usersInGroup, setUserInGroup] = useState(null);
-    const [connectedUserData, setConnectedUserData] = useState(null);
-    const [post, setPost] = useState('');
     const [groupId, setGroupId] = useState(null);
-    // Define a state to track whether the post is incognito
-    const [isIncognito, setIsIncognito] = useState(false);
-    const [unauthorizedPost, setUnauthorizedPost] = useState(false);
+    const [alreadyMember, setAlreadyMember] = useState(false)
+    const [isMemId, setISMemId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [clickedGroupId, setClickedGroupId] = useState(null);
 
-    // Remove white spaces and special characters from post
-    const postWithoutSpecialCharaters = post.replace(/[^\w\s]/gi, '').trim()
+    useEffect(() => {
+        if (id && userId) {
 
+            async function userIdInGroup() {
+                const getMemberId = await GetUserInGroup({ userId, groupId: id })
+                console.log('Is a member Id:', getMemberId.user_id)
+                setISMemId(getMemberId.user_id)
+            }
+
+            userIdInGroup()
+        }
+
+    }, [id, userId])
+
+    useEffect(() => {
+        if (isMemId) {
+            setAlreadyMember(true)
+        } else {
+            setAlreadyMember(false)
+        }
+    }, [isMemId])
 
     // Set popover state
     const [isOpen, setIsOpen] = useState(false);
@@ -73,20 +87,6 @@ const RenderSinglePostPage = () => {
         }
     }, [id])
 
-    useEffect(() => {
-        if (userId) {
-            async function getUserData(id) {
-                const response = await getUserDataById(id);
-                console.log('userData from group page :', response.user);
-                setConnectedUserData(response.user);
-            }
-            getUserData(userId)
-        }
-    }, [userId]);
-
-    const handleChange = (e) => {
-        setPost(e.target.value);
-    }
 
     useEffect(() => {
         if (userId && groupId) {
@@ -95,61 +95,33 @@ const RenderSinglePostPage = () => {
                 groupId
             };
             UserWithGroups(data);
-            window.location.reload();
+            window.location.reload()
         }
     }, [userId, groupId]);
 
-    // Handle submission of posts
-    const submitPost = async (e) => {
-        e.preventDefault();
-        try {
-            // Check if post, groupId, and userId are available
-            if (post && groupData && userId) {
-
-                if (postWithoutSpecialCharaters.length > 0) {
-                    const postData = {
-                        postContent: postWithoutSpecialCharaters,
-                        groupId: groupData.group_id,
-                        userId
-                    };
-                    if (!isIncognito) {
-                        await insertUserPostIntoGroup(postData);
-                    } else {
-                        await insertUserPostIncognito(postData);
-                    }
-                    // Reset post
-                    setPost('');
-                    window.location.reload();
-                } else {
-                    setUnauthorizedPost(true);
-                }
-            } else {
-                // Handle the case where post, groupId, or userId is not available
-                console.error('One or more required fields are missing');
-            }
-        } catch (error) {
-            // Handle errors
-            console.error('Uploading post failed:', error);
-        }
+    const handleDeleteGroup = (groupId) => {
+        setClickedGroupId(groupId);
+        console.log('Group to delete:', groupId)
+        setIsModalOpen(true);
     };
 
-    function handleIncognito() {
-        setIsIncognito(!isIncognito);
-        if (!isIncognito) {
-            console.log('Is incognito:', isIncognito);
-        } else {
-            console.log('I Got this')
-        }
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
     };
 
-    // Remove unauthorized message once post content is changed
-    useEffect(() => {
-        if (post && postWithoutSpecialCharaters.length > 0) {
-            setUnauthorizedPost(false);
+    const handleConfirmDelete = async () => {
+        if (userId && clickedGroupId) {
+        //   try {
+        //     await deleteFriends(userId, clickedUserId);
+        //     console.log('Delete action confirmed for user ID:', clickedUserId);
+        //     setIsModalOpen(false);
+        //     window.location.reload();
+        //     // Optionally, update friends list or UI to reflect deletion
+        //   } catch (error) {
+        //     console.error('Error deleting friend:', error);
+        //   }
         }
-    }, [post]);
-
-
+      };
     return <div className="group-page-container">
         <SideBar />
         <main className='group-main-elements'>
@@ -169,7 +141,7 @@ const RenderSinglePostPage = () => {
                             <div className='earth-icon-container'>
                                 <img src={earthIcon} alt="" />
                             </div>
-                            <div className='public-text'><p className='text-center'>Group publique</p></div>
+                            <div className='public-text'><p className='text-center'>Groupe publique</p></div>
                         </div>
                         <div className='user-upper-img-container'>
                             {usersInGroup && usersInGroup.map((data, index) => {
@@ -185,38 +157,12 @@ const RenderSinglePostPage = () => {
                     </div>
                     {groupData && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
-                        children={<button onClick={(e) => setGroupId(groupData.group_id)} >Faire partir du group</button>}
+                        children={!alreadyMember ? <button className='add-group-btn' onClick={(e) => setGroupId(groupData.group_id)} >Faire partir du groupe</button>
+                            : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button>}
                     />}
                 </div>
-                {unauthorizedPost && <div className='unauthorised-container'>Non authorisé !</div>}
                 <div className='user-post-and-group-description-container'>
                     <div className='user-post-container'>
-                        <div className='user-img-and-post-field'>
-                            <DisplayPopover className='anonymous-container' rules={<DisplayIncognitoPopover
-                                checkedHandler={isIncognito}
-                                toggleHandler={handleIncognito} />}
-                                children={<div className='anonymous-container'>
-                                    <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
-                                        classHandler='anonymous-icon-container'
-                                        children={<img src={incognitoIcon} alt=""
-                                        />} />
-                                    <div className='anonymous-text-container'>
-                                        <p>Faire un post à l'anonyma ?</p>
-                                    </div>
-                                </div>}
-                            />
-                            <div className='flex-post-field'>
-                                <div className='user-connected-img-container'>
-                                    {connectedUserData && <img src={`../../src/${connectedUserData.user_img}`} alt="" />}
-                                </div>
-                                <div className='post-input-field-container'>
-                                    <form onSubmit={submitPost}>
-                                        <textarea type="text-area" placeholder="Faire un post..." value={post} onChange={handleChange} className='form-control' rows="3" />
-                                        {post && <div className='posts-submit-btn'><input type="submit" value='Uploader' /></div>}
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                         <DisplayPopover rules={<div className='big-screen-rule-option-text'>Clickez sur l'icon ou sur la phrase!</div>}
                             children={<div className='public-and-icon-container policies-container'>
 
@@ -240,7 +186,7 @@ const RenderSinglePostPage = () => {
                                     <p>À propos</p>
                                 </div>
                                 <div className='group-decsription-container'>
-                                    {groupData && <p>Ce group a pour but de mener un combat pour la {groupData.group_action}.</p>}
+                                    {groupData && <p>Ce groupe a pour but de mener un combat pour la {groupData.group_action}.</p>}
                                 </div>
                                 <div className='public-and-icon-container'>
                                     <div className='post-earth-icon-container'>
@@ -251,7 +197,7 @@ const RenderSinglePostPage = () => {
                                     </div>
                                 </div>
                                 <div className='group-decsription-container'>
-                                    <p>Le group étant ouvert à tous, donne le droit à tous utilisateurs de visualiser tous les posts et l'auteur de post. Sauf les posts incognito où le nom et l'image de l'auteur de post ne sera visible qu'aux admins.</p>
+                                    <p>Le groupe étant ouvert à tous, donne le droit à tous utilisateurs de visualiser tous les posts et l'auteur de post. Sauf les posts incognito où le nom et l'image de l'auteur de post ne seront visible qu'aux admins.</p>
                                 </div>
                                 <div className='public-and-icon-container'>
                                     <div className='post-earth-icon-container'>
@@ -262,7 +208,7 @@ const RenderSinglePostPage = () => {
                                     </div>
                                 </div>
                                 <div className='group-decsription-container'>
-                                    <p>Group ouvert à tous les utilisateurs</p>
+                                    <p>Groupe ouvert à tous les utilisateurs</p>
                                 </div>
                             </div>
                             <div className='white-right-space'></div>
@@ -271,6 +217,19 @@ const RenderSinglePostPage = () => {
                 </div>
             </div>
         </main>
+        {isModalOpen && clickedGroupId && (
+            <CustomModal
+                title={<div className='group-delete-request'>Quitter le groupe ?</div>}
+                message={<><div>Par défaut quitter un groupe ne supprimera pas les contributions que vous avez portées au group (posts et commantaires). Néanmoins tous vos posts et commantaires passeront au status incognito. Les utilisateurs ne verrons donc pas votre nom ni image associé aux posts ou aux commantaires sauf les admins.</div>
+                    <div className='group-delete-request-container'><span className='leave-group-instruction-subject'>. Vos contenus sont précieux: </span><span>Etant donné que vos publications sont informatives, perspicaces ou ont contribué positivement au groupe, il peut être bénéfique de les conserver pour référence future.</span></div>
+                    <div><span className='leave-group-instruction-subject'>. Maintien de la cohérence: </span><span> La suppression de publications peut créer des lacunes dans le flux du contenu du groupe et le faire paraître incomplet.</span></div>
+                    <div><span className='leave-group-instruction-subject'>. Respect des contributions des utilisateurs: </span><span>Comme pour les commentaires, la suppression de publications peut sembler dédaigneuse des contributions de l'utilisateur au groupe.</span></div>
+                    <div className='group-delete-request-container'>Vous displosez le droit de demander à supprimer tous vos posts et commantaires, <span className='group-delete-request'>cliquez sur cette phrase rouge</span>. En précisant vos raisons de quitter le groupe vous nous aidez à amméliorer le groupe. Merci</div></>}
+                buttonText="Supprimer"
+                onClose={handleCloseModal}
+                onButtonClick={handleConfirmDelete}
+            />
+        )}
     </div>
 }
 
