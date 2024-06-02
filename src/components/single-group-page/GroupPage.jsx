@@ -15,7 +15,7 @@ import DisplayRules from './DisplayRulesPopover';
 import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 import GetUserInGroup from '../../api/GetUserIfInAGroupApi';
 import CustomModal from '../modalbox/CustomModalBox';
-
+import userQuitsGroup from '../../api/HandleUserQuitsGroupApi';
 
 const RenderSinglePostPage = () => {
     // Access the id parameter from the URL
@@ -29,6 +29,7 @@ const RenderSinglePostPage = () => {
     const [isMemId, setISMemId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [clickedGroupId, setClickedGroupId] = useState(null);
+    const [userQuitGroup, setUserQuitGroup] = useState(false)
 
     useEffect(() => {
         if (id && userId) {
@@ -51,6 +52,8 @@ const RenderSinglePostPage = () => {
             setAlreadyMember(false)
         }
     }, [isMemId])
+
+    // Check if user quit group
 
     // Set popover state
     const [isOpen, setIsOpen] = useState(false);
@@ -109,17 +112,15 @@ const RenderSinglePostPage = () => {
         setIsModalOpen(false);
     };
 
-    const handleConfirmDelete = async () => {
+    const handleQuitGroup = async () => {
         if (userId && clickedGroupId) {
-        //   try {
-        //     await deleteFriends(userId, clickedUserId);
-        //     console.log('Delete action confirmed for user ID:', clickedUserId);
-        //     setIsModalOpen(false);
-        //     window.location.reload();
-        //     // Optionally, update friends list or UI to reflect deletion
-        //   } catch (error) {
-        //     console.error('Error deleting friend:', error);
-        //   }
+          try {
+            await userQuitsGroup(clickedGroupId, { userId });
+            setUserQuitGroup(true);
+            window.location.href='/accueil';
+          } catch (error) {
+            console.error('Error deleting friend:', error);
+          }
         }
       };
     return <div className="group-page-container">
@@ -158,7 +159,7 @@ const RenderSinglePostPage = () => {
                     {groupData && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
                         children={!alreadyMember ? <button className='add-group-btn' onClick={(e) => setGroupId(groupData.group_id)} >Faire partir du groupe</button>
-                            : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button>}
+                            :  <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button>}
                     />}
                 </div>
                 <div className='user-post-and-group-description-container'>
@@ -227,7 +228,7 @@ const RenderSinglePostPage = () => {
                     <div className='group-delete-request-container'>Vous displosez le droit de demander à supprimer tous vos posts et commantaires, <span className='group-delete-request'>cliquez sur cette phrase rouge</span>. En précisant vos raisons de quitter le groupe vous nous aidez à amméliorer le groupe. Merci</div></>}
                 buttonText="Supprimer"
                 onClose={handleCloseModal}
-                onButtonClick={handleConfirmDelete}
+                onButtonClick={handleQuitGroup}
             />
         )}
     </div>
