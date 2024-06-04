@@ -41,6 +41,9 @@ a, a:hover {
 .alias-icon{
     width: 70px;
 }
+.sidebar-user-img img{
+    border-radius: 50%;
+}
 .user-welcom-text{
     font-family: "League Spartan", sans-serif;
     font-weight: 500;

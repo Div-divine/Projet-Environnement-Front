@@ -171,15 +171,18 @@ const SideBar = () => {
                                 <img src={homeIcon} alt="" />
                             </NavLink>
                             <NavLink className='upper-side-bar-icon-container' to='/messages-non-lus'>
-                                {unreadMsgData && <div className='unread-msg-count-container'>{unreadMsgData.length}</div>}
+                                {unreadMsgData && unreadMsgData != 'No unread message found' && <div className='unread-msg-count-container'>{unreadMsgData.length}</div>}
                                 <img src={messages} alt="" className='msg-img' />
                             </NavLink>
                             <div className='upper-side-bar-icon-container'><img src={settings} alt="" /></div>
                         </div>
                         <div className='alias-icon-container'>
-                            <div className='alias-icon'>
+                            {!userData.user_img ? <div className='alias-icon'>
                                 <img src={aliasIcon} alt="Picture of the globe oriented towards Africa" />
-                            </div>
+                            </div> :
+                            <div className='alias-icon sidebar-user-img'>
+                                <img src={`../../src/${userData.user_img}`} alt="connected user image" />
+                            </div>}
                         </div>
                         <div className='greetings-container'>
                             <div className='handshake-icon-container'>
@@ -234,7 +237,7 @@ const SideBar = () => {
                                 <div className='mt-3'>
                                     {loading ? <div>Loading...</div> : groupNames.map((groupName, index) => (
                                         <div key={index}>
-                                            {groupName.group_name ? ( !groupName.user_quit_group && <div className='text-center group-names-container'>
+                                            {groupName.group_name ? (!groupName.user_quit_group && <div className='text-center group-names-container'>
                                                 <NavLink key={index} className='navlink'
                                                     to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}
                                                     onClick={handleNavClick}>

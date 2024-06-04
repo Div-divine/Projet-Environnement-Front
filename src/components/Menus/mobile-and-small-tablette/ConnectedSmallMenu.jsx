@@ -41,7 +41,7 @@ const ConnectedUserSmallScreenMenu = ({ menuHandler }) => {
                     <div className='connected-small-screen-menu-container'>
                         <div className='connected-small-screen-home-icon-container' onClick={redirectHome}><img src={homeIcon} alt="home icon" /></div>
                         <div className='connected-small-screen-other-icons-container'>
-                            <div className='connected-container' onClick={redirectMsg}><span className='connected-icons-container'><img src={messages} alt="mesage icon" /></span>{unreadMsgData && unreadMsgData.length > 0 && <span className='connected-menu-text connected-unread-msg-count-container'/>}</div>
+                            <div className='connected-container' onClick={redirectMsg}><span className='connected-icons-container'><img src={messages} alt="mesage icon" /></span>{unreadMsgData && unreadMsgData != 'No unread message found' && <span className='connected-menu-text connected-unread-msg-count-container'/>}</div>
                             <div className='connected-container' onClick={redirectFriends}><span className='connected-icons-container'><img src={friendsIcon} alt="friends icon" /></span></div>
                             <div className='connected-container' onClick={redirectUsers}><span className='connected-icons-container'><img src={communityIcon} alt="community icon" /></span></div>
                             <div className='connected-container' onClick={menuHandler}><span className='connected-icons-container'><img src={groups} alt="groups icon" /></span></div>
