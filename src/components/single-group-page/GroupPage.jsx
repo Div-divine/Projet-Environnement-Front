@@ -240,7 +240,7 @@ const RenderSinglePostPage = () => {
                     <div><span className='leave-group-instruction-subject'>. Maintien de la cohérence: </span><span> La suppression de publications peut créer des lacunes dans le flux du contenu du groupe et le faire paraître incomplet.</span></div>
                     <div><span className='leave-group-instruction-subject'>. Respect des contributions des utilisateurs: </span><span>Comme pour les commentaires, la suppression de publications peut sembler dédaigneuse des contributions de l'utilisateur au groupe.</span></div>
                     <div className='group-delete-request-container'>Vous displosez le droit de demander à supprimer tous vos posts et commantaires, <span className='group-delete-request'>cliquez sur cette phrase rouge</span>. En précisant vos raisons de quitter le groupe vous nous aidez à amméliorer le groupe. Merci</div></>}
-                buttonText="Supprimer"
+                buttonText="Quitter le groupe"
                 onClose={handleCloseModal}
                 onButtonClick={handleQuitGroup}
             />

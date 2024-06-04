@@ -31,8 +31,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [existPost, setExistPost] = useState(false);
     const [posts, setPosts] = useState(null);
     const [post, setPost] = useState('');
-     // Access the id parameter from the URL
-     const { id } = useParams();
+    // Access the id parameter from the URL
+    const { id } = useParams();
     const [groupData, setGroupData] = useState(null);
     // Remove white spaces and special characters from post
     const [unauthorizedPost, setUnauthorizedPost] = useState(false);
@@ -51,7 +51,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [commentIdBeingEdited, setCommentIdBeingEdited] = useState(null);
     const [commentUpdateValue, setCommentUpdateValue] = useState({});
     const [expandedPosts, setExpandedPosts] = useState({});
-
+    const [commentcreated, setCommentCreated] = useState([])
 
     const postContainer = document.querySelectorAll('.post-text-container');
 
@@ -59,8 +59,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
         setIsIncognito(!isIncognito);
     };
 
-     // Handle submission of posts
-     const submitPost = async (e) => {
+    // Handle submission of posts
+    const submitPost = async (e) => {
         e.preventDefault();
         try {
             // Check if post, groupId, and userId are available
@@ -400,7 +400,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
 
     return (
         <div>
-             {unauthorizedPost && <div className='unauthorised-container'>Post Non authorisé !</div>}
+            {unauthorizedPost && <div className='unauthorised-container'>Post Non authorisé !</div>}
             <div className='user-img-and-post-field'>
                 <DisplayPopover className='anonymous-container' rules={<DisplayIncognitoPopover
                     checkedHandler={isIncognito}
@@ -439,7 +439,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             <div className="posts-user-img-and-date-container">
                                 <div className="post-user-img-container">{!posts[index].incognito && !posts[index].post_user_quit ? <img src={`../../src/${posts[index].user_img}`} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
                                 <div className="post-date-container">
-                                    <div>{!posts[index].incognito ? ( !posts[index].post_user_quit ? posts[index].user_name : 'L\'auteur du post a quitté le groupe') : 'Utilisateur Incognito'}</div> {/* Display the user name */}
+                                    <div>{!posts[index].incognito ? (!posts[index].post_user_quit ? posts[index].user_name : 'L\'auteur du post a quitté le groupe') : 'Utilisateur Incognito'}</div> {/* Display the user name */}
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
                                 </div>
                             </div>
