@@ -70,6 +70,8 @@
     height: auto;
     width: 100%;
     overflow: hidden;
+    background-color: #094011fe;
+    border-radius: 12px 12px 0px 0px;
 }
 
 .user-image-container img {

@@ -5,6 +5,7 @@ import '../../style/ChatroomStyle.css';
 import insertUsersMsg from '../../api/InsertUserMsgApi';
 import SideBar from '../Menus/SideBarMenu';
 import likeIcon from '../../assets/thumbs-up.svg';
+import userIcon from '../../assets/user-profile.svg';
 import fileUploadIcon from '../../assets/file-solid.svg';
 import { motion } from 'framer-motion';
 import usersMsgInChatroom from '../../api/GetUsersMsgInChatroomApi';
@@ -191,7 +192,7 @@ const ChatRoom = () => {
                     <div className="message-container">
                         <div className='receiver-img-and-name-in-chat'>
                             <div className='receiver-img-container-in-chat'>
-                                <img src={`../../src/${receiverImg}`} alt="receiver image" />
+                                <img src={(receiverImg ? `../../src/${receiverImg}` : userIcon)} alt="receiver image" />
                             </div>
                             <div className='receiver-name-container-in-chat text-center'>
                                 <p>{receiverName}</p>

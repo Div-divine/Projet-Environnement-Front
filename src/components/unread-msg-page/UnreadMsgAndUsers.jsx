@@ -8,6 +8,7 @@ import existsChatroom from "../../api/ExistChatRoomApi";
 import chatRoom from "../../api/creatingChatRoomApi";
 import { useLocation } from "react-router-dom";
 import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
+import userIcon from '../../assets/user-profile.svg';
 
 const DisplayUnreadMsgUsers = () => {
     const location = useLocation();
@@ -113,12 +114,12 @@ const DisplayUnreadMsgUsers = () => {
             <SideBar />
         <main className="unread-msg-main-container">
             <DisplayConnectedSmallMenu />
-            {groupedMessages.map((data, index) => (
+            {groupedMessages.length > 0 ? groupedMessages.map((data, index) => (
                 formattedDates[index] && (
                     <div key={index} className="unread-msg-and-users-container">
                         <div className="usr-img-unread-msg-and-date-container">
                             <div className="usr-img-container">
-                                <img src={`../../src/${data.sender_user_img}`} alt="" />
+                                <img src={(data.sender_user_img ? `../../src/${data.sender_user_img}` : userIcon)} alt="User image" />
                             </div>
                             <div className="unread-usr-name-and-msg-container">
                                 <div className="name-font usr-name-container">
@@ -142,7 +143,7 @@ const DisplayUnreadMsgUsers = () => {
                         </div>
                     </div>
                 )
-            ))}
+            )) : <div className="unread-msg-and-users-container name-font no-message">Pas de méssage</div>}
         </main>
     </>
 

@@ -174,7 +174,7 @@ const SideBar = () => {
                                 {unreadMsgData && unreadMsgData != 'No unread message found' && <div className='unread-msg-count-container'>{unreadMsgData.length}</div>}
                                 <img src={messages} alt="" className='msg-img' />
                             </NavLink>
-                            <div className='upper-side-bar-icon-container'><img src={settings} alt="" /></div>
+                            <NavLink  to='/parametre' className='upper-side-bar-icon-container'><img src={settings} alt="" /></NavLink>
                         </div>
                         <div className='alias-icon-container'>
                             {!userData.user_img ? <div className='alias-icon'>

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import allUsersOfGroup from '../../api/GetUsersOfAGroupApi';
 import earthIcon from '../../assets/earth-africa-solid.svg';
 import eyeIcon from '../../assets/orange-eye.svg';
+import userIcon from '../../assets/user-profile.svg';
 import policiesIcon from '../../assets/policies.svg';
 import DisplayPopover from '../rules-popover/DisplayPopOver';
 import ScaleItem from '../scale-items-with-motion/Framer-motion';
@@ -163,7 +164,8 @@ const RenderSinglePostPage = () => {
                                 console.log('users name: ', data.user_name)
                                 return (
                                     <div key={index} className='users-img-container'>
-                                        <img src={`../../src/${data.user_img}`} alt="users picture" />
+                                        {data.user_img ? <img src={`../../src/${data.user_img}`} alt="users picture" />
+                                            : <img src={userIcon} alt="users picture" />}
                                     </div>
                                 )
                             })

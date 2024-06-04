@@ -8,12 +8,9 @@ import teamSpeakIcon from '../../assets/teamspeak.svg';
 import threeIcon from '../../assets/three.svg';
 import waterIcon from '../../assets/water-icon.svg';
 import windIcon from '../../assets/wind-solid.svg';
+import userIcon from '../../assets/user-profile.svg';
 import JoinAllGroupsToUsers from "../../api/ListAllJoinUserWithGroupsApi";
-import userIcon from '../../assets/user-solid.svg';
-import likeIcon from '../../assets/heart-solid.svg';
-import chatIcon from '../../assets/comment-solid.svg';
 import SearchBar from "../input-field/SearchBar";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Popover from "./Popover";
 import PopoverContents from "./PopoverContents";
@@ -138,12 +135,12 @@ const RenderAllUsers = () => {
                     {filteredUserGroups.map((user, index) => (
                         <div key={index} className="user-listing-container mb-3">
                             <div className="user-image-container" key={index}>
-                                <img src={`../../src/${user.user.user_img}`} alt="User" />
+                                {user.user.user_img ? <img src={`../../src/${user.user.user_img}`} alt="User" /> : <img src={userIcon} alt="No image" />}
                             </div>
                             <div className="user-lower-container">
                                 <div className="user-name-and-popover-container">
                                     <Popover content={<PopoverContents
-                                        pathHandler={`../../src/${user.user.user_img}`}
+                                        pathHandler={(user.user.user_img ? `../../src/${user.user.user_img}` : userIcon)}
                                         userNameHandler={user.user.user_name}
                                         groupHandler={user.groups}
                                         dataHandler={user.user.user_created}

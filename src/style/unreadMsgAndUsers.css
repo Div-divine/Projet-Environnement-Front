@@ -79,3 +79,12 @@
 .chat-btn-container{
     margin-top: 15px;
 }
+.no-message{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    font-weight: 700;
+}

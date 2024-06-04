@@ -9,17 +9,21 @@ import chatRoom from '../../api/creatingChatRoomApi';
 import CustomModal from '../modalbox/CustomModalBox';
 import deleteFriends from '../../api/DeleteUserFriendApi';
 import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
+import userIcon from '../../assets/user-profile.svg';
+import useUserData from '../../api/UserInfoApi';
 
 const FriendsPage = () => {
   const location = useLocation();
   const [freindsId, setFriendsId] = useState(null);
-  const userId = localStorage.getItem('userId');
+  const [userId, setUserId] = useState(null);
   const [friendsData, setFriendsData] = useState(null);
   const [user1Id, setUser1Id] = useState();
   const [user2Id, setUser2Id] = useState();
   const [clickedUserId, setClickedUserId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userData = useUserData()
 
+  
   const ClickHandler = async (userClickedId) => {
     setClickedUserId(userClickedId);
 
@@ -130,7 +134,7 @@ const FriendsPage = () => {
                     <div key={`img-${userIndex}`} className='img-name-and-btn-container'>
                       <div className='img-and-name-container'>
                         <div className='img-container'>
-                          <img src={`../../src/${innerData.user_img}`} alt="" className='popover-img' />
+                          <img src={(innerData.user_img ? `../../src/${innerData.user_img}` : userIcon)} alt="" className='popover-img' />
                         </div>
                         <div className='user-name-container'>{innerData.user_name}</div>
                       </div>

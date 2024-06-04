@@ -7,6 +7,7 @@ import communityIcon from '../../../assets/community.svg';
 import '../../../style/connected-small-screen-menu.css';
 import GetUnreadMsg from '../../../api/GetUnreadMsgAndUsersApi';
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const ConnectedUserSmallScreenMenu = ({ menuHandler }) => {
     const userId = localStorage.getItem('userId');
@@ -21,32 +22,21 @@ const ConnectedUserSmallScreenMenu = ({ menuHandler }) => {
         }
     }, [userId]);
 
-    function redirectHome(){
-        return window.location.href = '/accueil'
-    }
-    function redirectMsg(){
-        return window.location.href = '/messages-non-lus'
-    }
-    function redirectFriends(){
-        return window.location.href = '/amis'
-    }
-    function redirectUsers(){
-        return window.location.href = '/utilisateurs'
-    }
+
 
     return (<>
         <div className='connected-small-menu-upper-container'>
             <header>
                 <nav>
                     <div className='connected-small-screen-menu-container'>
-                        <div className='connected-small-screen-home-icon-container' onClick={redirectHome}><img src={homeIcon} alt="home icon" /></div>
+                        <NavLink to='/accueil' className='connected-small-screen-home-icon-container'><img src={homeIcon} alt="home icon" /></NavLink>
                         <div className='connected-small-screen-other-icons-container'>
-                            <div className='connected-container' onClick={redirectMsg}><span className='connected-icons-container'><img src={messages} alt="mesage icon" /></span>{unreadMsgData && unreadMsgData != 'No unread message found' && <span className='connected-menu-text connected-unread-msg-count-container'/>}</div>
-                            <div className='connected-container' onClick={redirectFriends}><span className='connected-icons-container'><img src={friendsIcon} alt="friends icon" /></span></div>
-                            <div className='connected-container' onClick={redirectUsers}><span className='connected-icons-container'><img src={communityIcon} alt="community icon" /></span></div>
+                            <div><NavLink to='/messages-non-lus' className='connected-container'><span className='connected-icons-container'><img src={messages} alt="mesage icon" /></span>{unreadMsgData && unreadMsgData != 'No unread message found' && <span className='connected-menu-text connected-unread-msg-count-container' />}</NavLink></div>
+                            <div><NavLink to='/amis' className='connected-container'><span className='connected-icons-container'><img src={friendsIcon} alt="friends icon" /></span></NavLink></div>
+                            <div><NavLink to='/utilisateurs' className='connected-container' ><span className='connected-icons-container'><img src={communityIcon} alt="community icon" /></span></NavLink></div>
                             <div className='connected-container' onClick={menuHandler}><span className='connected-icons-container'><img src={groups} alt="groups icon" /></span></div>
                         </div>
-                        <div className='connected-small-screen-setting-icon-container'><img src={settings} alt="setting icon" /></div>
+                        <div></div><NavLink to='/parametre' className='connected-small-screen-setting-icon-container'><img src={settings} alt="setting icon" /></NavLink>
                     </div>
                 </nav>
             </header>
