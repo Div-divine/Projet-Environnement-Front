@@ -10,7 +10,6 @@ import CustomPwdUpdateModal from "../modalbox/PwdUpdateModalBox";
 const UserSettings = () => {
     const [openNameModify, setOpenNameModify] = useState(false)
     const [openEmailModify, setOpenEmailModify] = useState(false)
-    const [openPwdModify, setOpenPwdModify] = useState(false)
     const [userId, setUserId] = useState(null);
     const userData = useUserData();
     const [isModalOpen, setIsModalOpen] = useState(false);

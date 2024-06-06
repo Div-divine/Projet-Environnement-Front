@@ -33,6 +33,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [post, setPost] = useState('');
     // Access the id parameter from the URL
     const { id } = useParams();
+    const [firstParamsId, setFirstParamsId] = useState(null)
+    const [uuidParamsId, setUuidParamsId] = useState(null)
     const [groupData, setGroupData] = useState(null);
     // Remove white spaces and special characters from post
     const [unauthorizedPost, setUnauthorizedPost] = useState(false);
@@ -51,7 +53,28 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [commentIdBeingEdited, setCommentIdBeingEdited] = useState(null);
     const [commentUpdateValue, setCommentUpdateValue] = useState({});
     const [expandedPosts, setExpandedPosts] = useState({});
-    const [commentcreated, setCommentCreated] = useState([])
+
+    useEffect(() => {
+        if (id) {
+            const firstId = id.slice(0, 1);
+            const intoNum = +firstId;
+            const secondId = id.slice(1)
+            console.log('group uuid:', secondId, 'groupId:', firstId )
+            setUuidParamsId(secondId)
+            setFirstParamsId(intoNum);
+        }
+    }, [id])
+
+    useEffect(() => {
+        if (firstParamsId) {
+            async function getGroupData(id) {
+                const response = await singleGroupData(id);
+                console.log('group data response are :', response);
+                setGroupData(response);
+            }
+            getGroupData(firstParamsId);
+        }
+    }, [firstParamsId])
 
     const postContainer = document.querySelectorAll('.post-text-container');
 
@@ -111,15 +134,15 @@ const DisplayUploadedPosts = ({ groupId }) => {
     }
 
     useEffect(() => {
-        if (id) {
+        if (firstParamsId) {
             async function getGroupData(id) {
                 const response = await singleGroupData(id);
                 console.log('group data response are :', response);
                 setGroupData(response);
             }
-            getGroupData(id);
+            getGroupData(firstParamsId);
         }
-    }, [id])
+    }, [firstParamsId])
 
     useEffect(() => {
         if (groupId) {
@@ -143,17 +166,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
             getData(groupId)
         }
     }
-
-    useEffect(() => {
-        if (id) {
-            async function getGroupData(id) {
-                const response = await singleGroupData(id);
-                console.log('group data response are :', response);
-                setGroupData(response);
-            }
-            getGroupData(id);
-        }
-    }, [id])
 
     // Remove unauthorized message once post content is changed
     useEffect(() => {

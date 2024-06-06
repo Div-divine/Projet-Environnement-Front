@@ -21,53 +21,79 @@ import userQuitGroupSatus from '../../api/getUserQuitGroupStatusApi';
 
 const RenderSinglePostPage = () => {
     // Access the id parameter from the URL
-    const { id } = useParams();
+    const { id } = useParams()
+    const [firstParamsId, setFirstParamsId] = useState(null)
+    const [uuidParamsId, setUuidParamsId] = useState(null)
     const userId = localStorage.getItem('userId');
     // Store group data
     const [groupData, setGroupData] = useState(null);
     const [usersInGroup, setUserInGroup] = useState(null);
-    const [groupId, setGroupId] = useState(null);
-    const [alreadyMember, setAlreadyMember] = useState(false)
+    const [alreadyMember, setAlreadyMember] = useState(null)
     const [isMemId, setISMemId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [clickedGroupId, setClickedGroupId] = useState(null);
+    const [userLeft, setUserLeft] = useState(null)
 
     useEffect(() => {
-        if (id && userId) {
+        if (id) {
+            const firstId = id.slice(0, 1);
+            const intoNum = +firstId;
 
-            async function userIdInGroup() {
+            console.log('Check if number:', intoNum + 5 )
+            const secondId = id.slice(1)
+            setUuidParamsId(secondId)
+            setFirstParamsId(intoNum);
+        }
+    }, [id])
+
+    useEffect(() => {
+        if (firstParamsId) {
+            async function getGroupData(id) {
+                const response = await singleGroupData(id);
+                console.log('group data response are :', response);
+                setGroupData(response);
+            }
+            getGroupData(firstParamsId);
+        }
+    }, [firstParamsId])
+
+
+
+    useEffect(() => {
+        if (firstParamsId && userId) {
+
+            async function userIdInGroup(id) {
                 const getMemberId = await GetUserInGroup({ userId, groupId: id })
                 console.log('Is a member Id:', getMemberId.user_id)
                 setISMemId(getMemberId.user_id)
             }
 
-            userIdInGroup()
+            userIdInGroup(firstParamsId)
         }
 
-    }, [id, userId])
+    }, [firstParamsId, userId])
 
     // Change user membership status once he is no more part of group
     useEffect(() => {
-        if (userId && id) {
+        if (userId && firstParamsId) {
             async function getStatusQuit(user, group) {
                 const response = await userQuitGroupSatus(user, group);
                 console.log('Quit group status:', response)
-                if (response.quit_group == 1) {
-                    setAlreadyMember(false);
-                }
+                setUserLeft(response.quit_group);
                 return response;
             }
-            getStatusQuit(userId, id);
+            getStatusQuit(userId, firstParamsId);
         }
-    }, [userId, id])
+    }, [userId, firstParamsId])
+
 
     useEffect(() => {
-        if (isMemId) {
+        if (isMemId && userLeft != 1) {
             setAlreadyMember(true)
         } else {
             setAlreadyMember(false)
         }
-    }, [isMemId])
+    }, [isMemId, userLeft])
 
     // Check if user quit group
 
@@ -84,39 +110,28 @@ const RenderSinglePostPage = () => {
 
 
     useEffect(() => {
-        if (id) {
-            async function getGroupUsers(id) {
-                const response = await allUsersOfGroup(id);
+        if (firstParamsId) {
+            async function getGroupUsers(firstParamsId) {
+                const response = await allUsersOfGroup(firstParamsId);
                 console.log('User of group data response are :', response);
                 setUserInGroup(response)
 
             }
-            getGroupUsers(id)
+            getGroupUsers(firstParamsId)
         }
-    }, [id]);
+    }, [firstParamsId]);
 
-    useEffect(() => {
-        if (id) {
-            async function getGroupData(id) {
-                const response = await singleGroupData(id);
-                console.log('group data response are :', response);
-                setGroupData(response);
+
+    async function addUserToGroup(groupId){
+            if(groupId){
+                const data = {
+                    userId,
+                    groupId
+                };
+                await UserWithGroups(data);
+                window.location.reload()
             }
-            getGroupData(id);
-        }
-    }, [id])
-
-
-    useEffect(() => {
-        if (userId && groupId) {
-            const data = {
-                userId,
-                groupId
-            };
-            UserWithGroups(data);
-            window.location.reload()
-        }
-    }, [userId, groupId]);
+    }
 
     const handleDeleteGroup = (groupId) => {
         setClickedGroupId(groupId);
@@ -172,10 +187,10 @@ const RenderSinglePostPage = () => {
                             }
                         </div>
                     </div>
-                    {groupData && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
+                    {groupData && userId && firstParamsId && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
-                        children={!alreadyMember ? <button className='add-group-btn' onClick={(e) => setGroupId(groupData.group_id)} >Faire partir du groupe</button>
-                            : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button>}
+                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id)} >Faire partir du groupe</button>
+                            : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button> )}
                     />}
                 </div>
                 <div className='user-post-and-group-description-container'>

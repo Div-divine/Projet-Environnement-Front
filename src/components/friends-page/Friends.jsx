@@ -22,7 +22,12 @@ const FriendsPage = () => {
   const [clickedUserId, setClickedUserId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userData = useUserData()
-
+  
+  useEffect(()=>{
+    if(userData){
+      setUserId(userData.user_id)
+    }
+  },[userData]);
   
   const ClickHandler = async (userClickedId) => {
     setClickedUserId(userClickedId);

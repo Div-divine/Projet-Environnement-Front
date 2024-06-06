@@ -69,3 +69,13 @@
 .validate-btn-update{
     margin-right: 5px;
 }
+.option-forgotten-pwd{
+    color: red;
+    font-size: small;
+}
+.option-forgotten-pwd:hover{
+    color: red;
+}
+.btn-sbmt-updayte-pwd{
+    margin-bottom: 20px;
+}

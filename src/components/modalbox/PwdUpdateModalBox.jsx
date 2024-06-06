@@ -64,10 +64,10 @@ const CustomPwdUpdateModal = ({ title, message, onClose, onformSubmit }) => {
                             />
                         </div>
                     </div>
+                    <div className='btn-sbmt-updayte-pwd'><GreenSbmtBtn value='Valider' /></div>
                     <div className='option-create-acc-upper-container'>
-                        <Link className='creat-acc-option' to='/inscription'>Mot de passe oublié ?</Link>
+                        <Link className='creat-acc-option option-forgotten-pwd' >Mot de passe oublié ?</Link>
                     </div>
-                    <GreenSbmtBtn value='Valider' />
                 </form>
         </div>
       </div>

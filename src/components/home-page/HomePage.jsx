@@ -54,8 +54,6 @@ const RenderHome = () => {
                 </div>
                 <div className="groups-container">
                     {groupsDatas && groupsDatas.map((data) => {
-                        // Sauvegarder le group id
-                        localStorage.setItem('groupId', data.group_id);
                         return (
                             <div className="water-container mb-3" key={data.group_id} style={{ backgroundImage: `url('../../src/${data.group_img}')` }}>
                                 <div className="icon-and-btns-container">
@@ -81,7 +79,7 @@ const RenderHome = () => {
                                             </Link>
                                         </motion.div>
 
-                                        <Link to={`/${data.group_name.toLowerCase().replace(/ /g, '-')}/${data.group_id}`} className="visit-container">
+                                        <Link to={`/${data.group_name.toLowerCase().replace(/ /g, '-')}/${data.group_id}${data.group_uuid}`} className="visit-container">
                                             <div className="visit-icon-container">
                                                 <img src={eyeIcon} alt="" />
                                             </div>

@@ -50,6 +50,7 @@ const SideBar = () => {
             if (userId) {
                 try {
                     const response = await UserWithAddedGroups(userId);
+                    console.log('User with added group from sidebar:', response.data)
                     setUserGroups(response.data);
                     setLoading(false);
                 } catch (error) {
@@ -239,7 +240,7 @@ const SideBar = () => {
                                         <div key={index}>
                                             {groupName.group_name ? (!groupName.user_quit_group && <div className='text-center group-names-container'>
                                                 <NavLink key={index} className='navlink'
-                                                    to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}`}
+                                                    to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}${groupName.group_uuid}`}
                                                     onClick={handleNavClick}>
                                                     <p>{groupName.group_name}</p>
                                                 </NavLink>
