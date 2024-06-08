@@ -26,14 +26,14 @@ const router = createBrowserRouter([
         { path: 'connexion', element: <SignInPageRender /> },
       ]
     },
-    { path: '/accueil', element: <RenderHome /> },
-    { path: '/:name/:id', element: <RenderSinglePostPage /> },
-    { path: '/chat', element: <ChatRoom /> },
-    { path: '/utilisateurs', element: <RenderAllUsers /> },
-    { path: '/amis', element: <FriendsPage/> },
-    { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/> },
-    { path: '/parametre', element: <UserSettings /> },
-    { path: '/admin/utilisateurs', element: <AdminRenderAllUsers /> }
+    { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage />, },
+    { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage />, },
+    { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage />, },
+    { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage />, },
+    { path: '/amis', element: <FriendsPage/>, errorElement: <ErrorPage />, },
+    { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/>, errorElement: <ErrorPage />, },
+    { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage />, },
+    { path: '/admin/utilisateurs', element: <AdminRenderAllUsers />, errorElement: <ErrorPage />, }
   
   ])
 

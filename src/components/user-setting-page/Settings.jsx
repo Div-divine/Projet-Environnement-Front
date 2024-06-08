@@ -8,6 +8,7 @@ import userIcon from '../../assets/user-profile.svg';
 import CustomPwdUpdateModal from "../modalbox/PwdUpdateModalBox";
 import updateUserName from "../../api/UpdateUserNameApi";
 import updateUserEmail from "../../api/UpdateUserEmailApi";
+import { useLocation } from "react-router-dom";
 
 const UserSettings = () => {
     const [openNameModify, setOpenNameModify] = useState(false)
@@ -22,6 +23,28 @@ const UserSettings = () => {
     const [displayUpdateEmailError, setDisplayUpdateEmailError] = useState(false)
     const [UpdateNameConflictError, setUpdateNameConflictError] = useState(false)
     const [UpdateEmailConflictError, setUpdateEmailConflictError] = useState(false)
+    const [pwdConfSuccessMsg, setPwdConfSuccessMsg] = useState(false);
+    const location = useLocation();
+
+    // Get the current location and verify if pwd-config = true in URL, if so display password configuration success message 
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        if (searchParams.get('pwd-conf') == 'true') {
+            setPwdConfSuccessMsg(true);
+        }
+    }, [location]);
+
+    // Remove success message after 3 seconds
+    useEffect(() => {
+        let timer;
+        if (pwdConfSuccessMsg) {
+            timer = setTimeout(() => {
+                setPwdConfSuccessMsg(false);
+            }, 3000); // Set to false after 3 seconds
+        }
+
+        return () => clearTimeout(timer); // Cleanup the timer on unmount or when `pwdConfSuccessMsg` changes
+    }, [pwdConfSuccessMsg]);
 
 
     useEffect(() => {
@@ -55,9 +78,13 @@ const UserSettings = () => {
 
     function openUpdateNameField(e) {
         setOpenNameModify(!openNameModify)
+        setDisplayUpdateNameError(false)
+        setUpdateNameConflictError(false)
     }
     function openUpdateEmailField() {
         setOpenEmailModify(!openEmailModify)
+        setDisplayUpdateEmailError(false)
+        setUpdateEmailConflictError(false)
     }
     function openUpdatePwdModal() {
         setIsModalOpen(true)
@@ -66,9 +93,6 @@ const UserSettings = () => {
         setIsModalOpen(false);
     };
 
-    const handlePwdUpdateSubmit = () => {
-        setIsModalOpen(false);
-    }
 
     async function submitUpdateName(e, newName, userId) {
         e.preventDefault()
@@ -123,6 +147,7 @@ const UserSettings = () => {
         <SideBar />
         <main className="unread-msg-main-container">
             <DisplayConnectedSmallMenu />
+            {pwdConfSuccessMsg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Mot de passe modifié avec success!</div>}
             {userData && <div className="setting-section-container unread-msg-and-users-container">
                 <div className="setting-user-img-container setting-txt">Paramètre</div>
                 <div className="setting-user-img-container"><img src={(userData.user_img ? `../../src/${userData.user_img}` : userIcon)} alt="user image" /></div>
@@ -176,7 +201,6 @@ const UserSettings = () => {
                 title="Modifier votre mot de passe ?"
                 message="Pour la sécurité de votre compte, veuillez rentrer d'abords votre mot de passe actuel avant de saissir un nouveau"
                 onClose={handleCloseModal}
-                onformSubmit={handlePwdUpdateSubmit}
             />
         )}
     </>

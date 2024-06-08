@@ -98,3 +98,13 @@
 .btn-sbmt-updayte-pwd{
     margin-bottom: 20px;
 }
+
+.pwd-conf-success-msg{
+    background: #094011;
+    color: whitesmoke;
+    text-align: center;
+    padding: 20px 0px 20px 0px;
+    border-radius: 0px;
+    font-family: "League Spartan", serif;
+    font-weight: 700;
+}
