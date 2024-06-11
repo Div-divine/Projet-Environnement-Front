@@ -54,6 +54,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const [commentUpdateValue, setCommentUpdateValue] = useState({});
     const [expandedPosts, setExpandedPosts] = useState({});
 
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
+
     useEffect(() => {
         if (id) {
             const firstId = id.slice(0, 1);
@@ -429,7 +432,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                 />
                 <div className='flex-post-field'>
                     <div className='user-connected-img-container'>
-                        {connectedUserData && <img src={(connectedUserData.user_img ? `../../src/${connectedUserData.user_img}` : userIcon)} alt="User image" />}
+                        {connectedUserData && <img src={(connectedUserData.user_img ? `${imgUrl}/${connectedUserData.user_img}` : userIcon)} alt="User image" />}
                     </div>
                     <div className='post-input-field-container'>
                         <form onSubmit={submitPost}>
@@ -449,7 +452,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                     posts && posts[index] && (
                         <div key={index} className="posts-display-inner-section">
                             <div className="posts-user-img-and-date-container">
-                                <div className="post-user-img-container">{!posts[index].incognito && !posts[index].post_user_quit ? <img src={(posts[index].user_img ? `../../src/${posts[index].user_img}` : userIcon)} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
+                                <div className="post-user-img-container">{!posts[index].incognito && !posts[index].post_user_quit ? <img src={(posts[index].user_img ? `${imgUrl}/${posts[index].user_img}` : userIcon)} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
                                 <div className="post-date-container">
                                     <div>{!posts[index].incognito ? (!posts[index].post_user_quit ? posts[index].user_name : 'L\'auteur du post a quitté le groupe') : 'Utilisateur Incognito'}</div> {/* Display the user name */}
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
@@ -516,7 +519,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                             {commentFormsVisibility[posts[index].post_id] && userId && Array.isArray(comments[posts[index].post_id]) && comments[posts[index].post_id].map(comment => (
                                 <div key={comment.comment_id} className="comment-container mt-3">
                                     <div className="comment-user-img">
-                                        {!comment.mask_comment_user ? <img src={(comment.user_img ? `../../src/${comment.user_img}` : userIcon)} alt="comment use image" /> : <img src={incognitoIcon} alt="" />}
+                                        {!comment.mask_comment_user ? <img src={(comment.user_img ? `${imgUrl}/${comment.user_img}` : userIcon)} alt="comment use image" /> : <img src={incognitoIcon} alt="" />}
                                     </div>
                                     <div className="comment-text-and-user-name-conatiner">
                                         <div className="user-commented-name">{!comment.mask_comment_user ? comment.user_name : 'L\'auteur de ce commentaire a quitté le group'}</div>

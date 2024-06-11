@@ -26,6 +26,9 @@ const UserSettings = () => {
     const [pwdConfSuccessMsg, setPwdConfSuccessMsg] = useState(false);
     const location = useLocation();
 
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
+
     // Get the current location and verify if pwd-config = true in URL, if so display password configuration success message 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -154,7 +157,7 @@ const UserSettings = () => {
             {pwdConfSuccessMsg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Mot de passe modifié avec success!</div>}
             {userData && <div className="setting-section-container unread-msg-and-users-container">
                 <div className="setting-user-img-container setting-txt">Paramètre</div>
-                <div className="setting-user-img-container"><img src={(userData.user_img ? `../../src/${userData.user_img}` : userIcon)} alt="user image" /></div>
+                <div className="setting-user-img-container"><img src={(userData.user_img ? `${imgUrl}/${userData.user_img}` : userIcon)} alt="user image" /></div>
                 {userData.user_img ? <div className="setting-image-btns-container">
                     <div className="remove-image-display-container"><GreenSbmtBtn value={'Désactiver l\'affichage de photo'} /></div>
                     <div className="replace-image-display-container"><GreenSbmtBtn value={'Changer votre photo de profile'} /></div>

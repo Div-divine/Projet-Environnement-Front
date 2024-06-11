@@ -3,6 +3,10 @@ import ScaleItem from "../scale-items-with-motion/Framer-motion";
 import DisplayPopover from "../rules-popover/DisplayPopOver";
 
 const DisplayRules = ({ isOpen, handleClose, groupData}) => {
+
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
+    
     return (
         <>
             <RulesPopover isOpen={isOpen} onClose={handleClose}>

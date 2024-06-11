@@ -32,6 +32,10 @@ const SideBar = () => {
     const [styleMenuFriends, setStyleMenuFriends] = useState('')
     const [nbrOfFriends, setNbrOfFriends] = useState(null);
     const [unreadMsgData, setUnreadMsgData] = useState(null);
+
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
+
     // Get the number of users
     useEffect(() => {
         async function getUserNbr() {
@@ -182,7 +186,7 @@ const SideBar = () => {
                                 <img src={aliasIcon} alt="Picture of the globe oriented towards Africa" />
                             </div> :
                             <div className='alias-icon sidebar-user-img'>
-                                <img src={`../../src/${userData.user_img}`} alt="connected user image" />
+                                <img src={`${imgUrl}/${userData.user_img}`} alt="connected user image" />
                             </div>}
                         </div>
                         <div className='greetings-container'>

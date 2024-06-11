@@ -1,18 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useDropzone } from 'react-dropzone';
 import Resizer from 'react-image-file-resizer';
 import SideBar from '../Menus/SideBarMenu';
 import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 import uploadImage from '../../api/UploadImageApi';
+import sendUsrImgDb from '../../api/SendUserImageApi';
+import useUserData from '../../api/UserInfoApi';
 
 const FileUploadForm = () => {
   const [imagePreview, setImagePreview] = useState(null); // State for preview image
   const [imageError, setImageError] = useState(null); // State for image error message
   const [submittedImage, setSubmittedImage] = useState(null); // State for submitted image
   const [imageSize, setImageSize] = useState(null);
+  const [fileUploadSuccess, setFileUploadSuccess] = useState(false)
+  const [fileUploadSuccessMsg, setFileUploadSuccessMsg] = useState('')
+  const [imgName, setImgName] = useState('');
+  const [userId, setUserId] = useState(null);
+  const userData = useUserData()
 
+  useEffect(() => {
+    if (userData) {
+      setUserId(userData.user_id)
+    }
+  }, [userData]);
 
+  useEffect(() => {
+    if (userId && imgName) {
+      async function addUsrImgToDb(data) {
+        const response = sendUsrImgDb(data)
+        return response;
+      }
+
+      const data = { userId, imageName: imgName }
+
+      addUsrImgToDb(data)
+    }
+  }, [userId, imgName])
 
   const sanitizeFileName = (fileName) => {
     return fileName
@@ -23,6 +47,7 @@ const FileUploadForm = () => {
   const onDrop = (acceptedFiles) => {
     let file = acceptedFiles[0];
     setImageError(null); // Clear previous error on new file selection
+    setFileUploadSuccess(false)
 
     if (!file) {
       return; // Handle potential empty file selection
@@ -74,6 +99,11 @@ const FileUploadForm = () => {
         formData.append('file', submittedImage); // Append the image file
         const response = await uploadImage(formData)
         console.log('File uploaded is:', response)
+        if (response.message == 'File uploaded successfully') {
+          setFileUploadSuccess(true)
+          setFileUploadSuccessMsg('Upload fait avec success!')
+          setImgName(response.filename)
+        }
       } catch (error) {
         console.error('Error uploading file:', error);
         // Handle error
@@ -103,7 +133,8 @@ const FileUploadForm = () => {
               </div>
             )}
             {imageError && <div style={{ color: 'red' }}>{imageError}</div>}
-            <input type="submit" value='Envoyer' />
+            {!fileUploadSuccess && <input type="submit" value='Envoyer' />}
+            {fileUploadSuccess && fileUploadSuccessMsg ? <div>{fileUploadSuccessMsg}</div> : ''}
           </form>
         </div>
       </main>

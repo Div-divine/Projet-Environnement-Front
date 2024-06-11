@@ -18,6 +18,9 @@ import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu'
 const socket = io.connect("http://localhost:3000/");
 
 const ChatRoom = () => {
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
+
     const connectedUserId = localStorage.getItem('userId');
     const user1Id = localStorage.getItem('user1');
     const user2Id = localStorage.getItem('user2');
@@ -192,7 +195,7 @@ const ChatRoom = () => {
                     <div className="message-container">
                         <div className='receiver-img-and-name-in-chat'>
                             <div className='receiver-img-container-in-chat'>
-                                <img src={(receiverImg ? `../../src/${receiverImg}` : userIcon)} alt="receiver image" />
+                                <img src={(receiverImg ? `${imgUrl}/${receiverImg}` : userIcon)} alt="receiver image" />
                             </div>
                             <div className='receiver-name-container-in-chat text-center'>
                                 <p>{receiverName}</p>

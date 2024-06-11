@@ -34,6 +34,9 @@ const RenderSinglePostPage = () => {
     const [clickedGroupId, setClickedGroupId] = useState(null);
     const [userLeft, setUserLeft] = useState(null)
 
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
+
     useEffect(() => {
         if (id) {
             const firstId = id.slice(0, 1);
@@ -179,7 +182,7 @@ const RenderSinglePostPage = () => {
                                 console.log('users name: ', data.user_name)
                                 return (
                                     <div key={index} className='users-img-container'>
-                                        {data.user_img ? <img src={`../../src/${data.user_img}`} alt="users picture" />
+                                        {data.user_img ? <img src={`${imgUrl}/${data.user_img}`} alt="users picture" />
                                             : <img src={userIcon} alt="users picture" />}
                                     </div>
                                 )
