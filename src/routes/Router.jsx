@@ -13,6 +13,7 @@ import RenderAllUsers from '../components/all-users-page/DisplayUsers';
 import FriendsPage from '../components/friends-page/Friends';
 import DisplayUnreadMsgUsers from '../components/unread-msg-page/UnreadMsgAndUsers';
 import UserSettings from "../components/user-setting-page/Settings";
+import FileUploadForm from "../components/upload-image-page/HandleImgUpload";
 
 
 const router = createBrowserRouter([
@@ -26,14 +27,15 @@ const router = createBrowserRouter([
         { path: 'connexion', element: <SignInPageRender /> },
       ]
     },
-    { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage />, },
-    { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage />, },
-    { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage />, },
-    { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage />, },
-    { path: '/amis', element: <FriendsPage/>, errorElement: <ErrorPage />, },
-    { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/>, errorElement: <ErrorPage />, },
-    { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage />, },
-    { path: '/admin/utilisateurs', element: <AdminRenderAllUsers />, errorElement: <ErrorPage />, }
+    { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage /> },
+    { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage /> },
+    { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage /> },
+    { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage /> },
+    { path: '/amis', element: <FriendsPage/>, errorElement: <ErrorPage /> },
+    { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/>, errorElement: <ErrorPage /> },
+    { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage /> },
+    { path: '/parametre/photo-de-profile', element: <FileUploadForm />, errorElement: <ErrorPage /> },
+    { path: '/admin/utilisateurs', element: <AdminRenderAllUsers />, errorElement: <ErrorPage /> }
   
   ])
 

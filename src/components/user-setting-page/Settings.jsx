@@ -143,6 +143,10 @@ const UserSettings = () => {
         }
     }
 
+    function redirectToUploadUsrImg(){
+        window.location.href='/parametre/photo-de-profile'
+    }
+
     return <>
         <SideBar />
         <main className="unread-msg-main-container">
@@ -154,7 +158,7 @@ const UserSettings = () => {
                 {userData.user_img ? <div className="setting-image-btns-container">
                     <div className="remove-image-display-container"><GreenSbmtBtn value={'Désactiver l\'affichage de photo'} /></div>
                     <div className="replace-image-display-container"><GreenSbmtBtn value={'Changer votre photo de profile'} /></div>
-                </div> : <div className="replace-image-display-container"><GreenSbmtBtn value={'Uploader une photo de profile'} /></div>}
+                </div> : <div className="replace-image-display-container" onClick={redirectToUploadUsrImg}><GreenSbmtBtn value={'Uploader une photo de profile'} /></div>}
                 { displayUpdateNameError && <div className="name-error name-error-container">Saisissez un nom!</div>}
                 {UpdateNameConflictError && <div className="name-error name-error-container">Ce nom existe déja</div>}
                 <div className="setting-div-upper-container name-container">

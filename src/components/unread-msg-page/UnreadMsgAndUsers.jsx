@@ -18,7 +18,6 @@ const DisplayUnreadMsgUsers = () => {
     // Set users id's
     const [user1Id, setUser1Id] = useState();
     const [user2Id, setUser2Id] = useState();
-    const [clickedUserId, setClickedUserId] = useState(null);
 
     useEffect(() => {
         if (userId) {
