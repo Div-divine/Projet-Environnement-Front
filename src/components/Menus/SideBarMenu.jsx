@@ -81,7 +81,7 @@ const SideBar = () => {
     }, [userId]);
 
     useEffect(() => {
-        console.log(userData);
+        console.log('User data from sidebar:', userData);
     }, [userData]); // This ensures the log statement runs whenever `userData` changes
 
     // refresh the userId in localstorage
@@ -182,7 +182,7 @@ const SideBar = () => {
                             <NavLink  to='/parametre' className='upper-side-bar-icon-container'><img src={settings} alt="" /></NavLink>
                         </div>
                         <div className='alias-icon-container'>
-                            {!userData.user_img ? <div className='alias-icon'>
+                            {!userData.user_img || !userData.show_user_image ? <div className='alias-icon'>
                                 <img src={aliasIcon} alt="Picture of the globe oriented towards Africa" />
                             </div> :
                             <div className='alias-icon sidebar-user-img'>

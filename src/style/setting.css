@@ -108,3 +108,8 @@
     font-family: "League Spartan", serif;
     font-weight: 700;
 }
+
+.remove-profile-img-msg{
+    background: #FF9C00;
+    color: #000000;
+}

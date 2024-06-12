@@ -34,7 +34,7 @@ const ChatRoom = () => {
 
     const [receiverImg, setReceiverImg] = useState('');
     const [receiverName, setReceiverName] = useState('');
-    const [viewedMessages, setViewedMessages] = useState([]);
+    const [showReceiverImg, setShowReceiverImg] = useState(null);
 
     const fileInputRef = useRef(null);
 
@@ -55,6 +55,8 @@ const ChatRoom = () => {
                     if (data && data.user) {
                         setReceiverImg(data.user.user_img);
                         setReceiverName(data.user.user_name);
+                        setShowReceiverImg(data.user.show_user_image)
+                        console.log('Receiver data in chatroom:', data)
                     }
                 } catch (error) {
                     console.error('Error fetching receiver data:', error);
@@ -195,7 +197,7 @@ const ChatRoom = () => {
                     <div className="message-container">
                         <div className='receiver-img-and-name-in-chat'>
                             <div className='receiver-img-container-in-chat'>
-                                <img src={(receiverImg ? `${imgUrl}/${receiverImg}` : userIcon)} alt="receiver image" />
+                                <img src={(receiverImg && showReceiverImg ? `${imgUrl}/${receiverImg}` : userIcon)} alt="receiver image" />
                             </div>
                             <div className='receiver-name-container-in-chat text-center'>
                                 <p>{receiverName}</p>

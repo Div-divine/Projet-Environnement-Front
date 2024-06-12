@@ -121,7 +121,7 @@ const DisplayUnreadMsgUsers = () => {
                     <div key={index} className="unread-msg-and-users-container">
                         <div className="usr-img-unread-msg-and-date-container">
                             <div className="usr-img-container">
-                                <img src={(data.sender_user_img ? `${imgUrl}/${data.sender_user_img}` : userIcon)} alt="User image" />
+                                <img src={(data.sender_user_img && data.sender_show_user_image ? `${imgUrl}/${data.sender_user_img}` : userIcon)} alt="User image" />
                             </div>
                             <div className="unread-usr-name-and-msg-container">
                                 <div className="name-font usr-name-container">

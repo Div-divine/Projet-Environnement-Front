@@ -34,16 +34,6 @@ const RenderAllUsers = () => {
     // Set users id's
     const [user1Id, setUser1Id] = useState();
     const [user2Id, setUser2Id] = useState();
-    // Save icon paths in icons to be used in map
-    const icons = [
-        climatChangeIcon,
-        biodiversityIcon,
-        wasteManagementIcon,
-        teamSpeakIcon,
-        threeIcon,
-        waterIcon,
-        windIcon
-    ]
 
     // Function to handle click on a user and get the id of the clicked user
     const handleUserClick = async (userClickedId) => {
@@ -96,6 +86,7 @@ const RenderAllUsers = () => {
             try {
                 const response = await JoinAllGroupsToUsers(userId);
                 setUserGroups(response.data);
+                console.log('Check users from list:', response.data)
             } catch (error) {
                 console.error("Error fetching user groups:", error);
             }
@@ -138,12 +129,12 @@ const RenderAllUsers = () => {
                     {filteredUserGroups.map((user, index) => (
                         <div key={index} className="user-listing-container mb-3">
                             <div className="user-image-container" key={index}>
-                                {user.user.user_img ? <img src={`${imgUrl}/${user.user.user_img}`} alt="User" /> : <img src={userIcon} alt="No image" />}
+                                {user.user.user_img && user.user.show_user_image ? <img src={`${imgUrl}/${user.user.user_img}`} alt="User" /> : <img src={userIcon} alt="No image" />}
                             </div>
                             <div className="user-lower-container">
                                 <div className="user-name-and-popover-container">
                                     <Popover content={<PopoverContents
-                                        pathHandler={(user.user.user_img ? `${imgUrl}/${user.user.user_img}` : userIcon)}
+                                        pathHandler={(user.user.user_img && user.user.show_user_image ? `${imgUrl}/${user.user.user_img}` : userIcon)}
                                         userNameHandler={user.user.user_name}
                                         groupHandler={user.groups}
                                         dataHandler={user.user.user_created}

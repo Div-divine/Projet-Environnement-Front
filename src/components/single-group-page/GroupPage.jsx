@@ -182,7 +182,7 @@ const RenderSinglePostPage = () => {
                                 console.log('users name: ', data.user_name)
                                 return (
                                     <div key={index} className='users-img-container'>
-                                        {data.user_img ? <img src={`${imgUrl}/${data.user_img}`} alt="users picture" />
+                                        {data.user_img && data.show_user_image ? <img src={`${imgUrl}/${data.user_img}`} alt="users picture" />
                                             : <img src={userIcon} alt="users picture" />}
                                     </div>
                                 )

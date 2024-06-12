@@ -141,7 +141,7 @@ const FriendsPage = () => {
                     <div key={`img-${userIndex}`} className='img-name-and-btn-container'>
                       <div className='img-and-name-container'>
                         <div className='img-container'>
-                          <img src={(innerData.user_img ? `${imgUrl}/${innerData.user_img}` : userIcon)} alt="" className='popover-img' />
+                          <img src={(innerData.user_img && innerData.show_user_image ? `${imgUrl}/${innerData.user_img}` : userIcon)} alt="" className='popover-img' />
                         </div>
                         <div className='user-name-container'>{innerData.user_name}</div>
                       </div>
