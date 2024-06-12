@@ -103,6 +103,7 @@ const FileUploadForm = () => {
           setFileUploadSuccess(true)
           setFileUploadSuccessMsg('Upload fait avec success!')
           setImgName(response.filename)
+          window.location.href='/parametre?upload-img-success=true'
         }
       } catch (error) {
         console.error('Error uploading file:', error);

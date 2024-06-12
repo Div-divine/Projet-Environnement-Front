@@ -13,6 +13,19 @@ const SignInPageRender = () => {
     // Parse the URL and check if the success parameter is true
     const searchParams = new URLSearchParams(location.search);
     const success = searchParams.get('success') === 'true';
+    const [displayRegisterSuccessMsg, setDisplaySuccessRegisterMsg] = useState(true)
+
+    // Remove success message after 3 seconds
+    useEffect(() => {
+        let timer;
+        if (success) {
+            timer = setTimeout(() => {
+                setDisplaySuccessRegisterMsg(false);
+            }, 3000); // Set to false after 3 seconds
+        }
+
+        return () => clearTimeout(timer); // Cleanup the timer on unmount or when `pwdConfSuccessMsg` changes
+    }, [success]);
 
     const DisplayRegistrationSuccessMsg = () => {
         const successMsgStyle = {
@@ -85,7 +98,7 @@ const SignInPageRender = () => {
         };
         return <div className='container'>
             <div className="pt-3 mb-5">
-                {success && <DisplayRegistrationSuccessMsg />}
+                {success && displayRegisterSuccessMsg && <DisplayRegistrationSuccessMsg />}
             </div>
             <div className='registration-field-container'>
                 <div className='mb-3 text-center'>

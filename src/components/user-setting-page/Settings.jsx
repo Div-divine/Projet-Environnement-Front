@@ -24,6 +24,7 @@ const UserSettings = () => {
     const [UpdateNameConflictError, setUpdateNameConflictError] = useState(false)
     const [UpdateEmailConflictError, setUpdateEmailConflictError] = useState(false)
     const [pwdConfSuccessMsg, setPwdConfSuccessMsg] = useState(false);
+    const [profileImgUpdate, setProfileImgUpdate] = useState(false);
     const location = useLocation();
 
     // Image url from the back
@@ -34,6 +35,14 @@ const UserSettings = () => {
         const searchParams = new URLSearchParams(location.search);
         if (searchParams.get('pwd-conf') == 'true') {
             setPwdConfSuccessMsg(true);
+        }
+    }, [location]);
+
+    // Get the current location and verify if upload-img-success = true in URL, if so display password configuration success message 
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        if (searchParams.get('upload-img-success') == 'true') {
+            setProfileImgUpdate(true);
         }
     }, [location]);
 
@@ -48,6 +57,19 @@ const UserSettings = () => {
 
         return () => clearTimeout(timer); // Cleanup the timer on unmount or when `pwdConfSuccessMsg` changes
     }, [pwdConfSuccessMsg]);
+
+     // Remove success image upload message after 3 seconds
+     useEffect(() => {
+        let timer;
+        if (profileImgUpdate) {
+            timer = setTimeout(() => {
+                setProfileImgUpdate(false);
+            }, 3000); // Set to false after 3 seconds
+        }
+
+        return () => clearTimeout(timer); // Cleanup the timer on unmount or when `pwdConfSuccessMsg` changes
+    }, [profileImgUpdate]);
+
 
 
     useEffect(() => {
@@ -149,18 +171,23 @@ const UserSettings = () => {
     function redirectToUploadUsrImg(){
         window.location.href='/parametre/photo-de-profile'
     }
+    
+    function changeProfileImg(){
+        window.location.href='/parametre/photo-de-profile'
+    }
 
     return <>
         <SideBar />
         <main className="unread-msg-main-container">
             <DisplayConnectedSmallMenu />
             {pwdConfSuccessMsg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Mot de passe modifié avec success!</div>}
+            {profileImgUpdate && <div className="unread-msg-and-users-container pwd-conf-success-msg">Image de profile ajoutée avec success!</div>}
             {userData && <div className="setting-section-container unread-msg-and-users-container">
                 <div className="setting-user-img-container setting-txt">Paramètre</div>
                 <div className="setting-user-img-container"><img src={(userData.user_img ? `${imgUrl}/${userData.user_img}` : userIcon)} alt="user image" /></div>
                 {userData.user_img ? <div className="setting-image-btns-container">
                     <div className="remove-image-display-container"><GreenSbmtBtn value={'Désactiver l\'affichage de photo'} /></div>
-                    <div className="replace-image-display-container"><GreenSbmtBtn value={'Changer votre photo de profile'} /></div>
+                    <div className="replace-image-display-container" onClick={changeProfileImg}><GreenSbmtBtn value={'Changer votre photo de profile'} /></div>
                 </div> : <div className="replace-image-display-container" onClick={redirectToUploadUsrImg}><GreenSbmtBtn value={'Uploader une photo de profile'} /></div>}
                 { displayUpdateNameError && <div className="name-error name-error-container">Saisissez un nom!</div>}
                 {UpdateNameConflictError && <div className="name-error name-error-container">Ce nom existe déja</div>}
