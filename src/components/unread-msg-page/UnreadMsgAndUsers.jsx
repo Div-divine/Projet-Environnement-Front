@@ -27,7 +27,7 @@ const DisplayUnreadMsgUsers = () => {
             async function getData(id) {
                 const data = await GetUnreadMsg(id)
                 console.log('Unread Msg Datas:', data)
-                if (data != 'No unread message found') {
+                if (data !== 'No unread message found') {
                     setUnreadMsgAndUsers(data);
                 }
             }
@@ -38,8 +38,10 @@ const DisplayUnreadMsgUsers = () => {
     useEffect(() => {
         if (unreadMsgAndUser) {
             const formattedDates = unreadMsgAndUser.map((data) => {
+                // Convert the msg_updated string to a Date object
+                const date = new Date(data.msg_updated);
                 // Format the time difference for each unread message
-                return formatDistanceToNow(data.msg_updated, { locale: frLocale, addSuffix: true, includeSeconds: true });
+                return formatDistanceToNow(date, { locale: frLocale, addSuffix: true, includeSeconds: true });
             });
             setFormattedDates(formattedDates);
         }
@@ -70,16 +72,14 @@ const DisplayUnreadMsgUsers = () => {
         return [];
     };
 
-
     // Get grouped messages
     const groupedMessages = groupMessagesBySender(unreadMsgAndUser);
 
-    console.log('grouped messagres:', groupedMessages);
+    console.log('grouped messages:', groupedMessages);
 
     async function openChatRoom(userClickedId) {
         if (userId && userClickedId) {
             try {
-
                 setClickedUserId(userClickedId);
                 // Check if chatroom already exists
                 const chatroomIdData = await existsChatroom(userId, userClickedId);
@@ -109,46 +109,47 @@ const DisplayUnreadMsgUsers = () => {
             localStorage.setItem('user1', user1Id);
             localStorage.setItem('user2', user2Id);
         }
-    }, [user1Id, user2Id])
+    }, [user1Id, user2Id]);
 
-
-    return <>
+    return (
+        <>
             <SideBar />
-        <main className="unread-msg-main-container">
-            <DisplayConnectedSmallMenu />
-            {groupedMessages.length > 0 ? groupedMessages.map((data, index) => (
-                formattedDates[index] && (
-                    <div key={index} className="unread-msg-and-users-container">
-                        <div className="usr-img-unread-msg-and-date-container">
-                            <div className="usr-img-container">
-                                <img src={(data.sender_user_img && data.sender_show_user_image ? `${imgUrl}/${data.sender_user_img}` : userIcon)} alt="User image" />
-                            </div>
-                            <div className="unread-usr-name-and-msg-container">
-                                <div className="name-font usr-name-container">
-                                    {data.sender_user_name}
+            <main className="unread-msg-main-container">
+                <DisplayConnectedSmallMenu />
+                {groupedMessages.length > 0 ? groupedMessages.map((data, index) => (
+                    formattedDates[index] && (
+                        <div key={index} className="unread-msg-and-users-container">
+                            <div className="usr-img-unread-msg-and-date-container">
+                                <div className="usr-img-container">
+                                    <img src={(data.sender_user_img && data.sender_show_user_image ? `${imgUrl}/${data.sender_user_img}` : userIcon)} alt="User image" />
                                 </div>
-                                <div className="name-font msg-count">
-                                    Messages non lus: {data.msg_count}
-                                </div>
-                                <div className="msg-and-chat-btn-container">
-                                    <div className="msg-container unread-msg">
-                                        {data.msg_content}
+                                <div className="unread-usr-name-and-msg-container">
+                                    <div className="name-font usr-name-container">
+                                        {data.sender_user_name}
                                     </div>
-                                    <div className="msg-date-sent name-font">
-                                        {formattedDates[index]}
+                                    <div className="name-font msg-count">
+                                        Messages non lus: {data.msg_count}
                                     </div>
-                                    <div className="chat-btn-container">
-                                        <input type="button" value="Chat" onClick={() => openChatRoom(data.sender_user_id)} />
+                                    <div className="msg-and-chat-btn-container">
+                                        <div className="msg-container unread-msg">
+                                            {data.msg_content}
+                                        </div>
+                                        <div className="msg-date-sent name-font">
+                                            {formattedDates[index]}
+                                        </div>
+                                        <div className="chat-btn-container">
+                                            <input type="button" value="Chat" onClick={() => openChatRoom(data.sender_user_id)} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )
-            )) : <div className="unread-msg-and-users-container name-font no-message">Pas de méssage</div>}
-        </main>
-    </>
-
+                    )
+                )) : <div className="unread-msg-and-users-container name-font no-message">Pas de méssage</div>}
+            </main>
+        </>
+    );
 }
 
 export default DisplayUnreadMsgUsers;
+

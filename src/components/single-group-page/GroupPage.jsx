@@ -41,9 +41,8 @@ const RenderSinglePostPage = () => {
         if (id) {
             const firstId = id.slice(0, 1);
             const intoNum = +firstId;
-
-            console.log('Check if number:', intoNum + 5 )
             const secondId = id.slice(1)
+            
             setUuidParamsId(secondId)
             setFirstParamsId(intoNum);
         }
@@ -125,14 +124,14 @@ const RenderSinglePostPage = () => {
     }, [firstParamsId]);
 
 
-    async function addUserToGroup(groupId){
-            if(groupId){
+    async function addUserToGroup(groupId, id, groupName){
+            if(groupId && id && groupName){
                 const data = {
                     userId,
                     groupId
                 };
                 await UserWithGroups(data);
-                window.location.reload()
+                window.location.href=`/${groupName}/${id}?group-added=true`
             }
     }
 
@@ -190,9 +189,9 @@ const RenderSinglePostPage = () => {
                             }
                         </div>
                     </div>
-                    {groupData && userId && firstParamsId && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
+                    {groupData && userId && firstParamsId &&  id && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
-                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id)} >Faire partir du groupe</button>
+                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id, id, groupData.group_name)} >Faire partir du groupe</button>
                             : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button> )}
                     />}
                 </div>
