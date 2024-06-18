@@ -14,6 +14,7 @@ import FriendsPage from '../components/friends-page/Friends';
 import DisplayUnreadMsgUsers from '../components/unread-msg-page/UnreadMsgAndUsers';
 import UserSettings from "../components/user-setting-page/Settings";
 import FileUploadForm from "../components/upload-image-page/HandleImgUpload";
+import AdminSidebar from "../components/admin/menus/AdminSidebar";
 
 
 const router = createBrowserRouter([
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
     { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/>, errorElement: <ErrorPage /> },
     { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage /> },
     { path: '/parametre/photo-de-profile', element: <FileUploadForm />, errorElement: <ErrorPage /> },
+    { path: '/admin/accueil', element: <AdminSidebar/>, errorElement: <ErrorPage /> },
     { path: '/admin/utilisateurs', element: <AdminRenderAllUsers />, errorElement: <ErrorPage /> }
   
   ])

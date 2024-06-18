@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import * as Yup from 'yup';
 import { useDropzone } from 'react-dropzone';
 import Resizer from 'react-image-file-resizer';
 import SideBar from '../Menus/SideBarMenu';
@@ -7,8 +6,10 @@ import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu'
 import uploadImage from '../../api/UploadImageApi';
 import sendUsrImgDb from '../../api/SendUserImageApi';
 import useUserData from '../../api/UserInfoApi';
+import { useNavigate } from 'react-router-dom';
 
 const FileUploadForm = () => {
+  const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null); // State for preview image
   const [imageError, setImageError] = useState(null); // State for image error message
   const [submittedImage, setSubmittedImage] = useState(null); // State for submitted image
@@ -100,9 +101,9 @@ const FileUploadForm = () => {
         const response = await uploadImage(formData)
         console.log('File uploaded is:', response)
         if (response.message == 'File uploaded successfully') {
+          setImgName(response.filename)
           setFileUploadSuccess(true)
           setFileUploadSuccessMsg('Upload fait avec success!')
-          setImgName(response.filename)
           window.location.href='/parametre?upload-img-success=true'
         }
       } catch (error) {

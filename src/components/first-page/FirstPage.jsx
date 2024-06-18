@@ -47,7 +47,7 @@ const FirstHome = () => {
         <>
             <main className="first-main-body">
                 <div className={isRoot ? "root-background animated-bg" : "animated-bg"}>
-                    <div className="container">
+                    <div className="container fade-in-down-big">
                         <div className="first-page-phrase1-container">
                             <h2 className="first-page-phrase1">Protégeons notre planète.</h2>
                             <h2>Notre plus précieux héritage.</h2>

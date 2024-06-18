@@ -1,16 +1,14 @@
 import '../../../style/open-small-menu.css';
 import logo from '../../../assets/logo-site-environnement.png';
-import { useLocation, Link, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import UserWithAddedGroups from '../../../api/UserWithGroupsApi';
 import { useState, useEffect } from 'react';
 
 const SmallScreenOpenGroup = ({ closeMenu }) => {
-
+    const navigate = useNavigate();
     const userId = localStorage.getItem('userId')
     const [groupNames, setGroupNames] = useState([]);
     const [userGroups, setUserGroups] = useState(null);
-    const location = useLocation();
-
     // Get all groups linked to user
     useEffect(() => {
         async function groupRetrieve() {
@@ -33,7 +31,7 @@ const SmallScreenOpenGroup = ({ closeMenu }) => {
     }, [userGroups]);
 
     const redirectHomePage = () => {
-        return window.location.href = '/accueil'
+        navigate('/accueil');
     }
 
     // Remove open menu because it is positioned on top of other elements 

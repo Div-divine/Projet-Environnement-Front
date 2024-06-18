@@ -11,6 +11,7 @@ const DisplayConnectedSmallMenu = () => {
         setOpenMenu(!openMenu)
     }
     function closeMenu() {
+        
         setOpenMenu(false);
     }
 

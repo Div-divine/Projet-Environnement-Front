@@ -3,12 +3,13 @@ import '../../style/CustomModal.css';
 import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import LabelDisplay from '../input-field/LabelForFiled';
 import InputField from '../input-field/InputField';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import useUserData from '../../api/UserInfoApi';
 import updateUserPwd from '../../api/UpdateUserPwdApi';
 
 const CustomPwdUpdateModal = ({ title, message, onClose }) => {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(true);
   const [currentPwd, setCurrentPwd] = useStoreValueInputedInField();
   const [newPwd, setNewPwd] = useStoreValueInputedInField();
@@ -64,7 +65,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
         await updateUserPwd(user, data)
         onClose();
         // Set url to display update password success message
-        window.location.href = '/parametre?pwd-conf=true'
+        navigate('/parametre?pwd-conf=true')
 
       }
     } catch (error) {

@@ -14,7 +14,7 @@ import SearchBar from "../input-field/SearchBar";
 import { motion } from "framer-motion";
 import Popover from "./Popover";
 import PopoverContents from "./PopoverContents";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import chatRoom from "../../api/creatingChatRoomApi";
 import existsChatroom from "../../api/ExistChatRoomApi";
 import createFriends from "../../api/CreateFriendsApi";
@@ -23,10 +23,9 @@ import DisplayConnectedSmallMenuy from "../Menus/DisplaySmallScreenConnectedMenu
 
 
 const RenderAllUsers = () => {
-     // Image url from the back
-     const imgUrl = 'http://localhost:3000/assets';
-
-    const location = useLocation();
+    const navigate = useNavigate();
+    // Image url from the back
+    const imgUrl = 'http://localhost:3000/assets';
     const userId = localStorage.getItem('userId');
     const [clickedUserId, setClickedUserId] = useState(null);
     const [userGroups, setUserGroups] = useState([]);
@@ -47,7 +46,7 @@ const RenderAllUsers = () => {
                     // If chatroom already exists, set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
-                    window.location.href = '/chat';
+                    navigate('/chat');
                 } else {
                     // If chatroom doesn't exist, create it
                     const usersToConnect = { user1Id: userId, user2Id: userClickedId };
@@ -55,7 +54,7 @@ const RenderAllUsers = () => {
                     // Set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
-                    window.location.href = '/chat';
+                    navigate('/chat');
                 }
             } catch (error) {
                 console.error('Error handling user click:', error);

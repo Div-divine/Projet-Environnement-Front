@@ -2,7 +2,7 @@ import '../../style/SingleGroupPage.css';
 import SideBar from '../Menus/SideBarMenu';
 import singleGroupData from '../../api/SingleGroupDataApi';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import allUsersOfGroup from '../../api/GetUsersOfAGroupApi';
 import earthIcon from '../../assets/earth-africa-solid.svg';
 import eyeIcon from '../../assets/orange-eye.svg';
@@ -20,6 +20,8 @@ import userQuitsGroup from '../../api/HandleUserQuitsGroupApi';
 import userQuitGroupSatus from '../../api/getUserQuitGroupStatusApi';
 
 const RenderSinglePostPage = () => {
+
+    const navigate = useNavigate()
     // Access the id parameter from the URL
     const { id } = useParams()
     const [firstParamsId, setFirstParamsId] = useState(null)
@@ -149,7 +151,7 @@ const RenderSinglePostPage = () => {
         if (userId && clickedGroupId) {
             try {
                 await userQuitsGroup(clickedGroupId, { userId });
-                window.location.href = '/accueil';
+                navigate('/accueil');
             } catch (error) {
                 console.error('Error deleting friend:', error);
             }

@@ -1,5 +1,5 @@
 import '../../style/signIn.css';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
@@ -9,6 +9,7 @@ import SendUserInfo from '../../api/UserLoginApi';
 
 
 const SignInPageRender = () => {
+    const navigate = useNavigate()
     const location = useLocation();
     // Parse the URL and check if the success parameter is true
     const searchParams = new URLSearchParams(location.search);
@@ -86,17 +87,16 @@ const SignInPageRender = () => {
                 setLoginErrorMsg('');
                 const token = await loginUser(credentials); // No need to destructure
                 console.log('Access token:', token);
-                window.location.href = '/accueil'
-
+                navigate('/accueil')
                 // Store tokens in local storage or cookies, etc.
             } catch (error) {
                 // Display the Login Error message if an error is caught
-                setLoginErrorMsg('Email ou mot de passe incorrect')
+                setLoginErrorMsg('Email ou mot de passe incorrect!')
                 // Handle login errors
                 console.error('Login failed:', error);
             }
         };
-        return <div className='container'>
+        return <div className='container fade-in-down-big'>
             <div className="pt-3 mb-5">
                 {success && displayRegisterSuccessMsg && <DisplayRegistrationSuccessMsg />}
             </div>

@@ -6,12 +6,12 @@ import frLocale from 'date-fns/locale/fr'; // Import the French locale staticall
 import '../../style/unreadMsgAndUsers.css'
 import existsChatroom from "../../api/ExistChatRoomApi";
 import chatRoom from "../../api/creatingChatRoomApi";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
 import userIcon from '../../assets/user-profile.svg';
 
 const DisplayUnreadMsgUsers = () => {
-    const location = useLocation();
+    const navigate = useNavigate()
     const userId = localStorage.getItem('userId');
     const [unreadMsgAndUser, setUnreadMsgAndUsers] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
@@ -87,7 +87,7 @@ const DisplayUnreadMsgUsers = () => {
                     // If chatroom already exists, set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
-                    window.location.href = '/chat';
+                    navigate('/chat');
                 } else {
                     // If chatroom doesn't exist, create it
                     const usersToConnect = { user1Id: userId, user2Id: userClickedId };
@@ -95,7 +95,7 @@ const DisplayUnreadMsgUsers = () => {
                     // Set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
-                    window.location.href = '/chat';
+                    navigate('/chat');
                 }
             } catch (error) {
                 console.error('Error handling user click:', error);
@@ -145,7 +145,7 @@ const DisplayUnreadMsgUsers = () => {
                             </div>
                         </div>
                     )
-                )) : <div className="unread-msg-and-users-container name-font no-message">Pas de méssage</div>}
+                )) : <div className="unread-msg-and-users-container name-font no-message">Aucun méssage</div>}
             </main>
         </>
     );

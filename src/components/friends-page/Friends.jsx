@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../style/FriendsStyle.css';
 import GetAllUserFriends from '../../api/GettingUserFriendsApi';
 import SideBar from '../Menus/SideBarMenu';
@@ -13,7 +13,7 @@ import userIcon from '../../assets/user-profile.svg';
 import useUserData from '../../api/UserInfoApi';
 
 const FriendsPage = () => {
-  const location = useLocation();
+  const navigate = useNavigate()
   const [freindsId, setFriendsId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [friendsData, setFriendsData] = useState(null);
@@ -40,13 +40,13 @@ const FriendsPage = () => {
         if (chatroomIdData && chatroomIdData.chatroom_id) {
           setUser1Id(userId);
           setUser2Id(userClickedId);
-          window.location.href = '/chat';
+          navigate('/chat');
         } else {
           const usersToConnect = { user1Id: userId, user2Id: userClickedId };
           await chatRoom(usersToConnect);
           setUser1Id(userId);
           setUser2Id(userClickedId);
-          window.location.href = '/chat';
+          navigate('/chat');
         }
       } catch (error) {
         console.error('Error handling user click:', error);
@@ -132,7 +132,7 @@ const FriendsPage = () => {
         <DisplayConnectedSmallMenu />
         {friendsData && <div className='small-screnn-nmb-of-frineds'>Total amis: {friendsData.length}</div>}
         <div className='friend-group-inner-container friends-upper-container user-listing-overall-container'>
-          {friendsData && friendsData.map((user, userIndex) => {
+          {friendsData && friendsData.length != 0 ? friendsData.map((user, userIndex) => {
             let userImageDisplayed = false;
             return (
               <div key={userIndex}>
@@ -163,7 +163,7 @@ const FriendsPage = () => {
                 })}
               </div>
             );
-          })}
+          }) : <div className="unread-msg-and-users-container name-font no-message ">Aucun ami pour l'instant, veuillez en ajouter!</div>}
         </div>
       </main>
       {isModalOpen && clickedUserId && (

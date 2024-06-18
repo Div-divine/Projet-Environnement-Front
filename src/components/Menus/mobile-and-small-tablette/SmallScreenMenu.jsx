@@ -1,12 +1,11 @@
 import '../../../style/small-screen-menu.css'
 import logo from '../../../assets/logo-site-environnement.png';
-import { useLocation, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const SmallMenu = ({ menuHandler }) => {
-    const location = useLocation();
-
+    const navigate = useNavigate()
     const redirectHomePage = () => {
-        return window.location.href = '/'
+        navigate('/')
     }
 
     return <div className='small-menu-upper-container'>

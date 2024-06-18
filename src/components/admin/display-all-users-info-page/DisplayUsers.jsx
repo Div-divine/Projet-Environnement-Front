@@ -21,17 +21,6 @@ const AdminRenderAllUsers = () => {
     const [userGroups, setUserGroups] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
-    // Save icon paths in icons to be used in map
-    const icons = [
-        climatChangeIcon,
-        biodiversityIcon,
-        wasteManagementIcon,
-        teamSpeakIcon,
-        threeIcon,
-        waterIcon,
-        windIcon
-    ];
-
     useEffect(() => {
         async function fetchData() {
             try {

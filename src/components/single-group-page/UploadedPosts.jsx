@@ -41,6 +41,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const postWithoutSpecialCharaters = post.replace(/[^\w\s]/gi, '').trim()
     const [connectedUserData, setConnectedUserData] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
+    const [formattedComentsDates, setFormattedCommentsDates] = useState([]); // Use an array for multiple dates
     const [msg, setMsg] = useState({});
     const userId = localStorage.getItem('userId');
     const [comments, setComments] = useState({});
@@ -62,7 +63,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
             const firstId = id.slice(0, 1);
             const intoNum = +firstId;
             const secondId = id.slice(1)
-            console.log('group uuid:', secondId, 'groupId:', firstId )
+            console.log('group uuid:', secondId, 'groupId:', firstId)
             setUuidParamsId(secondId)
             setFirstParamsId(intoNum);
         }
@@ -188,6 +189,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }
     }, [posts]);
 
+
+
     const handleMsg = (e, postId) => {
         const newMsg = e.target.value;
         console.log('handle msg Post id is: ', postId);
@@ -261,10 +264,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const handleKeyPress = async (event, postId, updateValue) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-
             try {
                 const values = Object.values(updateValue);
-                const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim()
+                const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim();
                 if (values.length > 0 && postId && newUpdate.length > 0) {
                     await updateUserPost(postId, { postContent: values[0].trim() });
                     setUpdateValue(prevState => ({
@@ -272,13 +274,14 @@ const DisplayUploadedPosts = ({ groupId }) => {
                         [postId]: ''
                     }));
                     setIsUpdate(false);
-                    window.location.reload();
+                    getGroupPosts(groupData.group_id); // Fetch the updated posts
                 }
             } catch (error) {
                 console.error('Error updating data:', error);
             }
         }
     };
+
 
     function updatePost(id, postContent) {
         setIsUpdate(true);
@@ -351,7 +354,6 @@ const DisplayUploadedPosts = ({ groupId }) => {
     async function keyPressUpdateComment(event, commentId, updateCommentValue) {
         if (event.key === 'Enter') {
             event.preventDefault();
-
             try {
                 const values = Object.values(updateCommentValue);
                 const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim()
@@ -362,6 +364,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                         [commentId]: ''
                     }));
                     setCommentUpdatestate(false);
+                    await fetchComments();
                     window.location.reload()
                 }
             } catch (error) {
@@ -524,6 +527,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     </div>
                                     <div className="comment-text-and-user-name-conatiner">
                                         <div className="user-commented-name">{!comment.mask_comment_user ? comment.user_name : 'L\'auteur de ce commentaire a quitté le group'}</div>
+                                        <div>{comment.comment_created}</div>
                                         {/* Edit comment field */}
                                         {userId == comment.user_id && commentIdBeingEdited == comment.comment_id && commentUpdatestate && (
                                             <div className="update-comment-form-container">

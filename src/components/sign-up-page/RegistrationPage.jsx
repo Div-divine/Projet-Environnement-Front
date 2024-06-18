@@ -1,5 +1,5 @@
 import '../../style/signUp.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
 import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
@@ -20,6 +20,7 @@ const DisplayPasswordStrength = ({ strength, password, text }) => {
 
 
 const RegistrationInputBox = () => {
+    const navigate = useNavigate();
     const [ruleText, setRuleText] = useState('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole')
     const [checked, setChecked] = useToggle()
     const [name, setName] = useStoreValueInputedInField();
@@ -118,7 +119,7 @@ const RegistrationInputBox = () => {
             // Post user info to api from api/UserRegistrationApi
             const responseData = await PostUserInfo(registrationFormData);
             // Redirect to the connection page after form submission
-            window.location.href = 'connexion?success=true';
+            navigate('/connexion?success=true')
         } catch (error) {
             if (error.response) {
                 // Get error and display it using registrationError
@@ -144,7 +145,7 @@ const RegistrationInputBox = () => {
         </div>
     }
 
-    return <div className='container'>
+    return <div className='container fade-in-down-big'>
 
         {registrationError && <DisplayRegistrationErrorMsg loginErrorMsgHandler={registrationError} />}
         <div className='registration-field-container'>

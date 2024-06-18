@@ -10,7 +10,7 @@ import logOutIcon from '../../assets/logout-solid.svg';
 import communityIcon from '../../assets/community.svg';
 import useUserData from '../../api/UserInfoApi';
 import { useEffect, useState } from 'react';
-import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, Link, useNavigate} from 'react-router-dom';
 import UserWithAddedGroups from '../../api/UserWithGroupsApi';
 import FourUsers from '../../api/GetOnlyFourUsersApi';
 import UsersNbr from '../../api/NbrOfUsersApi';
@@ -20,7 +20,8 @@ import GetUnreadMsg from '../../api/GetUnreadMsgAndUsersApi';
 
 
 const SideBar = () => {
-    const location = useLocation();
+
+    const navigate = useNavigate();
     const currentPath = window.location.pathname;
     const userId = localStorage.getItem('userId');
     const [loading, setLoading] = useState(false); // Define loading state
@@ -124,17 +125,6 @@ const SideBar = () => {
 
     }, [currentPath])
 
-    const handleNavClick = () => {
-        // Set the timeout and store the timeout ID
-        const timeoutId = setTimeout(() => {
-            window.location.reload(); // Reload the window after a small delay
-        }, 60); // Adjust the delay time as needed
-
-        // Clear the timeout if the component unmounts or the user navigates away
-        return () => clearTimeout(timeoutId);
-    };
-
-
     // Get user friends 
     useEffect(() => {
         if (userId) {
@@ -161,7 +151,7 @@ const SideBar = () => {
     // Disconnect user
     function disconnectUser() {
         localStorage.clear();
-        window.location.href = '/'
+        navigate('/');
 
     }
     // Check if userData is not null before accessing its properties
@@ -244,8 +234,7 @@ const SideBar = () => {
                                         <div key={index}>
                                             {groupName.group_name ? (!groupName.user_quit_group && <div className='text-center group-names-container'>
                                                 <NavLink key={index} className='navlink'
-                                                    to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}${groupName.group_uuid}`}
-                                                    onClick={handleNavClick}>
+                                                    to={`/${groupName.group_name.toLowerCase().replace(/ /g, '-')}/${groupName.group_id}${groupName.group_uuid}`}>
                                                     <p>{groupName.group_name}</p>
                                                 </NavLink>
                                             </div>) : <div className='text-center group-names-container' >Aucun group</div>}
@@ -254,7 +243,7 @@ const SideBar = () => {
                                 </div>
                             </div>
 
-                            <div className='friends-icon-and-text-container' onClick={disconnectUser}>
+                            <div className='friends-icon-and-text-container disconnect-container' onClick={disconnectUser}>
                                 <div className='friends-icon'>
                                     <img src={logOutIcon} alt="" />
                                 </div>
