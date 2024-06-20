@@ -2,9 +2,11 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import '../../style/FirstPage.css';
 import GreenSbmtBtn from "../button/GreenSubmitBtn";
+import { generateNonce } from "../../generate-nonce/nonce";
 
 const FirstHome = () => {
 
+    const nonce = generateNonce()
     const [isRoot, setIsRoot] = useState(false);
 
     useEffect(() => {
@@ -16,7 +18,7 @@ const FirstHome = () => {
             height: '35px',
             backgroundColor: 'none',
             border: '0px',
-            boxShadow: '1px 1px green'
+            boxShadow: '1px 1px green',
         }
         const [value, setValue] = useState('');
 
@@ -34,7 +36,7 @@ const FirstHome = () => {
             <form onSubmit={(e)=>{preventSubmit(e)}}>
                 <div className="first-page-newletter-container">
                     <input type="text" placeholder={placeholderHandler} style={newsletterStyle} value={value} onChange={(e)=>changeValue(e)}
-                    className="newsletter-input-field" />
+                    className="newsletter-input-field" nonce={nonce}/>
                 </div>
                 <div>
                     <GreenSbmtBtn value='Envoyer' />

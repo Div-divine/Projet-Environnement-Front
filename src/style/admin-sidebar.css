@@ -1,14 +1,14 @@
-.admin-sidebar-container{
+.admin-sidebar-container {
     margin: 0;
     padding: 0;
     width: 15%;
-    background-color: #F0ECE6;
     position: fixed;
     height: 100%;
     overflow: auto;
     padding: 25px 0px 25px 0px;
 }
-.admin-sidebar-logo-container{
+
+.admin-sidebar-logo-container {
     margin-left: auto;
     margin-right: auto;
     width: 60%;
@@ -17,42 +17,71 @@
     overflow: hidden;
     overflow: hidden;
 }
-.admin-sidebar-logo-container img{
+
+.admin-sidebar-logo-container img {
     height: 60px;
 }
-.admin-sidebar-logo-text{
+
+.admin-sidebar-logo-text {
     text-align: center;
     font-family: "League Spartan", sans-serif;
     font-weight: 500;
     margin-top: 5px;
 }
-.admin-sidebar-dashboard-logo-text-container{
+
+.admin-sidebar-dashboard-logo-text-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;   
-    align-items: center; 
+    justify-content: flex-start;
+    align-items: center;
     padding-left: 15%;
     padding-top: 12px;
     padding-bottom: 12px;
     color: #094011;
     font-family: "Leaugue Spartan";
+    font-weight: 700;
 }
-.admin-sidebar-dashboard-logo-text-container:hover{
+
+.admin-sidebar-dashboard-logo-text-container:hover {
     background-color: #50be6047;
+    box-shadow: 0px 0px 2px 0px #094011,
+        /* Top shadow */
+        0px 2px 2px 0px #094011;
+    /* Left and bottom shadows */
+
 }
-.admin-sibedar-navs-container{
+
+.admin-sidebar-dashboard-logo-text-container.active a {
+    background-color: #50be6047;
+    box-shadow: 0px 0px 2px 0px #094011,
+        /* Top shadow */
+        0px 2px 2px 0px #094011;
+    /* Left and bottom shadows */
+
+}
+
+.admin-sibedar-navs-container {
     margin-top: 40%;
 }
-.dashboard-svg{
+
+.dashboard-svg {
     font-size: x-large;
     color: #094011;
     margin-right: 6%;
 }
 
-.flex-logout-end-container{
+.flex-logout-end-container {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 670px;
+    min-height: 655px;
+}
+
+.active-nav-link {
+    background-color: #50be6047;
+    box-shadow: 0px 0px 2px 0px #094011,
+        /* Top shadow */
+        0px 2px 2px 0px #094011;
+    /* Left and bottom shadows */
 }

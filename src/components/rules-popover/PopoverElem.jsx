@@ -1,32 +1,36 @@
 import { motion } from "framer-motion";
 import closeIcon from '../../assets/close.svg';
 import '../../style/PopoverElemStyle.css';
+import { generateNonce } from "../../generate-nonce/nonce";
 
 const RulesPopover = ({ isOpen, onClose, children }) => {
-    return (
-      <motion.div className="rules-popover-container"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
-        transition={{ duration: 0.2 }}
-        style={{
-          position: 'absolute',
-          backgroundColor: 'white',
-          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-          padding: '10px',
-          borderRadius: '5px',
-          zIndex: isOpen ? 1 : -1,
-        }}
-      >
-        <motion.div className="close-icon-upper-container">
-          <div onClick={onClose} className="close-icon-container">
-            <img src={closeIcon} alt="" />
-          </div>
-        </motion.div>
-        {children}
+
+  const nonce = generateNonce()
+
+  return (
+    <motion.div className="rules-popover-container"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
+      transition={{ duration: 0.2 }}
+      style={{
+        position: 'absolute',
+        backgroundColor: 'white',
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+        padding: '10px',
+        borderRadius: '5px',
+        zIndex: isOpen ? 1 : -1,
+      }}
+      nonce={nonce}
+    >
+      <motion.div className="close-icon-upper-container">
+        <div onClick={onClose} className="close-icon-container">
+          <img src={closeIcon} alt="" />
+        </div>
       </motion.div>
-    );
-  };
+      {children}
+    </motion.div>
+  );
+};
 
 export default RulesPopover;
 
-  

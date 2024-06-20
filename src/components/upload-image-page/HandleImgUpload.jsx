@@ -6,10 +6,10 @@ import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu'
 import uploadImage from '../../api/UploadImageApi';
 import sendUsrImgDb from '../../api/SendUserImageApi';
 import useUserData from '../../api/UserInfoApi';
-import { useNavigate } from 'react-router-dom';
+import { generateNonce } from '../../generate-nonce/nonce';
 
 const FileUploadForm = () => {
-  const navigate = useNavigate();
+  const nonce = generateNonce()
   const [imagePreview, setImagePreview] = useState(null); // State for preview image
   const [imageError, setImageError] = useState(null); // State for image error message
   const [submittedImage, setSubmittedImage] = useState(null); // State for submitted image
@@ -120,7 +120,7 @@ const FileUploadForm = () => {
         <DisplayConnectedSmallMenu />
         <div className='setting-section-container unread-msg-and-users-container'>
           <form onSubmit={(e) => handleSubmit(e, submittedImage)}>
-            <div {...getRootProps()} style={{ border: '1px dashed gray', padding: '20px' }}>
+            <div {...getRootProps()} style={{ border: '1px dashed gray', padding: '20px'}} nonce={nonce}>
               <input {...getInputProps()} onChange={(event) => setSubmittedImage(event.target.files[0])} />
               <p>Glisser et déposer un fichier ici, ou cliquer pour sélectionner</p>
             </div>
@@ -134,7 +134,7 @@ const FileUploadForm = () => {
                 <p>Taille de l'image: {(imageSize / 1024).toFixed(2)} KB</p>
               </div>
             )}
-            {imageError && <div style={{ color: 'red' }}>{imageError}</div>}
+            {imageError && <div style={{ color: 'red'}} nonce={nonce}>{imageError}</div>}
             {!fileUploadSuccess && <input type="submit" value='Envoyer' />}
             {fileUploadSuccess && fileUploadSuccessMsg ? <div>{fileUploadSuccessMsg}</div> : ''}
           </form>

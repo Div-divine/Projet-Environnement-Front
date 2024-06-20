@@ -14,31 +14,36 @@ import FriendsPage from '../components/friends-page/Friends';
 import DisplayUnreadMsgUsers from '../components/unread-msg-page/UnreadMsgAndUsers';
 import UserSettings from "../components/user-setting-page/Settings";
 import FileUploadForm from "../components/upload-image-page/HandleImgUpload";
-import AdminSidebar from "../components/admin/menus/AdminSidebar";
+import AdminDashboard from "../components/admin/homepage/Dashboard";
 
 
 const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <FirstMenu />,
-      errorElement: <ErrorPage />,
-      children: [
-        { path: '/', element: <FirstHome /> },
-        { path: 'inscription', element: <SignUpPageRender /> },
-        { path: 'connexion', element: <SignInPageRender /> },
-      ]
-    },
-    { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage /> },
-    { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage /> },
-    { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage /> },
-    { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage /> },
-    { path: '/amis', element: <FriendsPage/>, errorElement: <ErrorPage /> },
-    { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers/>, errorElement: <ErrorPage /> },
-    { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage /> },
-    { path: '/parametre/photo-de-profile', element: <FileUploadForm />, errorElement: <ErrorPage /> },
-    { path: '/admin/accueil', element: <AdminSidebar/>, errorElement: <ErrorPage /> },
-    { path: '/admin/utilisateurs', element: <AdminRenderAllUsers />, errorElement: <ErrorPage /> }
-  
-  ])
+  {
+    path: '/',
+    element: <FirstMenu />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: '/', element: <FirstHome /> },
+      { path: 'inscription', element: <SignUpPageRender /> },
+      { path: 'connexion', element: <SignInPageRender /> },
+    ]
+  },
+  { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage /> },
+  { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage /> },
+  { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage /> },
+  { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage /> },
+  { path: '/amis', element: <FriendsPage />, errorElement: <ErrorPage /> },
+  { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers />, errorElement: <ErrorPage /> },
+  { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage /> },
+  { path: '/parametre/photo-de-profile', element: <FileUploadForm />, errorElement: <ErrorPage /> },
+  {
+    path: '/admin',
+    errorElement: <ErrorPage />,
+    children: [
+      { path: 'accueil', element: <AdminDashboard /> },
+      { path: 'utilisateurs', element: <AdminRenderAllUsers />}
+    ]
+  },
+])
 
 export default router;  

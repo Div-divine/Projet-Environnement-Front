@@ -9,13 +9,16 @@ import useUserData from "../../api/UserInfoApi";
 import { motion } from 'framer-motion';
 import UserWithGroups from "../../api/AddUserToGroupsApi";
 import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
+import { generateNonce } from "../../generate-nonce/nonce";
+import io from 'socket.io-client';
 
 
 const RenderHome = () => {
-
+    const nonce = generateNonce()
     const location = useLocation();
     const userData = useUserData();
     const [postId, setPostId] = useState(null);
+    const [userName, setUserName] = useState('')
 
     useEffect(() => {
         if (userData && postId) {
@@ -28,6 +31,25 @@ const RenderHome = () => {
         }
     }, [userData, postId]);
 
+    useEffect(() => {
+        if (userData) {
+            setUserName(userData.user_name)
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        if (userName) {
+            // Create the socket connection and register username
+            const socket = io('http://localhost:3000'); // server URL
+
+            socket.on('connect', () => {
+                socket.emit('connected_username', userName); // Emit username on connection
+            });
+
+            // Function to handle cleanup on component unmount
+            return () => socket.disconnect();
+        }
+    }, [userName]);
 
     const allGroupsData = () => {
         const groupsData = useGroupsData();
@@ -43,7 +65,7 @@ const RenderHome = () => {
     return <div className="home-page-container">
         <SideBar />
         <main className="main-elements">
-        <DisplayConnectedSmallMenu />
+            <DisplayConnectedSmallMenu />
             <div className="main-body-container">
                 <div className="text-center welcom-msg-container">
                     <p className="welcom-msg">Merci de nous avoir rejoint dans cette mission pour sauver la planète ! </p>
@@ -55,7 +77,7 @@ const RenderHome = () => {
                 <div className="groups-container">
                     {groupsDatas && groupsDatas.map((data) => {
                         return (
-                            <div className="water-container mb-3" key={data.group_id} style={{ backgroundImage: `url('../../src/${data.group_img}')` }}>
+                            <div className="water-container mb-3" key={data.group_id} style={{ backgroundImage: `url('../../src/${data.group_img}')` }} nonce={nonce}>
                                 <div className="icon-and-btns-container">
                                     <div className="water-icon-and-text-conatiner">
                                         <div className="water-icon-conatiner">

@@ -1,0 +1,57 @@
+.admin-dashboard-main-container {
+    padding: 20px 0px 20px 0px;
+}
+
+.admin-dashboard-container {
+    width: 83%;
+    background-color: #50be6047;
+    margin-left: 15%;
+    height: 95vh;
+    overflow: auto;
+    border-radius: 0px 30px 0px 30px;
+    box-shadow: 2px 2px 0px 0px #094011;
+    padding: 20px;
+
+}
+
+.admin-sidebar-notif-container {
+    width: 20px;
+    overflow: hidden;
+}
+
+.admin-sidebar-circle-container {
+    width: 10px;
+    overflow: hidden;
+}
+.admin-notif-and-msg-icon-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 5%;
+}
+.admin-dashboard-profile-section{
+    width: 10%;
+    overflow: hidden;
+}
+.admin-dashboard-profile-section img{
+    width: 40%;
+    border-radius: 50%;
+}
+.admin-upper-icon-and-profile-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-shadow: 0px 1px 0px 0px #094011;
+    padding-bottom: 10px;
+}
+.admin-notif-and-msg-icon-children-container,
+.admin-dashboard-profile-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.admin-name-container{
+    font-weight: 700;
+    font-family: "Crimson Text", serif;
+}

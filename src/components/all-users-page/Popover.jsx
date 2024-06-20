@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { generateNonce } from "../../generate-nonce/nonce";
+import '../../style/PopOverStyle.css'
 
 const Popover = ({ content, children }) => {
+  const nonce = generateNonce()
   const [isHovered, setIsHovered] = useState(false);
   const [isPopoverHovered, setIsPopoverHovered] = useState(false);
 
@@ -32,9 +35,10 @@ const Popover = ({ content, children }) => {
 
   return (
     <div
-      style={{ position: "relative", display: "inline-block" }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      nonce={nonce}
+      className="small-popover"
     >
       <div>{children}</div>
       {isHovered && (
@@ -43,17 +47,9 @@ const Popover = ({ content, children }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
-          style={{
-            position: "absolute",
-            bottom: "70%",
-            transform: "translateX(-50%)",
-            background: "white",
-            padding: "0.5rem",
-            borderRadius: "4px",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)"
-          }}
           onMouseEnter={handlePopoverMouseEnter}
           onMouseLeave={handlePopoverMouseLeave}
+          nonce={nonce}
         > <div className="popover-content-container">
             {content}
           </div>

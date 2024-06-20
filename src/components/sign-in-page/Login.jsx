@@ -6,6 +6,7 @@ import LabelDisplay from '../input-field/LabelForFiled';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import SendUserInfo from '../../api/UserLoginApi';
+import { generateNonce } from '../../generate-nonce/nonce';
 
 
 const SignInPageRender = () => {
@@ -15,6 +16,7 @@ const SignInPageRender = () => {
     const searchParams = new URLSearchParams(location.search);
     const success = searchParams.get('success') === 'true';
     const [displayRegisterSuccessMsg, setDisplaySuccessRegisterMsg] = useState(true)
+    const nonce = generateNonce()
 
     // Remove success message after 3 seconds
     useEffect(() => {
@@ -35,10 +37,10 @@ const SignInPageRender = () => {
             width: '600px',
             padding: '10px',
             marginRight: 'auto',
-            marginLeft: 'auto',
+            marginLeft: 'auto'
         }
         return <div className="text-center">
-            <p style={successMsgStyle}>Utilisateur crée avec success. Veuillez vous connecter !</p>
+            <p style={successMsgStyle} nonce={nonce}>Utilisateur crée avec success. Veuillez vous connecter !</p>
         </div>
     }
     // Monitor login Error, initial state of loginErrorMsg.length is false
@@ -51,10 +53,10 @@ const SignInPageRender = () => {
             width: '600px',
             padding: '10px',
             marginRight: 'auto',
-            marginLeft: 'auto',
+            marginLeft: 'auto'
         }
         const LoginErrorField = () => {
-            return <div className='text-center ' style={loginErrorMsgStyle}>
+            return <div className='text-center ' style={loginErrorMsgStyle} nonce={nonce}>
                 <p>{loginErrorMsgHandler}</p>
             </div>
         }

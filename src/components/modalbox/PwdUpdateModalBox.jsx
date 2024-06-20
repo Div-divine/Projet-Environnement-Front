@@ -7,8 +7,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import useUserData from '../../api/UserInfoApi';
 import updateUserPwd from '../../api/UpdateUserPwdApi';
+import { generateNonce } from '../../generate-nonce/nonce';
 
 const CustomPwdUpdateModal = ({ title, message, onClose }) => {
+
+  const nonce = generateNonce()
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(true);
   const [currentPwd, setCurrentPwd] = useStoreValueInputedInField();
@@ -95,7 +98,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
               {displayUpdatePwdErrorMsg && updatePwdErrorMsg && <div className='email-error'>{updatePwdErrorMsg}</div>}
               {catchErrorMsg && wrongPwdConfMsg && <div className='email-error'>{wrongPwdConfMsg}</div>}
               <div className='mb-3 input-label-container'>
-                <LabelDisplay labelHandler='pwd-conf-field' labelText='Entrer votre mot de passe actuel' labelStyle={{ color: '#0940119d', fontWeight: '700' }} />
+                <LabelDisplay labelHandler='pwd-conf-field' labelText='Entrer votre mot de passe actuel' labelStyle={{ color: '#0940119d', fontWeight: '700' }} nonce={nonce}/>
               </div>
               <div className='input-filed-container mb-3'>
                 <InputField
@@ -110,7 +113,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
             </div>
             <div className='input-and-label-container'>
               <div className='mb-3 input-label-container'>
-                <LabelDisplay labelHandler='new-pwd-field' labelText='Nouveau mot de passe' labelStyle={{ color: '#0940119d', fontWeight: '700' }} />
+                <LabelDisplay labelHandler='new-pwd-field' labelText='Nouveau mot de passe' labelStyle={{ color: '#0940119d', fontWeight: '700'}} nonce={nonce}/>
               </div>
               <div className='input-filed-container mb-5'>
                 <InputField

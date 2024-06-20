@@ -7,13 +7,16 @@ import useStoreValueInputedInField from '../../custom-hooks/HookFormInputControl
 import GreenSbmtBtn from '../button/GreenSubmitBtn.jsx';
 import useToggle from '../../custom-hooks/HookToToggle';
 import PostUserInfo from '../../api/UserRegistrationApi.jsx';
+import { generateNonce } from '../../generate-nonce/nonce.js';
 
 
 const DisplayPasswordStrength = ({ strength, password, text }) => {
-    const pwdStateText = { color: 'white' }
-    const style = password.length >= 8 ? { color: 'green' } : { color: 'red' }
+
+    const nonce = generateNonce()
+    const pwdStateText = { color: 'white', nonce: `${nonce}` }
+    const style = password.length >= 8 ? { color: 'green'} : { color: 'red'}
     if (password.length > 0) {
-        return <p><span style={pwdStateText}>Mot de passe : </span><strong style={style}>{strength}</strong></p>
+        return <p><span style={pwdStateText} nonce={nonce}>Mot de passe : </span><strong style={style} nonce={nonce}>{strength}</strong></p>
     }
     return <p className='pwd-rule-text'>{text}</p>
 }
@@ -59,7 +62,7 @@ const RegistrationInputBox = () => {
             }
             // Reset the checkbox once useraccepts terms and condition by checking the check box
             if (checked === true) {
-                setConditionStyle({ color: 'white' })
+                setConditionStyle({ color: 'white'})
             }
 
             // Display Password strength message
@@ -110,7 +113,7 @@ const RegistrationInputBox = () => {
                     setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
                 }
                 if (!checked) {
-                    setConditionStyle({ color: 'red' })
+                    setConditionStyle({ color: 'red'})
                 }
                 return false;
             }
@@ -137,10 +140,10 @@ const RegistrationInputBox = () => {
             width: '600px',
             padding: '10px',
             marginRight: 'auto',
-            marginLeft: 'auto',
+            marginLeft: 'auto'
         }
 
-        return <div className='text-center mb-5' style={registrationErrorMsgStyle}>
+        return <div className='text-center mb-5' style={registrationErrorMsgStyle} nonce={nonce}>
             <p>{loginErrorMsgHandler}</p>
         </div>
     }
@@ -208,7 +211,7 @@ const RegistrationInputBox = () => {
                     </div>
                 </div>
                 <div className='input-filed-container mb-3'>
-                    <p style={{ color: 'red', fontSize: 'small' }}>{pwdRuleError}</p>
+                    <p style={{ color: 'red', fontSize: 'small'}} nonce={nonce}>{pwdRuleError}</p>
                 </div>
                 <div className='input-filed-container mb-3'>
                     <p className='input-error-msg'>{pwdErrorMsg}</p>
@@ -237,7 +240,7 @@ const RegistrationInputBox = () => {
                             <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
                         </span>
                         <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation"
-                            labelStyle={conditionStyle} />
+                            labelStyle={conditionStyle} nonce={nonce}/>
                     </div>
                 </div>
 

@@ -2,19 +2,10 @@ import { useState, useEffect } from "react";
 import SideBar from "../../Menus/SideBarMenu";
 import '../../../style/DisplayAllUsers.css';
 import AllUsers from "../../../api/GetAllUsersApi";
-import climatChangeIcon from '../../../assets/climate-change.svg';
-import biodiversityIcon from '../../../assets/icon-biodiversity.svg';
-import wasteManagementIcon from '../../../assets/icon-wastemanagement.svg';
-import teamSpeakIcon from '../../../assets/teamspeak.svg';
-import threeIcon from '../../../assets/three.svg';
-import waterIcon from '../../../assets/water-icon.svg';
-import windIcon from '../../../assets/wind-solid.svg';
 import JoinAllGroupsToUsers from "../../../api/ListAllJoinUserWithGroupsApi";
-import userIcon from '../../../assets/user-solid.svg';
-import likeIcon from '../../../assets/heart-solid.svg';
-import chatIcon from '../../../assets/comment-solid.svg';
 import SearchBar from "../../input-field/SearchBar";
 import DisplayConnectedSmallMenu from "../../Menus/DisplaySmallScreenConnectedMenu";
+import AdminSidebar from "../menus/AdminSidebar";
 
 const AdminRenderAllUsers = () => {
     const userId = localStorage.getItem('userId');
@@ -62,9 +53,8 @@ const AdminRenderAllUsers = () => {
 
     if (userId) {
         return (
-            <div className="home-page-container">
-                <SideBar />
-                <DisplayConnectedSmallMenu />
+            <div className="admin-dashboard-main-container">
+                <AdminSidebar/>
                 <div className="users-and-sidebar-container">
                     <div>
                         <p className="table-header-text">Les utilisateurs</p>
@@ -94,7 +84,7 @@ const AdminRenderAllUsers = () => {
                                         <p className="table-header-text">Email</p>
                                     </th>
                                     <th scope="col" className="text-center border-0">
-                                        <p className="table-header-text">Status</p>
+                                        <p className="table-header-text">Activité</p>
                                     </th>
                                 </tr>
                             </thead>

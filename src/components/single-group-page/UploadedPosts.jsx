@@ -21,11 +21,13 @@ import insertUserPostIncognito from "../../api/CreateIncognitoPostApi";
 import getUserDataById from "../../api/GetUserDataByIdApi";
 import { useParams } from "react-router-dom";
 import singleGroupData from "../../api/SingleGroupDataApi";
+import { generateNonce } from "../../generate-nonce/nonce";
 
 
 
 const DisplayUploadedPosts = ({ groupId }) => {
 
+    const nonce = generateNonce()
     // Define a state to track whether the post is incognito
     const [isIncognito, setIsIncognito] = useState(false);
     const [existPost, setExistPost] = useState(false);
@@ -462,7 +464,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
                                 </div>
                             </div>
-                            <div className="post-contents-container" style={{ whiteSpace: 'pre-line' }}>
+                            <div className="post-contents-container" style={{ whiteSpace: 'pre-line'}} nonce={nonce}>
                                 {/* Render different content based on whether the post is being edited */}
                                 {posts[index].user_id == userId && posts[index].post_id == postIdBeingEdited && isUpdate ? (
                                     <div className="update-text-area-container">

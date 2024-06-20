@@ -8,11 +8,12 @@ import { motion } from 'framer-motion';
 import useSelectOptionValue from "../../custom-hooks/HookSelectOptionsController";
 import SmallMenu from "./mobile-and-small-tablette/SmallScreenMenu";
 import HamburgerMenu from "./mobile-and-small-tablette/OpenMenu";
+import { generateNonce } from "../../generate-nonce/nonce";
 
 const FirstMenu = () => {
     const [isHovered1, setIsHovered1] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
-    const selectRef = useRef(null);
+    const nonce = generateNonce()
     const [openMenu, setOpenMenu] = useState(false);
 
     // Handler mobile and small tablette menu, handle the menu to display when menu is opened or closed
@@ -28,13 +29,13 @@ const FirstMenu = () => {
     const menuLink1 = {
         textDecoration: "none",
         color: isHovered1 ? "#FF9C00" : "white",
-        fontWeight: isHovered1 ? '700' : '',
+        fontWeight: isHovered1 ? '700' : ''
     };
 
     const menuLink2 = {
         textDecoration: "none",
         color: isHovered2 ? "#FF9C00" : "white",
-        fontWeight: isHovered2 ? '700' : '',
+        fontWeight: isHovered2 ? '700' : ''
     };
 
     const [language, setLanguage] = useSelectOptionValue('French')
@@ -78,6 +79,7 @@ const FirstMenu = () => {
                                         style={menuLink1}
                                         onMouseEnter={() => setIsHovered1(true)}
                                         onMouseLeave={() => setIsHovered1(false)}
+                                        nonce={nonce}
                                     >
                                         Se connecter
                                     </Link>
@@ -88,6 +90,7 @@ const FirstMenu = () => {
                                         style={menuLink2}
                                         onMouseEnter={() => setIsHovered2(true)}
                                         onMouseLeave={() => setIsHovered2(false)}
+                                        nonce={nonce}
                                     >
                                         S'inscrire
                                     </Link>

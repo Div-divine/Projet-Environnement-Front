@@ -46,11 +46,15 @@ const RenderAllUsers = () => {
                     // If chatroom already exists, set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
+                    localStorage.setItem('user1', userId);
+                    localStorage.setItem('user2', userClickedId);
                     navigate('/chat');
                 } else {
                     // If chatroom doesn't exist, create it
                     const usersToConnect = { user1Id: userId, user2Id: userClickedId };
                     await chatRoom(usersToConnect);
+                    localStorage.setItem('user1', userId);
+                    localStorage.setItem('user2', userClickedId);
                     // Set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
@@ -73,12 +77,12 @@ const RenderAllUsers = () => {
         }
     }
 
-    useEffect(() => {
-        if (user1Id && user2Id) {
-            localStorage.setItem('user1', user1Id);
-            localStorage.setItem('user2', user2Id);
-        }
-    }, [user1Id, user2Id])
+    // useEffect(() => {
+    //     if (user1Id && user2Id) {
+    //         localStorage.setItem('user1', user1Id);
+    //         localStorage.setItem('user2', user2Id);
+    //     }
+    // }, [user1Id, user2Id])
 
     useEffect(() => {
         async function fetchData() {
