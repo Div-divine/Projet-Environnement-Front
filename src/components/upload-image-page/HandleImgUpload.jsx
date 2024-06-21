@@ -89,16 +89,16 @@ const FileUploadForm = () => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const handleSubmit = async (e, submittedImage) => {
+  const handleSubmit = async (e, submittedImage, userId) => {
     e.preventDefault();
-    if (submittedImage) {
+    if (submittedImage && userId) {
       // Here you can access the submitted image and its path
       console.log('Submitted image:', submittedImage);
       try {
         // Create FormData object
         const formData = new FormData();
         formData.append('file', submittedImage); // Append the image file
-        const response = await uploadImage(formData)
+        const response = await uploadImage(userId, formData)
         console.log('File uploaded is:', response)
         if (response.message == 'File uploaded successfully') {
           setImgName(response.filename)
@@ -119,7 +119,7 @@ const FileUploadForm = () => {
       <main className="unread-msg-main-container">
         <DisplayConnectedSmallMenu />
         <div className='setting-section-container unread-msg-and-users-container'>
-          <form onSubmit={(e) => handleSubmit(e, submittedImage)}>
+          { userId && <form onSubmit={(e) => handleSubmit(e, submittedImage, userId)}>
             <div {...getRootProps()} style={{ border: '1px dashed gray', padding: '20px'}} nonce={nonce}>
               <input {...getInputProps()} onChange={(event) => setSubmittedImage(event.target.files[0])} />
               <p>Glisser et déposer un fichier ici, ou cliquer pour sélectionner</p>
@@ -137,7 +137,7 @@ const FileUploadForm = () => {
             {imageError && <div style={{ color: 'red'}} nonce={nonce}>{imageError}</div>}
             {!fileUploadSuccess && <input type="submit" value='Envoyer' />}
             {fileUploadSuccess && fileUploadSuccessMsg ? <div>{fileUploadSuccessMsg}</div> : ''}
-          </form>
+          </form>}
         </div>
       </main>
     </>

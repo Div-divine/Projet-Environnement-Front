@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
-import SideBar from "../../Menus/SideBarMenu";
 import '../../../style/DisplayAllUsers.css';
-import AllUsers from "../../../api/GetAllUsersApi";
 import JoinAllGroupsToUsers from "../../../api/ListAllJoinUserWithGroupsApi";
 import SearchBar from "../../input-field/SearchBar";
-import DisplayConnectedSmallMenu from "../../Menus/DisplaySmallScreenConnectedMenu";
 import AdminSidebar from "../menus/AdminSidebar";
 
 const AdminRenderAllUsers = () => {

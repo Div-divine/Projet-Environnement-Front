@@ -15,6 +15,7 @@ const DisplayUnreadMsgUsers = () => {
     const userId = localStorage.getItem('userId');
     const [unreadMsgAndUser, setUnreadMsgAndUsers] = useState(null);
     const [formattedDates, setFormattedDates] = useState([]); // Use an array for multiple dates
+    const [clickedUserId, setClickedUserId] = useState(null)
     // Set users id's
     const [user1Id, setUser1Id] = useState();
     const [user2Id, setUser2Id] = useState();
@@ -80,6 +81,7 @@ const DisplayUnreadMsgUsers = () => {
     async function openChatRoom(userClickedId) {
         if (userId && userClickedId) {
             try {
+                console.log('User connected in unread msg :', userId , 'User clicked to see unread msg:', userClickedId)
                 setClickedUserId(userClickedId);
                 // Check if chatroom already exists
                 const chatroomIdData = await existsChatroom(userId, userClickedId);
@@ -87,7 +89,7 @@ const DisplayUnreadMsgUsers = () => {
                     // If chatroom already exists, set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
-                    navigate('/chat');
+                    //navigate('/chat');
                 } else {
                     // If chatroom doesn't exist, create it
                     const usersToConnect = { user1Id: userId, user2Id: userClickedId };
@@ -95,7 +97,7 @@ const DisplayUnreadMsgUsers = () => {
                     // Set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
-                    navigate('/chat');
+                    //navigate('/chat');
                 }
             } catch (error) {
                 console.error('Error handling user click:', error);
@@ -108,6 +110,7 @@ const DisplayUnreadMsgUsers = () => {
         if (user1Id && user2Id) {
             localStorage.setItem('user1', user1Id);
             localStorage.setItem('user2', user2Id);
+            navigate('/chat');
         }
     }, [user1Id, user2Id]);
 

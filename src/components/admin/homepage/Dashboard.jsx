@@ -6,6 +6,7 @@ import notificationIcon from '../../../assets/admin-notif.svg'
 import circleIcon from '../../../assets/red-circle.svg'
 import msgIcon from '../../../assets/admin-msg.svg'
 import { DisplayUsersToAdminBackoffice } from "../connected-users/ConnectedUsersId";
+import AllUsers from "../../../api/GetAllUsersApi";
 
 const AdminDashboard = () => {
     // Image url from the back
@@ -13,6 +14,18 @@ const AdminDashboard = () => {
     const userData = useUserData();
     const [userInfo, setUserInfo] = useState()
     const connectedUsersId = DisplayUsersToAdminBackoffice()
+    const [ allUsersList, setAllUsersList ] = useState(null)
+
+    useEffect(()=>{
+        if(userInfo){
+            async function getAllUsers( id ){
+                const response = await AllUsers(id)
+                console.log('All users list in dashboard:', response)
+                return response;
+            }
+            getAllUsers(userData.user_id)
+        }
+    }, [userInfo]);
 
     useEffect(()=>{
         if(connectedUsersId){

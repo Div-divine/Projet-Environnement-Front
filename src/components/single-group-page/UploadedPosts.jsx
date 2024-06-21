@@ -251,26 +251,26 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }));
     };
 
-    const deletePost = (postId, groupId) => {
-        if (postId && groupId) {
-            const deleteUserPost = async (id) => {
-                await DeletePostAndComments(id);
+    const deletePost = (postUserId, postId, groupId) => {
+        if (postUserId && postId && groupId) {
+            const deleteUserPost = async (id, postAuth) => {
+                await DeletePostAndComments(id, postAuth);
             }
 
-            deleteUserPost(postId);
+            deleteUserPost(postId, postUserId);
             getGroupPosts(groupId);
         }
     };
 
     // Submit form (textarea value) once Enter is clicked on keyboard and set the updated value
-    const handleKeyPress = async (event, postId, updateValue) => {
+    const handleKeyPress = async (event, postId, updateValue, userId) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             try {
                 const values = Object.values(updateValue);
                 const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim();
-                if (values.length > 0 && postId && newUpdate.length > 0) {
-                    await updateUserPost(postId, { postContent: values[0].trim() });
+                if (values.length > 0 && postId && newUpdate.length > 0 && userId) {
+                    await updateUserPost(postId, userId, { postContent: values[0].trim() });
                     setUpdateValue(prevState => ({
                         ...prevState,
                         [postId]: ''
@@ -322,9 +322,11 @@ const DisplayUploadedPosts = ({ groupId }) => {
         setIsUpdate(false);
     }
 
-    async function deleteComment(commentId) {
-        await DeleteUserComments(commentId);
-        await fetchComments();
+    async function deleteComment(commentId, userId) {
+        if (userId) {
+            await DeleteUserComments(commentId, userId);
+            await fetchComments();
+        }
     }
 
     function updateComment(commentId, value) {
@@ -353,14 +355,14 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }
     }, [commentUpdateValue]);
 
-    async function keyPressUpdateComment(event, commentId, updateCommentValue) {
+    async function keyPressUpdateComment(event, commentId, updateCommentValue, userId) {
         if (event.key === 'Enter') {
             event.preventDefault();
             try {
                 const values = Object.values(updateCommentValue);
                 const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim()
-                if (values.length > 0 && commentId && newUpdate.length > 0) {
-                    await updateUserComment(commentId, { updateContent: values[0].trim() });
+                if (values.length > 0 && commentId && newUpdate.length > 0 && userId) {
+                    await updateUserComment(commentId, userId, { updateContent: values[0].trim() });
                     setCommentUpdateValue(prevState => ({
                         ...prevState,
                         [commentId]: ''
@@ -464,9 +466,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
                                 </div>
                             </div>
-                            <div className="post-contents-container" style={{ whiteSpace: 'pre-line'}} nonce={nonce}>
+                            <div className="post-contents-container" style={{ whiteSpace: 'pre-line' }} nonce={nonce}>
                                 {/* Render different content based on whether the post is being edited */}
-                                {posts[index].user_id == userId && posts[index].post_id == postIdBeingEdited && isUpdate ? (
+                                {userId && posts[index].user_id == userId && posts[index].post_id == postIdBeingEdited && isUpdate ? (
                                     <div className="update-text-area-container">
                                         <textarea
                                             value={updateValue[posts[index].post_id] || ''}
@@ -474,7 +476,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                                 ...prevState,
                                                 [posts[index].post_id]: event.target.value
                                             }))}
-                                            onKeyPress={(event) => handleKeyPress(event, posts[index].post_id, updateValue)}
+                                            onKeyPress={(event) => handleKeyPress(event, posts[index].post_id, updateValue, userId)}
                                             className="update-text-area"
                                         />
                                         <span>Pour annuler, cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link className="validate-update-text">Entrée</Link><span> Sur votre clavier</span>
@@ -491,9 +493,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                         </div>}
                                     </div>
                                 )}
-                                {posts[index].user_id == userId && <div className="edit-and-delete-post-container">
+                                {posts[index].user_id && posts[index].user_id == userId && <div className="edit-and-delete-post-container">
                                     <Link className="edit-post-text" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>
-                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].post_id, posts[index].group_id)}>Supprimer</Link>
+                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].user_id, posts[index].post_id, posts[index].group_id)}>Supprimer</Link>
                                 </div>}
                             </div> {/* Display posts user content and ensure newlines */}
 
@@ -533,16 +535,16 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                         {/* Edit comment field */}
                                         {userId == comment.user_id && commentIdBeingEdited == comment.comment_id && commentUpdatestate && (
                                             <div className="update-comment-form-container">
-                                                <form>
+                                                { userId && <form>
                                                     <textarea
                                                         value={commentUpdateValue[comment.comment_id] || ''}
                                                         onChange={(e) => setCommentUpdateValue(prevState => ({
                                                             ...prevState,
                                                             [comment.comment_id]: e.target.value
                                                         }))}
-                                                        onKeyPress={(e) => keyPressUpdateComment(e, comment.comment_id, commentUpdateValue)}
+                                                        onKeyPress={(e) => keyPressUpdateComment(e, comment.comment_id, commentUpdateValue, userId)}
                                                     />
-                                                </form>
+                                                </form>}
                                             </div>
                                         )}
 
@@ -553,8 +555,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                                 <Link className="edit-post-text comment-edit" onClick={() => updateComment(comment.comment_id, comment.comment_msg)}>Editer</Link>
                                             )}
                                             {/* Allow deletion if userId matches post.user_id or if userId matches comment.user_id */}
-                                            {(userId == posts[index].user_id || userId == comment.user_id) && (
-                                                <Link className="delete-post-text comment-edit" onClick={() => deleteComment(comment.comment_id)}>Supprimer</Link>
+                                            {userId && (userId == posts[index].user_id || userId == comment.user_id) && (
+                                                <Link className="delete-post-text comment-edit" onClick={() => deleteComment(comment.comment_id, userId)}>Supprimer</Link>
                                             )}
                                         </div>
                                     </div>
