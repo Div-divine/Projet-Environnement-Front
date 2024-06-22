@@ -11,9 +11,11 @@ import UserWithGroups from "../../api/AddUserToGroupsApi";
 import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
 import { generateNonce } from "../../generate-nonce/nonce";
 import io from 'socket.io-client';
+import { useCsrf } from "../../context/CsrfContext";
 
 
 const RenderHome = () => {
+    const csrfToken = useCsrf()
     const nonce = generateNonce()
     const location = useLocation();
     const userData = useUserData();
@@ -21,15 +23,15 @@ const RenderHome = () => {
     const [userName, setUserName] = useState('')
 
     useEffect(() => {
-        if (userData && postId) {
+        if (userData && postId && csrfToken) {
             const data = {
                 userId: userData.user_id,
                 groupId: postId
             };
-            UserWithGroups(data);
+            UserWithGroups(data, csrfToken);
             window.location.reload();
         }
-    }, [userData, postId]);
+    }, [userData, postId], csrfToken);
 
     useEffect(() => {
         if (userData) {

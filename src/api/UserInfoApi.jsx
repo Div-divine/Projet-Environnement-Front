@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
+import { useCsrf } from "../context/CsrfContext";
 
 const useUserData = () => {
     const [userData, setUserData] = useState(null);
+    const csrfToken = useCsrf();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -11,7 +13,7 @@ const useUserData = () => {
                 const token = localStorage.getItem('token');
                 // Set the default Authorization header for all requests
                 Axios.defaults.headers.common['Authorization'] = token;
-
+                Axios.defaults.headers.common['CSRF-Token'] = csrfToken;
                 // Make a GET request to the protected route
                 const response = await Axios.get('http://localhost:3000/users/info');
                 
@@ -24,7 +26,7 @@ const useUserData = () => {
 
         fetchData();
 
-    }, []);
+    }, [csrfToken]);
 
     useEffect(() => {
         console.log(userData); // This will log the fetched data

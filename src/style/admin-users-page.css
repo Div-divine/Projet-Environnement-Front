@@ -1,0 +1,103 @@
+.table,
+.table-responsive{
+    border-radius: 0px 30px 0px 30px;
+    height: 100%;
+}
+
+.table-container {
+    width: 100%;
+    font-weight:700 ;
+}
+.admin-users-main-elements{
+    width: 83%;
+    margin-left: 15%;
+    box-shadow: 2px 2px 0px 0px #094011;
+    height: auto;
+    border-radius: 0px 30px 0px 30px;
+    background-color: #50be6047;
+}
+.user-name-and-img-in-user-admin-table-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.users-img-in-admin-users-page{
+    width: 17%;
+    margin-right: 10px;
+    margin-left: 30%;
+}
+.users-img-in-admin-users-page img{
+    border-radius: 50%;
+}
+.table {
+    width: 100%;
+    height: auto;
+}
+
+.table thead th {
+    background-color: #094011;
+}
+
+.table tbody tr th {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+.table thead tr th{
+    width: 20%;
+}
+
+
+.table tr:hover {
+    background-color: #A9BEAC;
+}
+
+.table-names-text {
+    font-family: "Crimson Text", serif;
+    font-size: small;
+}
+
+.table-header-text {
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    color: #F0ECE6;
+}
+
+.table-container {
+    box-shadow: 0px 0px 4px 0px #094011;
+}
+
+.best-users-text {
+    background-color: #094011;
+    padding: 6px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border-radius: 20px
+}
+
+.average-users-text {
+    background: #ffc107;
+    padding: 6px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border-radius: 20px
+}
+
+.unactive-users-text {
+    background-color: #dc3545;
+    padding: 6px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border-radius: 20px
+}
+.center-text-in-admin-user-table {
+   text-align: center;
+}

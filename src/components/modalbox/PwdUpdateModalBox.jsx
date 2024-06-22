@@ -8,9 +8,10 @@ import useStoreValueInputedInField from '../../custom-hooks/HookFormInputControl
 import useUserData from '../../api/UserInfoApi';
 import updateUserPwd from '../../api/UpdateUserPwdApi';
 import { generateNonce } from '../../generate-nonce/nonce';
+import { useCsrf } from '../../context/CsrfContext';
 
 const CustomPwdUpdateModal = ({ title, message, onClose }) => {
-
+  const csrfToken = useCsrf()
   const nonce = generateNonce()
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(true);
@@ -34,7 +35,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
     onClose();
   };
 
-  const submitUpdatePwd = async (e, user, confPwd, newPwd) => {
+  const submitUpdatePwd = async (e, user, confPwd, newPwd, csrf) => {
     e.preventDefault();
     try {
       if (user) {
@@ -48,24 +49,28 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
 
         // Test password to see if valid (returns boolean)
         const isValidPwd = pwdPattern.test(newPwd);
-   
+
         const removeSpaceConfPwd = confPwd.replace(/\s+/g, '').trim()
         const removeSpaceNewPwd = newPwd.replace(/\s+/g, '').trim()
 
-        if(!removeSpaceConfPwd.length > 0){
+        if (!removeSpaceConfPwd.length > 0) {
           setUpdatePwdErrorMsg('Saisir votre mot de passe avant de le changer!')
           setDisplayUpdatePwdErrorMsg(true)
         }
-        if(!removeSpaceNewPwd.length > 0){
+        if (!removeSpaceNewPwd.length > 0) {
           setUpdatePwdErrorMsg('Entrer le nouveau mot de passe!')
           setDisplayUpdatePwdErrorMsg(true)
         }
-        if(!isValidPwd){
+        if (!isValidPwd) {
           setUpdatePwdErrorMsg('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole!')
           setDisplayUpdatePwdErrorMsg(true)
         }
+        if(!csrf){
+          console.log('No csrf token')
+          return;
+        }
 
-        await updateUserPwd(user, data)
+        await updateUserPwd(user, data, csrf)
         onClose();
         // Set url to display update password success message
         navigate('/parametre?pwd-conf=true')
@@ -74,7 +79,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
     } catch (error) {
       console.error('Error handling user password update:', error.message);
       const removeSpaceConfPwd = confPwd.replace(/\s+/g, '').trim()
-      if(removeSpaceConfPwd.length > 0){
+      if (removeSpaceConfPwd.length > 0) {
         setWrongPwdConfMsg('Confirmation de mot de passe incorrect!')
         setCatchErrorMsg(true)
       }
@@ -93,12 +98,12 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
           <div>{message}</div>
         </div>
         <div className="modal-footer">
-          <form onSubmit={(e) => submitUpdatePwd(e, userId, currentPwd, newPwd)}>
+          {csrfToken && <form onSubmit={(e) => submitUpdatePwd(e, userId, currentPwd, newPwd, csrfToken)}>
             <div className='input-and-label-container'>
               {displayUpdatePwdErrorMsg && updatePwdErrorMsg && <div className='email-error'>{updatePwdErrorMsg}</div>}
               {catchErrorMsg && wrongPwdConfMsg && <div className='email-error'>{wrongPwdConfMsg}</div>}
               <div className='mb-3 input-label-container'>
-                <LabelDisplay labelHandler='pwd-conf-field' labelText='Entrer votre mot de passe actuel' labelStyle={{ color: '#0940119d', fontWeight: '700' }} nonce={nonce}/>
+                <LabelDisplay labelHandler='pwd-conf-field' labelText='Entrer votre mot de passe actuel' labelStyle={{ color: '#0940119d', fontWeight: '700' }} nonce={nonce} />
               </div>
               <div className='input-filed-container mb-3'>
                 <InputField
@@ -113,7 +118,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
             </div>
             <div className='input-and-label-container'>
               <div className='mb-3 input-label-container'>
-                <LabelDisplay labelHandler='new-pwd-field' labelText='Nouveau mot de passe' labelStyle={{ color: '#0940119d', fontWeight: '700'}} nonce={nonce}/>
+                <LabelDisplay labelHandler='new-pwd-field' labelText='Nouveau mot de passe' labelStyle={{ color: '#0940119d', fontWeight: '700' }} nonce={nonce} />
               </div>
               <div className='input-filed-container mb-5'>
                 <InputField
@@ -130,7 +135,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
             <div className='option-create-acc-upper-container'>
               <Link className='creat-acc-option option-forgotten-pwd' >Mot de passe oublié ?</Link>
             </div>
-          </form>
+          </form>}
         </div>
       </div>}
     </div >

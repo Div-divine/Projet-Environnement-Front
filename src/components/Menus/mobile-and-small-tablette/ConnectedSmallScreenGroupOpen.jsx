@@ -1,10 +1,12 @@
 import '../../../style/open-small-menu.css';
 import logo from '../../../assets/logo-site-environnement.png';
 import { useNavigate, NavLink } from 'react-router-dom';
-import UserWithAddedGroups from '../../../api/UserWithGroupsApi';
+import userWithAddedGroups from '../../../api/UserWithGroupsApi';
 import { useState, useEffect } from 'react';
+import { useCsrf } from '../../../context/CsrfContext';
 
 const SmallScreenOpenGroup = ({ closeMenu }) => {
+    const csrfToken = useCsrf()
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId')
     const [groupNames, setGroupNames] = useState([]);
@@ -12,9 +14,9 @@ const SmallScreenOpenGroup = ({ closeMenu }) => {
     // Get all groups linked to user
     useEffect(() => {
         async function groupRetrieve() {
-            if (userId) {
+            if (userId && csrfToken) {
                 try {
-                    const response = await UserWithAddedGroups(userId);
+                    const response = await userWithAddedGroups(userId, csrfToken);
                     setUserGroups(response.data);
                 } catch (error) {
                     console.error('Error fetching user groups:', error);
@@ -22,7 +24,7 @@ const SmallScreenOpenGroup = ({ closeMenu }) => {
             }
         }
         groupRetrieve();
-    }, [userId]);
+    }, [userId, csrfToken]);
 
     useEffect(() => {
         if (userGroups) {

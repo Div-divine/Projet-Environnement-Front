@@ -2,13 +2,21 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    background-color: #F0ECE6;
+    background-color: #094011;
     margin-bottom: 30px;
-    padding: 10px 0px 10px 0px;
-    width: 83%;
+    padding: 20px 0px 20px 0px;
+    width: 85%;
     margin-left: 15%;
+    color: #F0ECE6;
+    border-radius: 0px 0px 15px 15px ;
 }
-
+.users-and-sidebar-container div{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .upper-users-text-container {
     display: flex;
     flex-wrap: wrap;
@@ -63,10 +71,7 @@
     justify-content: baseline;
 }
 
-.table-container {
-    background-color: white;
-    width: 1200px;
-}
+
 
 .user-image-container {
     height: auto;
@@ -218,70 +223,6 @@
     }
 }
 
-
-.table {
-    width: 100%;
-    height: auto;
-}
-
-.table thead th {
-    background-color: #F0ECE6;
-}
-
-.table tbody tr th {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.table tr:hover {
-    background-color: #A9BEAC;
-}
-
-.table-names-text {
-    font-family: "Crimson Text", serif;
-    font-size: small;
-}
-
-.table-header-text {
-    font-family: "Crimson Text", serif;
-    font-weight: 700;
-}
-
-.table-container {
-    box-shadow: 0px 0px 4px 0px #094011;
-}
-
-.best-users-text {
-    background-color: #094011;
-    padding: 6px;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    color: white;
-    border-radius: 20px
-}
-
-.average-users-text {
-    background: #ffc107;
-    padding: 6px;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    color: white;
-    border-radius: 20px
-}
-
-.unactive-users-text {
-    background-color: #dc3545;
-    padding: 6px;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    color: white;
-    border-radius: 20px
-}
 .small-screen-msg-input-container{
     display: flex;
     flex-wrap: wrap;
@@ -300,4 +241,8 @@
 .small-screen-msg-input:hover{
     font-weight: 700;
     color: #ffffff;
+}
+.stick-top-user-search-container{
+    position: sticky;
+    top: 0;
 }

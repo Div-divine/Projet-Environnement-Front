@@ -1,8 +1,12 @@
 import Axios from "axios";
-const deleteFriends = async (user1Id, user2Id) => {
+
+const deleteFriends = async (user1Id, user2Id, csrfToken) => {
     const token = localStorage.getItem('token');
+
     try {
         Axios.defaults.headers.common['Authorization'] = token;
+        // Set CSRF token in headers
+        Axios.defaults.headers.common['CSRF-Token'] = csrfToken;
         const response = await Axios.delete(`http://localhost:3000/friends/${user1Id}/${user2Id}`);
         return response; // Return the response data
     } catch (error) {

@@ -22,11 +22,12 @@ import getUserDataById from "../../api/GetUserDataByIdApi";
 import { useParams } from "react-router-dom";
 import singleGroupData from "../../api/SingleGroupDataApi";
 import { generateNonce } from "../../generate-nonce/nonce";
+import { useCsrf } from "../../context/CsrfContext";
 
 
 
 const DisplayUploadedPosts = ({ groupId }) => {
-
+    const csrfToken = useCsrf()
     const nonce = generateNonce()
     // Define a state to track whether the post is incognito
     const [isIncognito, setIsIncognito] = useState(false);
@@ -72,15 +73,15 @@ const DisplayUploadedPosts = ({ groupId }) => {
     }, [id])
 
     useEffect(() => {
-        if (firstParamsId) {
-            async function getGroupData(id) {
-                const response = await singleGroupData(id);
+        if (firstParamsId && csrfToken) {
+            async function getGroupData(id, csrf) {
+                const response = await singleGroupData(id, csrf);
                 console.log('group data response are :', response);
                 setGroupData(response);
             }
-            getGroupData(firstParamsId);
+            getGroupData(firstParamsId, csrfToken);
         }
-    }, [firstParamsId])
+    }, [firstParamsId, csrfToken])
 
     const postContainer = document.querySelectorAll('.post-text-container');
 
@@ -93,7 +94,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
         e.preventDefault();
         try {
             // Check if post, groupId, and userId are available
-            if (post && groupData && userId) {
+            if (post && groupData && userId && csrfToken) {
 
                 if (postWithoutSpecialCharaters.length > 0) {
                     const postData = {
@@ -102,11 +103,11 @@ const DisplayUploadedPosts = ({ groupId }) => {
                         userId
                     };
                     if (!isIncognito) {
-                        await insertUserPostIntoGroup(postData);
+                        await insertUserPostIntoGroup(postData, csrfToken);
                     } else {
-                        await insertUserPostIncognito(postData);
+                        await insertUserPostIncognito(postData, csrfToken);
                     }
-                    getGroupPosts(groupData.group_id);
+                    getGroupPosts(groupData.group_id, csrfToken);
                     // Reset post
                     setPost('');
                     // Unckeck the check box once the post having an incognito state is submitted
@@ -126,51 +127,51 @@ const DisplayUploadedPosts = ({ groupId }) => {
     };
 
     useEffect(() => {
-        if (userId) {
-            async function getUserData(id) {
-                const response = await getUserDataById(id);
+        if (userId && csrfToken) {
+            async function getUserData(id, csrf) {
+                const response = await getUserDataById(id, csrf);
                 setConnectedUserData(response.user);
                 console.log('Connected user in group is:', response)
             }
-            getUserData(userId)
+            getUserData(userId, csrfToken)
         }
-    }, [userId]);
+    }, [userId, csrfToken]);
 
     const handleChange = (e) => {
         setPost(e.target.value);
     }
 
     useEffect(() => {
-        if (firstParamsId) {
-            async function getGroupData(id) {
-                const response = await singleGroupData(id);
+        if (firstParamsId && csrfToken) {
+            async function getGroupData(id, csrf) {
+                const response = await singleGroupData(id, csrf);
                 console.log('group data response are :', response);
                 setGroupData(response);
             }
-            getGroupData(firstParamsId);
+            getGroupData(firstParamsId, csrfToken);
         }
-    }, [firstParamsId])
+    }, [firstParamsId, csrfToken])
 
     useEffect(() => {
-        if (groupId) {
-            const getData = async (id) => {
-                const response = await GetAllPosts(id);
+        if (groupId && csrfToken) {
+            const getData = async (id, csrf) => {
+                const response = await GetAllPosts(id, csrf);
                 console.log('Posts from group are: ', response);
                 setPosts(response);
             }
-            getData(groupId)
+            getData(groupId, csrfToken)
         }
-    }, [groupId]);
+    }, [groupId, csrfToken]);
 
     // Get all posts
-    function getGroupPosts(groupId) {
-        if (groupId) {
-            const getData = async (id) => {
-                const response = await GetAllPosts(id);
+    function getGroupPosts(groupId, csrfToken) {
+        if (groupId && csrfToken) {
+            const getData = async (id, csrf) => {
+                const response = await GetAllPosts(id, csrf);
                 console.log('Posts from group are: ', response);
                 setPosts(response);
             }
-            getData(groupId)
+            getData(groupId, csrfToken)
         }
     }
 
@@ -206,8 +207,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const submitMsg = async (e, postId, userId) => {
         e.preventDefault();
 
-        if (userId) {
-            const insertPost = async (msg, post, user) => {
+        if (userId && csrfToken) {
+            const insertPost = async (msg, post, user, csrf) => {
                 // Remove special characters except parentheses, brackets, and exclamation marks preceded by a letter
                 const cleanedMsg = msg.replace(/[^\w\s]/gi, '').trim()
                 if (cleanedMsg.length > 0) {
@@ -216,11 +217,11 @@ const DisplayUploadedPosts = ({ groupId }) => {
                         postId: post,
                         userId: user
                     }
-                    await insertPostComment(userPostComment);
+                    await insertPostComment(userPostComment, csrf);
                     await fetchComments();
                 }
             }
-            insertPost(msg[postId], postId, userId);
+            insertPost(msg[postId], postId, userId, csrfToken);
         }
         // Clear the message for the specific post after submitting
         setMsg(prevState => ({
@@ -233,10 +234,10 @@ const DisplayUploadedPosts = ({ groupId }) => {
     const fetchComments = async () => {
         console.log("Fetching comments...");
         const fetchedComments = {};
-        if (posts) {
+        if (posts && csrfToken) {
             for (const post of posts) {
                 const postId = post.post_id;
-                const comments = await getPostCommentsAndSender(postId);
+                const comments = await getPostCommentsAndSender(postId, csrfToken);
                 console.log("Comments for post", postId, ":", comments);
                 fetchedComments[postId] = comments;
             }
@@ -251,32 +252,32 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }));
     };
 
-    const deletePost = (postUserId, postId, groupId) => {
-        if (postUserId && postId && groupId) {
-            const deleteUserPost = async (id, postAuth) => {
-                await DeletePostAndComments(id, postAuth);
+    const deletePost = (postUserId, postId, groupId, csrf) => {
+        if (postUserId && postId && groupId, csrf) {
+            const deleteUserPost = async (id, postAuth, csrf) => {
+                await DeletePostAndComments(id, postAuth, csrf);
             }
 
-            deleteUserPost(postId, postUserId);
-            getGroupPosts(groupId);
+            deleteUserPost(postId, postUserId, csrf);
+            getGroupPosts(groupId, csrf);
         }
     };
 
     // Submit form (textarea value) once Enter is clicked on keyboard and set the updated value
     const handleKeyPress = async (event, postId, updateValue, userId) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && csrfToken) {
             event.preventDefault();
             try {
                 const values = Object.values(updateValue);
                 const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim();
                 if (values.length > 0 && postId && newUpdate.length > 0 && userId) {
-                    await updateUserPost(postId, userId, { postContent: values[0].trim() });
+                    await updateUserPost(postId, userId, { postContent: values[0].trim() }, csrfToken);
                     setUpdateValue(prevState => ({
                         ...prevState,
                         [postId]: ''
                     }));
                     setIsUpdate(false);
-                    getGroupPosts(groupData.group_id); // Fetch the updated posts
+                    getGroupPosts(groupData.group_id, csrfToken); // Fetch the updated posts
                 }
             } catch (error) {
                 console.error('Error updating data:', error);
@@ -322,9 +323,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
         setIsUpdate(false);
     }
 
-    async function deleteComment(commentId, userId) {
-        if (userId) {
-            await DeleteUserComments(commentId, userId);
+    async function deleteComment(commentId, userId, csrf) {
+        if (userId && csrf && commentId) {
+            await DeleteUserComments(commentId, userId, csrf);
             await fetchComments();
         }
     }
@@ -355,14 +356,14 @@ const DisplayUploadedPosts = ({ groupId }) => {
         }
     }, [commentUpdateValue]);
 
-    async function keyPressUpdateComment(event, commentId, updateCommentValue, userId) {
+    async function keyPressUpdateComment(event, commentId, updateCommentValue, userId, csrfToken) {
         if (event.key === 'Enter') {
             event.preventDefault();
             try {
                 const values = Object.values(updateCommentValue);
                 const newUpdate = values[0].replace(/[^\w\s]/gi, '').trim()
-                if (values.length > 0 && commentId && newUpdate.length > 0 && userId) {
-                    await updateUserComment(commentId, userId, { updateContent: values[0].trim() });
+                if (values.length > 0 && commentId && newUpdate.length > 0 && userId && csrfToken) {
+                    await updateUserComment(commentId, userId, { updateContent: values[0].trim() }, csrfToken);
                     setCommentUpdateValue(prevState => ({
                         ...prevState,
                         [commentId]: ''
@@ -493,9 +494,9 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                         </div>}
                                     </div>
                                 )}
-                                {posts[index].user_id && posts[index].user_id == userId && <div className="edit-and-delete-post-container">
+                                { csrfToken && posts[index].user_id && posts[index].user_id == userId && <div className="edit-and-delete-post-container">
                                     <Link className="edit-post-text" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>
-                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].user_id, posts[index].post_id, posts[index].group_id)}>Supprimer</Link>
+                                    <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].user_id, posts[index].post_id, posts[index].group_id, csrfToken)}>Supprimer</Link>
                                 </div>}
                             </div> {/* Display posts user content and ensure newlines */}
 
@@ -535,14 +536,14 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                         {/* Edit comment field */}
                                         {userId == comment.user_id && commentIdBeingEdited == comment.comment_id && commentUpdatestate && (
                                             <div className="update-comment-form-container">
-                                                { userId && <form>
+                                                { userId && csrfToken && <form>
                                                     <textarea
                                                         value={commentUpdateValue[comment.comment_id] || ''}
                                                         onChange={(e) => setCommentUpdateValue(prevState => ({
                                                             ...prevState,
                                                             [comment.comment_id]: e.target.value
                                                         }))}
-                                                        onKeyPress={(e) => keyPressUpdateComment(e, comment.comment_id, commentUpdateValue, userId)}
+                                                        onKeyPress={(e) => keyPressUpdateComment(e, comment.comment_id, commentUpdateValue, userId, csrfToken)}
                                                     />
                                                 </form>}
                                             </div>
@@ -555,8 +556,8 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                                 <Link className="edit-post-text comment-edit" onClick={() => updateComment(comment.comment_id, comment.comment_msg)}>Editer</Link>
                                             )}
                                             {/* Allow deletion if userId matches post.user_id or if userId matches comment.user_id */}
-                                            {userId && (userId == posts[index].user_id || userId == comment.user_id) && (
-                                                <Link className="delete-post-text comment-edit" onClick={() => deleteComment(comment.comment_id, userId)}>Supprimer</Link>
+                                            {userId && csrfToken && (userId == posts[index].user_id || userId == comment.user_id) && (
+                                                <Link className="delete-post-text comment-edit" onClick={() => deleteComment(comment.comment_id, userId, csrfToken)}>Supprimer</Link>
                                             )}
                                         </div>
                                     </div>

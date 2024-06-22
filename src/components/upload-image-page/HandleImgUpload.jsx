@@ -7,8 +7,10 @@ import uploadImage from '../../api/UploadImageApi';
 import sendUsrImgDb from '../../api/SendUserImageApi';
 import useUserData from '../../api/UserInfoApi';
 import { generateNonce } from '../../generate-nonce/nonce';
+import { useCsrf } from '../../context/CsrfContext';
 
 const FileUploadForm = () => {
+  const csrfToken = useCsrf()
   const nonce = generateNonce()
   const [imagePreview, setImagePreview] = useState(null); // State for preview image
   const [imageError, setImageError] = useState(null); // State for image error message
@@ -27,17 +29,16 @@ const FileUploadForm = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (userId && imgName) {
-      async function addUsrImgToDb(data) {
-        const response = sendUsrImgDb(data)
+    if (userId && imgName && csrfToken) {
+      async function addUsrImgToDb(data, csrf) {
+        const response = await sendUsrImgDb(data, csrf)
         return response;
       }
-
       const data = { userId, imageName: imgName }
 
-      addUsrImgToDb(data)
+      addUsrImgToDb(data, csrfToken)
     }
-  }, [userId, imgName])
+  }, [userId, imgName, csrfToken])
 
   const sanitizeFileName = (fileName) => {
     return fileName
@@ -89,16 +90,16 @@ const FileUploadForm = () => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const handleSubmit = async (e, submittedImage, userId) => {
+  const handleSubmit = async (e, submittedImage, userId, csrf) => {
     e.preventDefault();
-    if (submittedImage && userId) {
+    if (submittedImage && userId && csrf) {
       // Here you can access the submitted image and its path
       console.log('Submitted image:', submittedImage);
       try {
         // Create FormData object
         const formData = new FormData();
         formData.append('file', submittedImage); // Append the image file
-        const response = await uploadImage(userId, formData)
+        const response = await uploadImage(userId, formData, csrf)
         console.log('File uploaded is:', response)
         if (response.message == 'File uploaded successfully') {
           setImgName(response.filename)
@@ -119,7 +120,7 @@ const FileUploadForm = () => {
       <main className="unread-msg-main-container">
         <DisplayConnectedSmallMenu />
         <div className='setting-section-container unread-msg-and-users-container'>
-          { userId && <form onSubmit={(e) => handleSubmit(e, submittedImage, userId)}>
+          { userId && csrfToken && <form onSubmit={(e) => handleSubmit(e, submittedImage, userId, csrfToken)}>
             <div {...getRootProps()} style={{ border: '1px dashed gray', padding: '20px'}} nonce={nonce}>
               <input {...getInputProps()} onChange={(event) => setSubmittedImage(event.target.files[0])} />
               <p>Glisser et déposer un fichier ici, ou cliquer pour sélectionner</p>

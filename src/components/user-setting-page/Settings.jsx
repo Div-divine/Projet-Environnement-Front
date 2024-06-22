@@ -11,14 +11,16 @@ import updateUserEmail from "../../api/UpdateUserEmailApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import removeUserDisplayedImg from "../../api/UpdateUserToRemoveDisplayedImgApi";
 import userDisplayedImg from "../../api/DisplayUserImgApi";
+import { useCsrf } from "../../context/CsrfContext";
 
 const UserSettings = () => {
+    const csrfToken = useCsrf()
     const navigate = useNavigate()
     const [openNameModify, setOpenNameModify] = useState(false)
     const [openEmailModify, setOpenEmailModify] = useState(false)
     const [userId, setUserId] = useState(null);
     const initialUserData = useUserData();
-    const [userData, setUserData] = useState(null); 
+    const [userData, setUserData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [updatedNewName, setUpdatedNewName] = useState('')
     const [updatedNewEmail, setUpdatedNewEmail] = useState('')
@@ -77,8 +79,8 @@ const UserSettings = () => {
         return () => clearTimeout(timer); // Cleanup the timer on unmount or when `pwdConfSuccessMsg` changes
     }, [pwdConfSuccessMsg]);
 
-     // Remove success image upload message after 3 seconds
-     useEffect(() => {
+    // Remove success image upload message after 3 seconds
+    useEffect(() => {
         let timer;
         if (profileImgUpdate) {
             timer = setTimeout(() => {
@@ -125,25 +127,25 @@ const UserSettings = () => {
         }
     }, [initialUserData]);
 
-    useEffect(()=>{
-        if(updatedNewName){
+    useEffect(() => {
+        if (updatedNewName) {
             const removeSpace = updatedNewName.replace(/\s+/g, '').trim()
-            if(removeSpace.length > 0){
+            if (removeSpace.length > 0) {
                 setDisplayUpdateNameError(false)
                 setUpdateNameConflictError(false)
             }
         }
-    },[updatedNewName])
+    }, [updatedNewName])
 
-    useEffect(()=>{
-        if(updatedNewEmail){
+    useEffect(() => {
+        if (updatedNewEmail) {
             const removeSpace = updatedNewEmail.replace(/\s+/g, '').trim()
-            if(removeSpace.length > 0){
+            if (removeSpace.length > 0) {
                 setDisplayUpdateEmailError(false)
                 setUpdateEmailConflictError(false)
             }
         }
-    },[updatedNewEmail])
+    }, [updatedNewEmail])
 
     function openUpdateNameField(e) {
         setOpenNameModify(!openNameModify)
@@ -163,14 +165,14 @@ const UserSettings = () => {
     };
 
 
-    async function submitUpdateName(e, newName, userId) {
+    async function submitUpdateName(e, newName, userId, csrf) {
         e.preventDefault()
         try {
             // Prevent empty name form submit
             const noSpaceNewName = newName.replace(/\s+/g, '');
-            if (newName && noSpaceNewName.length > 0 && initialUserData) {
-                const userNewName = { newName: newName.trim()}
-                await updateUserName(userId, userNewName)
+            if (newName && noSpaceNewName.length > 0 && initialUserData && csrf) {
+                const userNewName = { newName: newName.trim() }
+                await updateUserName(userId, userNewName, csrf)
                 setDisplayUpdateNameError(false)
                 setOpenNameModify(!openNameModify)
                 // Update to the new name
@@ -179,7 +181,7 @@ const UserSettings = () => {
                     user_name: newName.trim()
                 }));
             }
-            if(noSpaceNewName.length == 0){
+            if (noSpaceNewName.length == 0) {
                 setDisplayUpdateNameError(true)
             }
         } catch (error) {
@@ -187,14 +189,14 @@ const UserSettings = () => {
             setUpdateNameConflictError(true)
         }
     }
-    async function submitUpdateEmail(e, newEmail, userId) {
+    async function submitUpdateEmail(e, newEmail, userId, csrf) {
         e.preventDefault()
         try {
             // Prevent empty name form submit
             const noSpaceNewEmail = newEmail.replace(/\s+/g, '');
-            if (newEmail && noSpaceNewEmail.length > 0 && initialUserData) {
-                const userNewEmail = { newEmail: newEmail.trim()}
-                await updateUserEmail(userId, userNewEmail)
+            if (newEmail && noSpaceNewEmail.length > 0 && initialUserData && csrf) {
+                const userNewEmail = { newEmail: newEmail.trim() }
+                await updateUserEmail(userId, userNewEmail, csrf)
                 setDisplayUpdateNameError(false)
                 setOpenEmailModify(!openEmailModify)
                 // Update to the new email
@@ -203,7 +205,7 @@ const UserSettings = () => {
                     user_email: newEmail.trim()
                 }));
             }
-            if(noSpaceNewEmail.length == 0){
+            if (noSpaceNewEmail.length == 0) {
                 setDisplayUpdateEmailError(true)
             }
         } catch (error) {
@@ -212,30 +214,32 @@ const UserSettings = () => {
         }
     }
 
-    function redirectToUploadUsrImg(){
-        navigate('/parametre/photo-de-profile')
-    }
-    
-    function changeProfileImg(){
+    function redirectToUploadUsrImg() {
         navigate('/parametre/photo-de-profile')
     }
 
-    async function removeDisplayedImg(userId) {
-        const response = await removeUserDisplayedImg(userId);
+    function changeProfileImg() {
+        navigate('/parametre/photo-de-profile')
+    }
+
+    async function removeDisplayedImg(userId, csrf) {
+        const response = await removeUserDisplayedImg(userId, csrf);
         console.log('User displayed image removed:', response);
         if (response.data.message == 'User image display removed successfully!') {
-            navigate('/parametre?modif-img-profile=true');
+           window.location.href='/parametre?modif-img-profile=true';
         }
         return response.data
     }
 
-    async function activateDisplayedImg(userId) {
-        const response = await userDisplayedImg(userId);
-        console.log('User displayed image:', response);
-        if (response.data.message == 'User image display added successfully!') {
-            navigate('/parametre?img-profile=true')
+    async function activateDisplayedImg(userId, csrf) {
+        if (userId && csrf) {
+            const response = await userDisplayedImg(userId, csrf);
+            console.log('User displayed image:', response);
+            if (response.data.message == 'User image display added successfully!') {
+                window.location.href='/parametre?img-profile=true'
+            }
+            return response.data
         }
-        return response.data
     }
 
     return <>
@@ -246,21 +250,21 @@ const UserSettings = () => {
             {profileImgUpdate && <div className="unread-msg-and-users-container pwd-conf-success-msg">Image de profile ajoutée avec success!</div>}
             {removeProfileImg && <div className="unread-msg-and-users-container pwd-conf-success-msg remove-profile-img-msg">Image de profile désactivée!</div>}
             {displayProfileImg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Affichage d'image de profile faite avec succ!</div>}
-            {userData && <div className="setting-section-container unread-msg-and-users-container">
+            {userData && csrfToken && <div className="setting-section-container unread-msg-and-users-container">
                 <div className="setting-user-img-container setting-txt">Paramètre</div>
                 <div className="setting-user-img-container"><img src={(userData.user_img && userData.show_user_image ? `${imgUrl}/${userData.user_img}` : userIcon)} alt="user image" /></div>
                 {userData.user_img ? <div className="setting-image-btns-container">
-                    {userData.show_user_image ? <div onClick={() => removeDisplayedImg(userData.user_id)} className="remove-image-display-container"><GreenSbmtBtn value={'Désactiver l\'affichage de photo'} /></div> :
-                    <div  onClick={() => activateDisplayedImg(userData.user_id)} className="remove-image-display-container" ><GreenSbmtBtn value={'Activer l\'affichage de photo'} /></div>}
+                    {userData.show_user_image && csrfToken ? <div onClick={() => removeDisplayedImg(userData.user_id, csrfToken)} className="remove-image-display-container"><GreenSbmtBtn value={'Désactiver l\'affichage de photo'} /></div> :
+                        <div onClick={() => activateDisplayedImg(userData.user_id, csrfToken)} className="remove-image-display-container" ><GreenSbmtBtn value={'Activer l\'affichage de photo'} /></div>}
                     <div className="replace-image-display-container" onClick={changeProfileImg}><GreenSbmtBtn value={'Changer votre photo de profile'} /></div>
                 </div> : <div className="replace-image-display-container" onClick={redirectToUploadUsrImg}><GreenSbmtBtn value={'Uploader une photo de profile'} /></div>}
-                { displayUpdateNameError && <div className="name-error name-error-container">Saisissez un nom!</div>}
+                {displayUpdateNameError && <div className="name-error name-error-container">Saisissez un nom!</div>}
                 {UpdateNameConflictError && <div className="name-error name-error-container">Ce nom existe déja</div>}
                 <div className="setting-div-upper-container name-container">
                     <div className="flex-column-div name-title">Nom: </div>
                     <div className="flex-column-div user-info">{userData.user_name}</div>
                     {!openNameModify && <div onClick={openUpdateNameField}><GreenSbmtBtn value={'Modifier'} /></div>}
-                    {openNameModify && <div className="setting-form "><form onSubmit={(e) => submitUpdateName(e, updatedNewName, userData.user_id)} className="form-container">
+                    {openNameModify && csrfToken && <div className="setting-form "><form onSubmit={(e) => submitUpdateName(e, updatedNewName, userData.user_id, csrfToken)} className="form-container">
                         <div className='grn-btn-container setting-input-container'>
                             <input type="text" value={updatedNewName} onChange={(e) => setUpdatedNewName(e.target.value)} />
                         </div>
@@ -277,7 +281,7 @@ const UserSettings = () => {
                     <div className="flex-column-div name-title">Email: </div>
                     <div className="flex-column-div user-info">{userData.user_email}</div>
                     {!openEmailModify && <div onClick={openUpdateEmailField}><GreenSbmtBtn value={'Modifier'} /></div>}
-                    {openEmailModify && <div className="setting-form "><form onSubmit={(e) => submitUpdateEmail(e, updatedNewEmail, userData.user_id)} className="form-container">
+                    {openEmailModify && csrfToken && <div className="setting-form "><form onSubmit={(e) => submitUpdateEmail(e, updatedNewEmail, userData.user_id, csrfToken)} className="form-container">
                         <div className='grn-btn-container setting-input-container'>
                             <input type="text" value={updatedNewEmail} onChange={(e) => setUpdatedNewEmail(e.target.value)} />
                         </div>

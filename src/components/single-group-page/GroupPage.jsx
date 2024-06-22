@@ -18,9 +18,10 @@ import GetUserInGroup from '../../api/GetUserIfInAGroupApi';
 import CustomModal from '../modalbox/CustomModalBox';
 import userQuitsGroup from '../../api/HandleUserQuitsGroupApi';
 import userQuitGroupSatus from '../../api/getUserQuitGroupStatusApi';
+import { useCsrf } from '../../context/CsrfContext';
 
 const RenderSinglePostPage = () => {
-
+    const csrfToken = useCsrf()
     const navigate = useNavigate()
     // Access the id parameter from the URL
     const { id } = useParams()
@@ -51,44 +52,44 @@ const RenderSinglePostPage = () => {
     }, [id])
 
     useEffect(() => {
-        if (firstParamsId) {
-            async function getGroupData(id) {
-                const response = await singleGroupData(id);
+        if (firstParamsId && csrfToken) {
+            async function getGroupData(id, csrf) {
+                const response = await singleGroupData(id, csrf);
                 console.log('group data response are :', response);
                 setGroupData(response);
             }
-            getGroupData(firstParamsId);
+            getGroupData(firstParamsId, csrfToken);
         }
-    }, [firstParamsId])
+    }, [firstParamsId, csrfToken])
 
 
 
     useEffect(() => {
-        if (firstParamsId && userId) {
+        if (firstParamsId && userId && csrfToken) {
 
-            async function userIdInGroup(id) {
-                const getMemberId = await GetUserInGroup({ userId, groupId: id })
+            async function userIdInGroup(id, csrf) {
+                const getMemberId = await GetUserInGroup({ userId, groupId: id }, csrf)
                 console.log('Is a member Id:', getMemberId.user_id)
                 setISMemId(getMemberId.user_id)
             }
 
-            userIdInGroup(firstParamsId)
+            userIdInGroup(firstParamsId, csrfToken)
         }
 
-    }, [firstParamsId, userId])
+    }, [firstParamsId, userId, csrfToken])
 
     // Change user membership status once he is no more part of group
     useEffect(() => {
-        if (userId && firstParamsId) {
-            async function getStatusQuit(user, group) {
-                const response = await userQuitGroupSatus(user, group);
+        if (userId && firstParamsId && csrfToken) {
+            async function getStatusQuit(user, group, csrf) {
+                const response = await userQuitGroupSatus(user, group, csrf);
                 console.log('Quit group status:', response)
                 setUserLeft(response.quit_group);
                 return response;
             }
-            getStatusQuit(userId, firstParamsId);
+            getStatusQuit(userId, firstParamsId, csrfToken);
         }
-    }, [userId, firstParamsId])
+    }, [userId, firstParamsId, csrfToken])
 
 
     useEffect(() => {
@@ -114,25 +115,25 @@ const RenderSinglePostPage = () => {
 
 
     useEffect(() => {
-        if (firstParamsId) {
-            async function getGroupUsers(firstParamsId) {
-                const response = await allUsersOfGroup(firstParamsId);
+        if (firstParamsId && csrfToken) {
+            async function getGroupUsers(firstParamsId, csrf) {
+                const response = await allUsersOfGroup(firstParamsId, csrf);
                 console.log('User of group data response are :', response);
                 setUserInGroup(response)
 
             }
-            getGroupUsers(firstParamsId)
+            getGroupUsers(firstParamsId, csrfToken)
         }
-    }, [firstParamsId]);
+    }, [firstParamsId, csrfToken]);
 
 
-    async function addUserToGroup(groupId, id, groupName){
-            if(groupId && id && groupName){
+    async function addUserToGroup(groupId, id, groupName, csrf){
+            if(groupId && id && groupName && csrf){
                 const data = {
                     userId,
                     groupId
                 };
-                await UserWithGroups(data);
+                await UserWithGroups(data, csrf);
                 window.location.href=`/${groupName}/${id}?group-added=true`
             }
     }
@@ -148,9 +149,9 @@ const RenderSinglePostPage = () => {
     };
 
     const handleQuitGroup = async () => {
-        if (userId && clickedGroupId) {
+        if (userId && clickedGroupId && csrfToken) {
             try {
-                await userQuitsGroup(clickedGroupId, { userId });
+                await userQuitsGroup(clickedGroupId, { userId }, csrfToken);
                 navigate('/accueil');
             } catch (error) {
                 console.error('Error deleting friend:', error);
@@ -191,9 +192,9 @@ const RenderSinglePostPage = () => {
                             }
                         </div>
                     </div>
-                    {groupData && userId && firstParamsId &&  id && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
+                    {csrfToken && groupData && userId && firstParamsId &&  id && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
-                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id, id, groupData.group_name)} >Faire partir du groupe</button>
+                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id, id, groupData.group_name, csrfToken)} >Faire partir du groupe</button>
                             : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button> )}
                     />}
                 </div>

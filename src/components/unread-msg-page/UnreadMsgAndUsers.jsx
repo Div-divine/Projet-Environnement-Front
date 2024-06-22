@@ -9,8 +9,10 @@ import chatRoom from "../../api/creatingChatRoomApi";
 import { useNavigate } from "react-router-dom";
 import DisplayConnectedSmallMenu from "../Menus/DisplaySmallScreenConnectedMenu";
 import userIcon from '../../assets/user-profile.svg';
+import { useCsrf } from "../../context/CsrfContext";
 
 const DisplayUnreadMsgUsers = () => {
+    const csrfToken = useCsrf()
     const navigate = useNavigate()
     const userId = localStorage.getItem('userId');
     const [unreadMsgAndUser, setUnreadMsgAndUsers] = useState(null);
@@ -24,17 +26,17 @@ const DisplayUnreadMsgUsers = () => {
     const imgUrl = 'http://localhost:3000/assets';
 
     useEffect(() => {
-        if (userId) {
-            async function getData(id) {
-                const data = await GetUnreadMsg(id)
+        if (userId && csrfToken) {
+            async function getData(id, csrf) {
+                const data = await GetUnreadMsg(id, csrf)
                 console.log('Unread Msg Datas:', data)
                 if (data !== 'No unread message found') {
                     setUnreadMsgAndUsers(data);
                 }
             }
-            getData(userId);
+            getData(userId, csrfToken);
         }
-    }, [userId]);
+    }, [userId, csrfToken]);
 
     useEffect(() => {
         if (unreadMsgAndUser) {
@@ -78,13 +80,13 @@ const DisplayUnreadMsgUsers = () => {
 
     console.log('grouped messages:', groupedMessages);
 
-    async function openChatRoom(userClickedId) {
-        if (userId && userClickedId) {
+    async function openChatRoom(userClickedId, csrf) {
+        if (userId && userClickedId && csrf) {
             try {
                 console.log('User connected in unread msg :', userId , 'User clicked to see unread msg:', userClickedId)
                 setClickedUserId(userClickedId);
                 // Check if chatroom already exists
-                const chatroomIdData = await existsChatroom(userId, userClickedId);
+                const chatroomIdData = await existsChatroom(userId, userClickedId, csrf);
                 if (chatroomIdData && chatroomIdData.chatroom_id) {
                     // If chatroom already exists, set user ids and redirect to chat page
                     setUser1Id(userId);
@@ -93,7 +95,7 @@ const DisplayUnreadMsgUsers = () => {
                 } else {
                     // If chatroom doesn't exist, create it
                     const usersToConnect = { user1Id: userId, user2Id: userClickedId };
-                    await chatRoom(usersToConnect);
+                    await chatRoom(usersToConnect, csrf);
                     // Set user ids and redirect to chat page
                     setUser1Id(userId);
                     setUser2Id(userClickedId);
@@ -140,9 +142,9 @@ const DisplayUnreadMsgUsers = () => {
                                         <div className="msg-date-sent name-font">
                                             {formattedDates[index]}
                                         </div>
-                                        <div className="chat-btn-container">
-                                            <input type="button" value="Chat" onClick={() => openChatRoom(data.sender_user_id)} />
-                                        </div>
+                                        {csrfToken && <div className="chat-btn-container">
+                                            <input type="button" value="Chat" onClick={() => openChatRoom(data.sender_user_id, csrfToken)} />
+                                        </div>}
                                     </div>
                                 </div>
                             </div>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../style/FriendsStyle.css';
 import GetAllUserFriends from '../../api/GettingUserFriendsApi';
 import SideBar from '../Menus/SideBarMenu';
-import UserWithAddedGroups from '../../api/UserWithGroupsApi';
+import userWithAddedGroups from '../../api/UserWithGroupsApi';
 import existsChatroom from '../../api/ExistChatRoomApi';
 import chatRoom from '../../api/creatingChatRoomApi';
 import CustomModal from '../modalbox/CustomModalBox';
@@ -11,14 +11,14 @@ import deleteFriends from '../../api/DeleteUserFriendApi';
 import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 import userIcon from '../../assets/user-profile.svg';
 import useUserData from '../../api/UserInfoApi';
+import { useCsrf } from '../../context/CsrfContext';
 
 const FriendsPage = () => {
+  const csrfToken = useCsrf(); // Access CSRF token from context
   const navigate = useNavigate()
   const [freindsId, setFriendsId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [friendsData, setFriendsData] = useState(null);
-  const [user1Id, setUser1Id] = useState();
-  const [user2Id, setUser2Id] = useState();
   const [clickedUserId, setClickedUserId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userData = useUserData()
@@ -34,18 +34,18 @@ const FriendsPage = () => {
   const ClickHandler = async (userClickedId) => {
     setClickedUserId(userClickedId);
 
-    if (userId && userClickedId) {
+    if (userId && userClickedId && csrfToken) {
       try {
-        const chatroomIdData = await existsChatroom(userId, userClickedId);
+        const chatroomIdData = await existsChatroom(userId, userClickedId, csrfToken);
         if (chatroomIdData && chatroomIdData.chatroom_id) {
-          setUser1Id(userId);
-          setUser2Id(userClickedId);
+          localStorage.setItem('user1', userId);
+          localStorage.setItem('user2', userClickedId);
           navigate('/chat');
         } else {
           const usersToConnect = { user1Id: userId, user2Id: userClickedId };
-          await chatRoom(usersToConnect);
-          setUser1Id(userId);
-          setUser2Id(userClickedId);
+          await chatRoom(usersToConnect, csrfToken);
+          localStorage.setItem('user1', userId);
+          localStorage.setItem('user2', userClickedId);
           navigate('/chat');
         }
       } catch (error) {
@@ -64,9 +64,9 @@ const FriendsPage = () => {
   };
 
   const handleConfirmDelete = async () => {
-    if (userId && clickedUserId) {
+    if (userId && clickedUserId && csrfToken) {
       try {
-        await deleteFriends(userId, clickedUserId);
+        await deleteFriends(userId, clickedUserId, csrfToken);
         console.log('Delete action confirmed for user ID:', clickedUserId);
         setIsModalOpen(false);
         window.location.reload();
@@ -83,30 +83,24 @@ const FriendsPage = () => {
     }
   }, [clickedUserId]);
 
-  useEffect(() => {
-    if (user1Id && user2Id) {
-      localStorage.setItem('user1', user1Id);
-      localStorage.setItem('user2', user2Id);
-    }
-  }, [user1Id, user2Id]);
 
   useEffect(() => {
-    if (userId) {
-      const getFriends = async (id) => {
-        const response = await GetAllUserFriends(id);
+    if (userId && csrfToken) {
+      const getFriends = async (id, csrf) => {
+        const response = await GetAllUserFriends(id, csrf);
         console.log('User friends are:', response);
         setFriendsId(response);
       };
-      getFriends(userId);
+      getFriends(userId, csrfToken);
     }
-  }, [userId]);
+  }, [userId, csrfToken]);
 
   useEffect(() => {
-    if (freindsId) {
-      const getFriendsData = async (ids) => {
+    if (freindsId && csrfToken) {
+      const getFriendsData = async (ids, csrf) => {
         try {
           const promises = ids.map(async (friend) => {
-            const response = await UserWithAddedGroups(friend.user_id);
+            const response = await userWithAddedGroups(friend.user_id, csrf);
             return response.data;
           });
           const friendData = await Promise.all(promises);
@@ -115,9 +109,9 @@ const FriendsPage = () => {
           console.error("Error fetching friends data:", error);
         }
       };
-      getFriendsData(freindsId);
+      getFriendsData(freindsId, csrfToken);
     }
-  }, [freindsId]);
+  }, [freindsId, csrfToken]);
 
   useEffect(() => {
     if (friendsData) {

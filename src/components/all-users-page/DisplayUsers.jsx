@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 import SideBar from "../Menus/SideBarMenu";
 import '../../style/DisplayAllUsers.css'
-import climatChangeIcon from '../../assets/climate-change.svg';
-import biodiversityIcon from '../../assets/icon-biodiversity.svg';
-import wasteManagementIcon from '../../assets/icon-wastemanagement.svg';
-import teamSpeakIcon from '../../assets/teamspeak.svg';
-import threeIcon from '../../assets/three.svg';
-import waterIcon from '../../assets/water-icon.svg';
-import windIcon from '../../assets/wind-solid.svg';
 import userIcon from '../../assets/user-profile.svg';
 import JoinAllGroupsToUsers from "../../api/ListAllJoinUserWithGroupsApi";
 import SearchBar from "../input-field/SearchBar";
@@ -19,45 +12,38 @@ import chatRoom from "../../api/creatingChatRoomApi";
 import existsChatroom from "../../api/ExistChatRoomApi";
 import createFriends from "../../api/CreateFriendsApi";
 import DisplayConnectedSmallMenuy from "../Menus/DisplaySmallScreenConnectedMenu";
+import { useCsrf } from "../../context/CsrfContext";
 
 
 
 const RenderAllUsers = () => {
+    const csrfToken = useCsrf()
     const navigate = useNavigate();
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
     const userId = localStorage.getItem('userId');
-    const [clickedUserId, setClickedUserId] = useState(null);
     const [userGroups, setUserGroups] = useState([]);
     const [searchQuery, setSearchQuery] = useState(''); // State for search query
-    // Set users id's
-    const [user1Id, setUser1Id] = useState();
-    const [user2Id, setUser2Id] = useState();
 
     // Function to handle click on a user and get the id of the clicked user
     const handleUserClick = async (userClickedId) => {
-        setClickedUserId(userClickedId);
 
-        if (userId && userClickedId) {
+        if (userId && userClickedId && csrfToken) {
             try {
                 // Check if chatroom already exists
-                const chatroomIdData = await existsChatroom(userId, userClickedId);
+                const chatroomIdData = await existsChatroom(userId, userClickedId, csrfToken);
                 if (chatroomIdData && chatroomIdData.chatroom_id) {
                     // If chatroom already exists, set user ids and redirect to chat page
-                    setUser1Id(userId);
-                    setUser2Id(userClickedId);
                     localStorage.setItem('user1', userId);
                     localStorage.setItem('user2', userClickedId);
                     navigate('/chat');
                 } else {
                     // If chatroom doesn't exist, create it
                     const usersToConnect = { user1Id: userId, user2Id: userClickedId };
-                    await chatRoom(usersToConnect);
+                    await chatRoom(usersToConnect, csrfToken);
                     localStorage.setItem('user1', userId);
                     localStorage.setItem('user2', userClickedId);
                     // Set user ids and redirect to chat page
-                    setUser1Id(userId);
-                    setUser2Id(userClickedId);
                     navigate('/chat');
                 }
             } catch (error) {
@@ -66,37 +52,32 @@ const RenderAllUsers = () => {
         }
     };
 
-    const addFriend = async (userClickedId) => {
-        if (userId && userClickedId) {
+    const addFriend = async (userClickedId, csrf) => {
+        if (userId && userClickedId && csrf) {
             const friends = {
                 user1Id: userId,
                 user2Id: userClickedId
             }
-            await createFriends(friends);
+            await createFriends(friends, csrf);
             window.location.reload();
         }
     }
 
-    // useEffect(() => {
-    //     if (user1Id && user2Id) {
-    //         localStorage.setItem('user1', user1Id);
-    //         localStorage.setItem('user2', user2Id);
-    //     }
-    // }, [user1Id, user2Id])
-
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await JoinAllGroupsToUsers(userId);
-                setUserGroups(response.data);
-                console.log('Check users from list:', response.data)
-            } catch (error) {
-                console.error("Error fetching user groups:", error);
+        if (userId && csrfToken) {
+            async function fetchData() {
+                try {
+                    const response = await JoinAllGroupsToUsers(userId, csrfToken);
+                    setUserGroups(response.data);
+                    console.log('Check users from list:', response.data)
+                } catch (error) {
+                    console.error("Error fetching user groups:", error);
+                }
             }
-        }
 
-        fetchData();
-    }, [userId]);
+            fetchData();
+        }
+    }, [userId, csrfToken]);
 
     // Function to handle changes in the search input field
     const handleSearchChange = event => {
@@ -129,7 +110,7 @@ const RenderAllUsers = () => {
             <main className="main-elements">
                 <div className="small-screen-users-count">Total utilisateurs:  {filteredUserGroups.length + 1}</div>
                 <div className="user-listing-overall-container">
-                    {filteredUserGroups.map((user, index) => (
+                    {csrfToken && filteredUserGroups.map((user, index) => (
                         <div key={index} className="user-listing-container mb-3">
                             <div className="user-image-container" key={index}>
                                 {user.user.user_img && user.user.show_user_image ? <img src={`${imgUrl}/${user.user.user_img}`} alt="User" /> : <img src={userIcon} alt="No image" />}
@@ -142,7 +123,7 @@ const RenderAllUsers = () => {
                                         groupHandler={user.groups}
                                         dataHandler={user.user.user_created}
                                         ClickHandler={() => handleUserClick(user.user.user_id)}
-                                        addFriendHandler={() => addFriend(user.user.user_id)}
+                                        addFriendHandler={() => addFriend(user.user.user_id, csrfToken)}
                                     />}>
                                         <motion.div
                                             whileHover={{ scale: 1.1 }}
@@ -160,7 +141,7 @@ const RenderAllUsers = () => {
                                 <div className="mt-1">
                                     <p className="user-group">{user.groups.length} Group membre</p>
                                 </div>
-                                <div className="add-user-button-container mt-1" onClick={() => addFriend(user.user.user_id)}>
+                                <div className="add-user-button-container mt-1" onClick={() => addFriend(user.user.user_id, csrfToken)}>
                                     <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center big-input-add" />
                                     <input type="button" value="Ajouter" className="add-btn-field text-center small-input-add" />
                                 </div>

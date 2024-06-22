@@ -7,25 +7,26 @@ import circleIcon from '../../../assets/red-circle.svg'
 import msgIcon from '../../../assets/admin-msg.svg'
 import { DisplayUsersToAdminBackoffice } from "../connected-users/ConnectedUsersId";
 import AllUsers from "../../../api/GetAllUsersApi";
+import { useCsrf } from "../../../context/CsrfContext";
 
 const AdminDashboard = () => {
+    const csrfToken = useCsrf()
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
     const userData = useUserData();
     const [userInfo, setUserInfo] = useState()
     const connectedUsersId = DisplayUsersToAdminBackoffice()
-    const [ allUsersList, setAllUsersList ] = useState(null)
 
     useEffect(()=>{
-        if(userInfo){
-            async function getAllUsers( id ){
-                const response = await AllUsers(id)
+        if(userInfo && csrfToken){
+            async function getAllUsers( id, csrf ){
+                const response = await AllUsers(id, csrf)
                 console.log('All users list in dashboard:', response)
                 return response;
             }
-            getAllUsers(userData.user_id)
+            getAllUsers(userData.user_id, csrfToken)
         }
-    }, [userInfo]);
+    }, [userInfo, csrfToken]);
 
     useEffect(()=>{
         if(connectedUsersId){

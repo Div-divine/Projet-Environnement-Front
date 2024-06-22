@@ -11,16 +11,17 @@ import communityIcon from '../../assets/community.svg';
 import useUserData from '../../api/UserInfoApi';
 import { useEffect, useState } from 'react';
 import { Outlet, NavLink, Link, useNavigate} from 'react-router-dom';
-import UserWithAddedGroups from '../../api/UserWithGroupsApi';
+import userWithAddedGroups from '../../api/UserWithGroupsApi';
 import FourUsers from '../../api/GetOnlyFourUsersApi';
 import UsersNbr from '../../api/NbrOfUsersApi';
 import GetAllUserFriends from '../../api/GettingUserFriendsApi';
 import GetUnreadMsg from '../../api/GetUnreadMsgAndUsersApi';
+import { useCsrf } from '../../context/CsrfContext';
 
 
 
 const SideBar = () => {
-
+    const csrfToken = useCsrf()
     const navigate = useNavigate();
     const currentPath = window.location.pathname;
     const userId = localStorage.getItem('userId');
@@ -40,21 +41,21 @@ const SideBar = () => {
     // Get the number of users
     useEffect(() => {
         async function getUserNbr() {
-            if (userId) {
-                const response = await UsersNbr();
+            if (userId && csrfToken) {
+                const response = await UsersNbr(csrfToken);
                 console.log('User number', response.data.count);
                 setNbrUsers(response.data.count)
             }
         }
         getUserNbr();
-    }, [userId])
+    }, [userId, csrfToken])
 
     // Get all groups linked to user
     useEffect(() => {
         async function groupRetrieve() {
-            if (userId) {
+            if (userId && csrfToken) {
                 try {
-                    const response = await UserWithAddedGroups(userId);
+                    const response = await userWithAddedGroups(userId, csrfToken);
                     console.log('User with added group from sidebar:', response.data)
                     setUserGroups(response.data);
                     setLoading(false);
@@ -65,13 +66,13 @@ const SideBar = () => {
             }
         }
         groupRetrieve();
-    }, [userId]);
+    }, [userId, csrfToken]);
     // Get four users ordered by the most recently registered
     useEffect(() => {
         async function userRetrieve() {
-            if (userId) {
+            if (userId && csrfToken) {
                 try {
-                    const response = await FourUsers(userId);
+                    const response = await FourUsers(userId, csrfToken);
                     //setUserGroups(response.data);
                 } catch (error) {
                     console.error('Error fetching user groups:', error);
@@ -79,7 +80,7 @@ const SideBar = () => {
             }
         }
         userRetrieve();
-    }, [userId]);
+    }, [userId, csrfToken]);
 
     useEffect(() => {
         console.log('User data from sidebar:', userData);
@@ -127,26 +128,26 @@ const SideBar = () => {
 
     // Get user friends 
     useEffect(() => {
-        if (userId) {
-            const getfriends = async (id) => {
-                const response = await GetAllUserFriends(id)
+        if (userId && csrfToken) {
+            const getfriends = async (id, csrf) => {
+                const response = await GetAllUserFriends(id, csrf)
                 setNbrOfFriends(response.length)
             }
-            getfriends(userId);
+            getfriends(userId, csrfToken);
         }
 
-    }, [userId]);
+    }, [userId, csrfToken]);
 
     useEffect(() => {
-        if (userId) {
-            const getUnread = async (receiverId) => {
-                const response = await GetUnreadMsg(receiverId);
+        if (userId && csrfToken) {
+            const getUnread = async (receiverId, csrf) => {
+                const response = await GetUnreadMsg(receiverId, csrf);
                 console.log('Unread msg data are:', response);
                 setUnreadMsgData(response);
             }
-            getUnread(userId)
+            getUnread(userId, csrfToken)
         }
-    }, [userId]);
+    }, [userId, csrfToken]);
 
     // Disconnect user
     function disconnectUser() {

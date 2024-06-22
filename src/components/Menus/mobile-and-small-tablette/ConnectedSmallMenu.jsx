@@ -8,19 +8,21 @@ import '../../../style/connected-small-screen-menu.css';
 import GetUnreadMsg from '../../../api/GetUnreadMsgAndUsersApi';
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useCsrf } from '../../../context/CsrfContext';
 
 const ConnectedUserSmallScreenMenu = ({ menuHandler }) => {
+    const csrfToken = useCsrf()
     const userId = localStorage.getItem('userId');
     const [unreadMsgData, setUnreadMsgData] = useState(null);
     useEffect(() => {
-        if (userId) {
-            const getUnread = async (receiverId) => {
-                const response = await GetUnreadMsg(receiverId);
+        if (userId && csrfToken) {
+            const getUnread = async (receiverId, csrf) => {
+                const response = await GetUnreadMsg(receiverId, csrf);
                 setUnreadMsgData(response);
             }
-            getUnread(userId)
+            getUnread(userId, csrfToken)
         }
-    }, [userId]);
+    }, [userId, csrfToken]);
 
 
 

@@ -15,11 +15,12 @@ import getUserDataById from '../../api/GetUserDataByIdApi';
 import updateMessageStatusToRead from '../../api/UpdateMsgReadStatusApi';
 import DisplayConnectedSmallMenu from '../Menus/DisplaySmallScreenConnectedMenu';
 import { generateNonce } from '../../generate-nonce/nonce';
+import { useCsrf } from '../../context/CsrfContext';
 
 const socket = io.connect("http://localhost:3000/");
 
 const ChatRoom = () => {
-
+    const csrfToken = useCsrf()
     const nonce = generateNonce()
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
@@ -51,10 +52,10 @@ const ChatRoom = () => {
     };
     // Get the receiver image using it id to query users table
     useEffect(() => {
-        if (user2Id) {
+        if (user2Id && csrfToken) {
             const fetchReceiverData = async () => {
                 try {
-                    const data = await getUserDataById(user2Id);
+                    const data = await getUserDataById(user2Id, csrfToken);
                     if (data && data.user) {
                         setReceiverImg(data.user.user_img);
                         setReceiverName(data.user.user_name);
@@ -68,7 +69,7 @@ const ChatRoom = () => {
 
             fetchReceiverData();
         }
-    }, [user2Id]);
+    }, [user2Id, csrfToken]);
 
 
     // Use date-fn to format date and time in french local time
@@ -83,21 +84,24 @@ const ChatRoom = () => {
             console.error('User IDs are not set in localStorage');
             return;
         }
-
+        if (!csrfToken) {
+            console.error('No csrf token found');
+            return;
+        }
         // once the two users id exists , display all messages in each chat room
-        async function userMsg(user1, user2) {
-            const response = await usersMsgInChatroom(user1, user2);
+        async function userMsg(user1, user2, csrf) {
+            const response = await usersMsgInChatroom(user1, user2, csrf);
             setMessages(response);
         }
-        async function getChatroomId(user1, user2) {
-            const response = await chatRoomId(user1, user2);
+        async function getChatroomId(user1, user2, csrf) {
+            const response = await chatRoomId(user1, user2, csrf);
             console.log('chatroom id from response:', response);
             setChatroomId(response[0].chatroom_id);
         }
         // call functions here 
-        getChatroomId(user1Id, user2Id);
-        userMsg(user1Id, user2Id);
-    }, [user1Id, user2Id]);
+        getChatroomId(user1Id, user2Id, csrfToken);
+        userMsg(user1Id, user2Id, csrfToken);
+    }, [user1Id, user2Id, csrfToken]);
 
     // Set room id 
     useEffect(() => {
@@ -126,12 +130,14 @@ const ChatRoom = () => {
         console.log('chatroom is :', chatroomId)
 
         try {
-            // Insert the message into the database
-            await insertUsersMsg({ message, user1Id, user2Id, chatroomId });
-            const response = await usersMsgInChatroom(user1Id, user2Id);
-            console.log('User chat room messages info to sender....: ', response)
-            // Concatenate the new message with the existing messages
-            setMessages(response);
+            if (user1Id && user2Id && chatroomId && csrfToken) {
+                // Insert the message into the database
+                await insertUsersMsg({ message, user1Id, user2Id, chatroomId }, csrfToken);
+                const response = await usersMsgInChatroom(user1Id, user2Id, csrfToken);
+                console.log('User chat room messages info to sender....: ', response)
+                // Concatenate the new message with the existing messages
+                setMessages(response);
+            }
         } catch (error) {
             console.error('Error inserting message:', error);
         }
@@ -144,7 +150,7 @@ const ChatRoom = () => {
         socket.on('received_msg', async () => {
             await updateMessageStatus();
             async function senderMsgResponse() {
-                const response = await usersMsgInChatroom(user1Id, user2Id);
+                const response = await usersMsgInChatroom(user1Id, user2Id, csrfToken);
                 console.log('User chat room messages info to receiver: ', response);
                 // Concatenate the new received message with the existing messages
                 setMessages(response);
@@ -156,9 +162,9 @@ const ChatRoom = () => {
         // Function to update the message status
         const updateMessageStatus = async () => {
             try {
-                if (messages) {
+                if (messages && csrfToken) {
                     // Call your API to update the message status
-                    await updateMessageStatusToRead(messages.map(msg => msg.msg_id), chatroomId);
+                    await updateMessageStatusToRead(messages.map(msg => msg.msg_id), chatroomId, csrfToken);
                     console.log('Message status updated successfully');
                 }
 
@@ -166,7 +172,7 @@ const ChatRoom = () => {
                 console.error('Error updating message status:', error);
             }
         };
-    }, [socket, user2Id, connectedUserId, chatroomMsg, messages]);
+    }, [socket, user2Id, connectedUserId, chatroomMsg, messages, csrfToken]);
 
 
     useEffect(() => {

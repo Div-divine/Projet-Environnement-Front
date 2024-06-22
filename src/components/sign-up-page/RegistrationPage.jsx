@@ -9,17 +9,22 @@ import useToggle from '../../custom-hooks/HookToToggle';
 import PostUserInfo from '../../api/UserRegistrationApi.jsx';
 import { generateNonce } from '../../generate-nonce/nonce.js';
 
+const nonce = generateNonce();
 
 const DisplayPasswordStrength = ({ strength, password, text }) => {
+    const pwdStateText = { color: 'white', nonce };
+    const style = password.length >= 8 ? { color: 'green' } : { color: 'red' };
 
-    const nonce = generateNonce()
-    const pwdStateText = { color: 'white', nonce: `${nonce}` }
-    const style = password.length >= 8 ? { color: 'green'} : { color: 'red'}
     if (password.length > 0) {
-        return <p><span style={pwdStateText} nonce={nonce}>Mot de passe : </span><strong style={style} nonce={nonce}>{strength}</strong></p>
+        return (
+            <p>
+                <span style={pwdStateText} nonce={nonce}>Mot de passe : </span>
+                <strong style={style} nonce={nonce}>{strength}</strong>
+            </p>
+        );
     }
-    return <p className='pwd-rule-text'>{text}</p>
-}
+    return <p className='pwd-rule-text'>{text}</p>;
+};
 
 
 const RegistrationInputBox = () => {
@@ -78,6 +83,7 @@ const RegistrationInputBox = () => {
             if (pwdPattern.test(pwd) && pwd.length >= 8) {
                 return "Super :)"
             }
+            return "";
         }, [pwd]);
 
     // Remove white spaces and special characters from name
