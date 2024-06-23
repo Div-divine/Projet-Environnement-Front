@@ -1,3 +1,6 @@
+.admin-page-navlink-logo{
+    color: #094011;
+}
 .admin-dashboard-main-container {
     padding: 20px 0px 20px 0px;
 }
@@ -54,4 +57,144 @@
 .admin-name-container{
     font-weight: 700;
     font-family: "Crimson Text", serif;
+}
+.admin-dashboard-users-and-number-display-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-weight: 700;
+    font-family: "League Spartan", sans-serif;
+}
+.dashboard-users-container{
+    width: 33%;
+    background-color: #ffffff;
+    max-height: 300px; /* Set maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 0px 0px 10px 0px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 0px 0px #094011;
+}
+.dashboard-user-count-container{
+    width: 26%;
+}
+.admin-user-connected-txt{
+    color: green;
+}
+.admin-user-not-connected-txt{
+    color: red;
+}
+.dashboard-users-flex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+    padding: 10px 5px 10px 5px;
+    border: 2px solid #00000021;
+    border-radius: 5px;
+}
+.dashboard-user-img-container{
+    width: 10%;
+}
+.dashboard-user-img-container img{
+    border-radius: 50%;
+}
+.dashboard-user-name-container{
+    width: 35%;
+}
+.dashboard-user-connected-state{
+    width: 40%;
+}
+.dashboard-users-section-title{
+    padding: 10px 0px 10px 0px;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+}
+.dashboard-user-count-txt-container{
+    background-color: #ffffff;
+    padding: 20px 0px 20px 0px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 0px 0px #094011;
+}
+.connected-user-count{
+    margin-top: 20px;
+}
+.admin-listing-header-txt{
+    background-color: #E6933E;
+    position: sticky;
+    top: 0;
+}
+
+.admin-listing-header-txt div,
+.admin-listing-body-section div{
+    width: 20%;
+}
+.dashboard-user-name-container,
+.dashboard-user-connected-state,
+.dashboard-user-img-container,
+.dashboard-users-section-title,
+.dashboard-user-count-txt-container,
+.admin-txt,
+.admin-dashboard-img,
+.admin-name-container,
+.flex-center{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.admin-dashboard-listing-section{
+    margin-top: 30px;
+    padding-bottom: 10px;
+}
+.display-admin-list-container{
+    background-color: #ffffff;
+    min-height: 310px;
+    max-height: 312px;
+    overflow-y: auto;
+    border-top: 4px solid #00000021;
+    box-shadow: 0px 1px 0px 0px #094011;
+}
+.admin-txt{
+    border-bottom: 3px solid #094011;
+    width: 5%;
+}
+.admin-txt,
+.admin-listing-header-txt{
+    font-weight: 700;
+    font-family: "League Spartan", sans-serif;
+}
+.admin-listing-header-txt,
+.admin-listing-body-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0px 20px 0px;
+}
+
+.admin-even-count-column{
+    background-color: #f1f9f6;
+}
+.admin-online{
+    background-color: #094011;
+    color: white;
+}
+.admin-listing-body-section:hover{
+    background-color: #50be6047;
+    cursor: pointer;
+    color: #000000;
+}
+.dashboard-admin-img-and-name{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.admin-img{
+    width: 60%;
+    margin-right: 5%;
 }

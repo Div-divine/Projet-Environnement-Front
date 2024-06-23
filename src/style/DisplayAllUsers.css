@@ -28,12 +28,13 @@
     border-radius: 20px;
     padding: 7px;
     width: 300px;
-    border: 1px solid #09401123
+    border: 1px solid white
 }
 
 .search-field:hover {
     background-color: #094011;
     color: white;
+    cursor: pointer;
 }
 @media only screen and (max-width: 316px) {
     .users-and-sidebar-container{

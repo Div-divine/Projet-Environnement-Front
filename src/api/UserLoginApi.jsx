@@ -8,9 +8,7 @@ const SendUserInfo = async (credentials ) => {
         console.log('response:', response);
 
         const token = response.data.token;
-        console.log('Access token:', token);
-
-        localStorage.setItem('token', token);
+        console.log('Access token from API:', token);
         return token;
     } catch (error) {
         console.error('Error logging in:', error);

@@ -82,15 +82,20 @@ const SignInPageRender = () => {
         const login = async (e) => {
             e.preventDefault();
             try {
-                const credentials = {
-                    email: email,
-                    password: pwd,
-                };
-                setLoginErrorMsg('');
-                const token = await loginUser(credentials); // No need to destructure
-                console.log('Access token:', token);
-                navigate('/accueil')
-                // Store tokens in local storage or cookies, etc.
+                if (email && pwd) {
+                    const credentials = {
+                        email: email,
+                        password: pwd,
+                    };
+                    setLoginErrorMsg('');
+                    const token = await loginUser(credentials);
+                    if (token) {
+                        localStorage.setItem('token', token);
+                        console.log('Access token:', token);
+                        navigate('/accueil')
+                    }
+                }
+                // Store tokens in local storage
             } catch (error) {
                 // Display the Login Error message if an error is caught
                 setLoginErrorMsg('Email ou mot de passe incorrect!')

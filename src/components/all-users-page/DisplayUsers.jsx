@@ -96,63 +96,65 @@ const RenderAllUsers = () => {
         return (<div className="home-page-container">
             <SideBar />
             <DisplayConnectedSmallMenuy />
-            <div className="users-and-sidebar-container">
-                <div className="upper-users-text-container">
-                    <p className="table-header-text">Les utilisateurs</p>
+            <div>
+                <div className="users-and-sidebar-container stick-top-user-search-container">
+                    <div className="upper-users-text-container">
+                        <p className="table-header-text">Les utilisateurs</p>
+                    </div>
+                    <SearchBar
+                        placeholderHandler='rechercher par utilisateur ou group...'
+                        valueHandler={searchQuery}
+                        setValueHandler={handleSearchChange}
+                        classNameHandler="search-field"
+                    />
                 </div>
-                <SearchBar
-                    placeholderHandler='rechercher par utilisateur ou group...'
-                    valueHandler={searchQuery}
-                    setValueHandler={handleSearchChange}
-                    classNameHandler="search-field"
-                />
+                <main className="main-elements">
+                    <div className="small-screen-users-count">Total utilisateurs:  {filteredUserGroups.length + 1}</div>
+                    <div className="user-listing-overall-container">
+                        {csrfToken && filteredUserGroups.map((user, index) => (
+                            <div key={index} className="user-listing-container mb-3">
+                                <div className="user-image-container" key={index}>
+                                    {user.user.user_img && user.user.show_user_image ? <img src={`${imgUrl}/${user.user.user_img}`} alt="User" /> : <img src={userIcon} alt="No image" />}
+                                </div>
+                                <div className="user-lower-container">
+                                    <div className="user-name-and-popover-container">
+                                        <Popover content={<PopoverContents
+                                            pathHandler={(user.user.user_img && user.user.show_user_image ? `${imgUrl}/${user.user.user_img}` : userIcon)}
+                                            userNameHandler={user.user.user_name}
+                                            groupHandler={user.groups}
+                                            dataHandler={user.user.user_created}
+                                            ClickHandler={() => handleUserClick(user.user.user_id)}
+                                            addFriendHandler={() => addFriend(user.user.user_id, csrfToken)}
+                                        />}>
+                                            <motion.div
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.9 }}
+                                                className="mt-2"
+                                            >    <div>
+                                                    <p className="user-name">{user.user.user_name}</p>
+                                                </div>
+                                            </motion.div>
+                                        </Popover>
+                                    </div>
+                                    <div className="user-name-for-small-screen">
+                                        <p className="user-name">{user.user.user_name}</p>
+                                    </div>
+                                    <div className="mt-1">
+                                        <p className="user-group">{user.groups.length} Group membre</p>
+                                    </div>
+                                    <div className="add-user-button-container mt-1" onClick={() => addFriend(user.user.user_id, csrfToken)}>
+                                        <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center big-input-add" />
+                                        <input type="button" value="Ajouter" className="add-btn-field text-center small-input-add" />
+                                    </div>
+                                    <div className="small-screen-msg-input-container">
+                                        <input type="button" value="Message" className="add-btn-field text-center small-screen-msg-input" onClick={() => handleUserClick(user.user.user_id)} />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </main>
             </div>
-            <main className="main-elements">
-                <div className="small-screen-users-count">Total utilisateurs:  {filteredUserGroups.length + 1}</div>
-                <div className="user-listing-overall-container">
-                    {csrfToken && filteredUserGroups.map((user, index) => (
-                        <div key={index} className="user-listing-container mb-3">
-                            <div className="user-image-container" key={index}>
-                                {user.user.user_img && user.user.show_user_image ? <img src={`${imgUrl}/${user.user.user_img}`} alt="User" /> : <img src={userIcon} alt="No image" />}
-                            </div>
-                            <div className="user-lower-container">
-                                <div className="user-name-and-popover-container">
-                                    <Popover content={<PopoverContents
-                                        pathHandler={(user.user.user_img && user.user.show_user_image ? `${imgUrl}/${user.user.user_img}` : userIcon)}
-                                        userNameHandler={user.user.user_name}
-                                        groupHandler={user.groups}
-                                        dataHandler={user.user.user_created}
-                                        ClickHandler={() => handleUserClick(user.user.user_id)}
-                                        addFriendHandler={() => addFriend(user.user.user_id, csrfToken)}
-                                    />}>
-                                        <motion.div
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            className="mt-2"
-                                        >    <div>
-                                                <p className="user-name">{user.user.user_name}</p>
-                                            </div>
-                                        </motion.div>
-                                    </Popover>
-                                </div>
-                                <div className="user-name-for-small-screen">
-                                    <p className="user-name">{user.user.user_name}</p>
-                                </div>
-                                <div className="mt-1">
-                                    <p className="user-group">{user.groups.length} Group membre</p>
-                                </div>
-                                <div className="add-user-button-container mt-1" onClick={() => addFriend(user.user.user_id, csrfToken)}>
-                                    <input type="button" value="Ajouter à tes liste d'amis" className="add-btn-field text-center big-input-add" />
-                                    <input type="button" value="Ajouter" className="add-btn-field text-center small-input-add" />
-                                </div>
-                                <div className="small-screen-msg-input-container">
-                                    <input type="button" value="Message" className="add-btn-field text-center small-screen-msg-input" onClick={() => handleUserClick(user.user.user_id)} />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </main>
         </div>)
     }
 }

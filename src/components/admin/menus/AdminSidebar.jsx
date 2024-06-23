@@ -7,10 +7,10 @@ const AdminSidebar = () => {
     return <div className="admin-sidebar-container">
         <header>
             <nav>
-                <div>
+                <NavLink to='/admin/accueil' className='admin-page-navlink-logo'>
                     <div className='admin-sidebar-logo-container'><img src={Logo} alt="Website logo" /></div>
                     <div className='admin-sidebar-logo-text'>EcoConscience</div>
-                </div>
+                </NavLink>
                 <div className='flex-logout-end-container'>
                     <div className='admin-sibedar-navs-container'>
                         <NavLink className={({ isActive }) =>

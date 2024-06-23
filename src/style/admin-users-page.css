@@ -52,6 +52,8 @@
 
 .table tr:hover {
     background-color: #A9BEAC;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px 1px #094011;
 }
 
 .table-names-text {

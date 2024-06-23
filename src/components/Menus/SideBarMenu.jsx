@@ -35,6 +35,14 @@ const SideBar = () => {
     const [nbrOfFriends, setNbrOfFriends] = useState(null);
     const [unreadMsgData, setUnreadMsgData] = useState(null);
 
+     // refresh the userId in localstorage
+     useEffect(() => {
+        if (userData && userData.user_id) {
+            console.log('User id from sideBar: ', userData.user_id);
+            localStorage.setItem('userId', userData.user_id);
+        }
+    }, [userData]);
+
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
 
@@ -86,13 +94,6 @@ const SideBar = () => {
         console.log('User data from sidebar:', userData);
     }, [userData]); // This ensures the log statement runs whenever `userData` changes
 
-    // refresh the userId in localstorage
-    useEffect(() => {
-        if (userData && userData.user_id) {
-            console.log('User id from sideBar: ', userData.user_id);
-            localStorage.setItem('userId', userData.user_id);
-        }
-    }, [userData]);
 
     useEffect(() => {
         if (userGroups) {

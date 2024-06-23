@@ -15,6 +15,7 @@ import DisplayUnreadMsgUsers from '../components/unread-msg-page/UnreadMsgAndUse
 import UserSettings from "../components/user-setting-page/Settings";
 import FileUploadForm from "../components/upload-image-page/HandleImgUpload";
 import AdminDashboard from "../components/admin/homepage/Dashboard";
+import DisplayUserProfile from "../components/admin/user-profile/AdminUserProfileController";
 
 
 const router = createBrowserRouter([
@@ -41,7 +42,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: 'accueil', element: <AdminDashboard /> },
-      { path: 'utilisateurs', element: <AdminRenderAllUsers />}
+      { path: 'utilisateurs', element: <AdminRenderAllUsers />},
+      { path: 'profile-utilisateur/:id', element: <DisplayUserProfile />}
     ]
   },
 ])

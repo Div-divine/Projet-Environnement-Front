@@ -28,7 +28,7 @@ src/assets*
 logo/*
 
 
-.env
+.env.development
 
 firebase.json
 .firebaserc
