@@ -9,7 +9,7 @@ import { CsrfProvider } from './context/CsrfContext';
 function App() {
   return (
     <HelmetProvider>
-      <CsrfProvider>
+      <CsrfProvider >
         <Helmet>
           <meta httpEquiv="Content-Security-Policy" content={cspPolicy()} />
         </Helmet>

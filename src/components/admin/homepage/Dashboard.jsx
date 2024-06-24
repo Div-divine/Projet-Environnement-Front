@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import notificationIcon from '../../../assets/admin-notif.svg'
 import circleIcon from '../../../assets/red-circle.svg'
 import msgIcon from '../../../assets/admin-msg.svg'
-import { DisplayUsersToAdminBackoffice } from "../connected-users/ConnectedUsersId";
+import { DisplayUsersToAdminBackoffice } from "../connected-users/ConnectedUsersIdApi";
 import AllUsers from "../../../api/GetAllUsersApi";
 import { useCsrf } from "../../../context/CsrfContext";
 import userIcon from '../../../assets/user-profile.svg';

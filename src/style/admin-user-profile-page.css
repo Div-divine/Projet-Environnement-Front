@@ -1,0 +1,106 @@
+.user-profile-upper-conatiner {
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 2px 2px 0px #094011;
+}
+
+.user-profile-section-img-conatiner {
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.user-profile-section-img-conatiner img {
+    border-radius: 50%;
+    box-shadow: 0px 2px 2px 0px #094011;
+}
+
+.txt-elem {
+    color: #6e7075;
+    font-size: 500;
+    font-family: "League Spartan", sans-serif;
+}
+
+.user-profile-section-icons-container {
+    width: 15%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.flex-wrap-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.usr-name-and-emeil-in-profile div {
+    width: 50%;
+}
+
+.usr-name-and-emeil-in-profile {
+    margin-top: 20px;
+}
+
+.user-profile-section-icons-container div {
+    width: 30%;
+}
+
+.group-mbr-titlle {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.name-title {
+    font-weight: 700;
+}
+
+.group-mbr-txt-container {
+    margin-bottom: 5px;
+}
+
+.flex-start {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.user-profile-friends-img-container {
+    width: 10%;
+}
+
+.user-profile-friends-img-container img {
+    border-radius: 50%;
+}
+
+.friends-title {
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+
+.delete-usr-div{
+    width:55%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ff0000;
+    border-radius: 5px;
+    padding: 10px 0px 10px 0px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 20px;
+}
+.delete-usr-div:hover{
+    cursor: pointer;
+}
