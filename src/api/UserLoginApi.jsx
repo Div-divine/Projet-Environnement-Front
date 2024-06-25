@@ -9,6 +9,7 @@ const SendUserInfo = async (credentials ) => {
 
         const token = response.data.token;
         console.log('Access token from API:', token);
+        console.log('Access User info from login API:', response.data);
         return token;
     } catch (error) {
         console.error('Error logging in:', error);

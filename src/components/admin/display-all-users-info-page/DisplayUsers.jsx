@@ -6,6 +6,8 @@ import SearchBar from "../../input-field/SearchBar";
 import AdminSidebar from "../menus/AdminSidebar";
 import { useCsrf } from "../../../context/CsrfContext";
 import userIcon from '../../../assets/user-profile.svg';
+import { Link } from "react-router-dom";
+import { generateNonce } from "../../../generate-nonce/nonce";
 
 const AdminRenderAllUsers = () => {
     const csrfToken = useCsrf()
@@ -14,6 +16,7 @@ const AdminRenderAllUsers = () => {
     const [searchQuery, setSearchQuery] = useState(''); // State for search query
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
+    const nonce = generateNonce()
 
     useEffect(() => {
         if (userId && csrfToken) {
@@ -98,27 +101,39 @@ const AdminRenderAllUsers = () => {
                                 <tbody className="table-container">
                                     {filteredUserGroups.map(user => (
                                         <tr key={user.user.user_id}>
-                                            <th className="text-center">
-                                                <div className="user-name-and-img-in-user-admin-table-container">
+                                            <td className="text-center">
+                                                <Link to={`/admin/profile-utilisateur/${user.user.user_id}${nonce}${nonce}`}
+                                                    className="user-name-and-img-in-user-admin-table-container">
                                                     <div className="users-img-in-admin-users-page"><img src={user.user.user_img ? `${imgUrl}/${user.user.user_img}` : userIcon} alt="users image" /></div>
                                                     <p className="table-names-text">{user.user.user_name}</p>
-                                                </div>
-                                            </th>
+                                                </Link>
+                                            </td>
                                             <td className="text-center">
-                                                <div className="table-names-text center-text-in-admin-user-table">{user.user.user_created}</div>
+                                                <Link to={`/admin/profile-utilisateur/${user.user.user_id}${nonce}${nonce}`}
+                                                    className="table-names-text center-text-in-admin-user-table">
+                                                    {user.user.user_created}
+                                                </Link>
                                             </td>
                                             <td className="text-center">
                                                 {user.groups.map(group => (
-                                                    <div key={group.group_id} className="table-names-text">{group.group_name}</div>
+                                                    <div key={group.group_id} className="table-names-text"><Link to={`/admin/profile-utilisateur/${user.user.user_id}${nonce}${nonce}`}
+                                                    >{group.group_name}
+                                                    </Link></div>
                                                 ))}
                                                 {/* If user has no groups, display a message */}
-                                                {user.groups.length === 0 && <div className="table-names-text">Aucun group membre</div>}
+                                                {user.groups.length === 0 && <Link className="table-names-text" to={`/admin/profile-utilisateur/${user.user.user_id}${nonce}${nonce}`}
+                                                >Aucun group membre
+                                                </Link>}
                                             </td>
                                             <td className="text-center">
-                                                <div className="table-names-text">{user.user.user_email}</div>
+                                                <Link className="table-names-text" to={`/admin/profile-utilisateur/${user.user.user_id}${nonce}${nonce}`}>
+                                                    {user.user.user_email}
+                                                </Link>
                                             </td>
                                             <td className="text-center">
-                                                {user.userStatus}
+                                                <Link className="text-center" to={`/admin/profile-utilisateur/${user.user.user_id}${nonce}${nonce}`}>
+                                                    {user.userStatus}
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))}

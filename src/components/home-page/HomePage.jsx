@@ -17,7 +17,6 @@ import { useCsrf } from "../../context/CsrfContext";
 const RenderHome = () => {
     const csrfToken = useCsrf()
     const nonce = generateNonce()
-    const location = useLocation();
     const userData = useUserData();
     const [postId, setPostId] = useState(null);
     const [userName, setUserName] = useState('')

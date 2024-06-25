@@ -55,7 +55,9 @@
     cursor: pointer;
     box-shadow: 1px 1px 1px 1px #094011;
 }
-
+.table tr td a{
+    width: 100%;
+}
 .table-names-text {
     font-family: "Crimson Text", serif;
     font-size: small;

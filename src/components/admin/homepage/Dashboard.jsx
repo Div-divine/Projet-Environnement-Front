@@ -11,16 +11,33 @@ import { useCsrf } from "../../../context/CsrfContext";
 import userIcon from '../../../assets/user-profile.svg';
 import { Link } from "react-router-dom";
 import { generateNonce } from "../../../generate-nonce/nonce";
+import io from 'socket.io-client';
 
 const AdminDashboard = () => {
     const csrfToken = useCsrf()
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
     const userData = useUserData();
-    const [userInfo, setUserInfo] = useState()
+    const [userInfo, setUserInfo] = useState(null)
     const connectedUsersId = DisplayUsersToAdminBackoffice()
     const [allUsersList, setAllUsersList] = useState(null);
     const nonce = generateNonce()
+
+
+    useEffect(() => {
+        if (userInfo) {
+            // Create the socket connection and register username
+            const socket = io('http://localhost:3000'); // server URL
+
+            socket.on('connect', () => {
+                socket.emit('connected_username', userInfo.user_name); // Emit username on connection
+            });
+
+            // Function to handle cleanup on component unmount
+            return () => socket.disconnect();
+        }
+    }, [userInfo]);
+
 
     useEffect(() => {
         if (userInfo && csrfToken) {
@@ -74,7 +91,7 @@ const AdminDashboard = () => {
                 <div className="dashboard-users-container">
                     <div className="dashboard-users-section-title">Utilisateurs</div>
                     {nonce && allUsersList && allUsersList.length > 0 ? allUsersList
-                        .filter(user => user.status_id != 1)
+                        .filter(user => user.status_id == 2)
                         .map((user, index) => (
                             <Link to={`/admin/profile-utilisateur/${user.user_id}${nonce}${nonce}`} key={index} className="dashboard-users-flex">
                                 <div className="dashboard-user-img-container"><img src={user.user_img ? `${imgUrl}/${user.user_img}` : userIcon} alt="user image" /></div>
@@ -94,7 +111,19 @@ const AdminDashboard = () => {
                         <div>{connectedUsersId.length > 0 ? connectedUsersId.length : 'Pas d\'utilisateur connecté'}</div>
                     </div>}
                 </div>
-                <div className="dashboard-users-container"></div>
+                <div className="dashboard-users-container">
+                    <div className="dashboard-users-section-title">Super Admin🫡</div>
+                    {nonce && allUsersList && allUsersList.length > 0 ? allUsersList
+                        .filter(user => user.status_id == 3)
+                        .map((user, index) => (
+                            <Link to={`/admin/profile-utilisateur/${user.user_id}${nonce}${nonce}`} key={index} className="dashboard-users-flex super-admin-box">
+                                <div className="dashboard-user-img-container"><img src={user.user_img ? `${imgUrl}/${user.user_img}` : userIcon} alt="user image" /></div>
+                                <div className="dashboard-user-name-container" >{user.user_name}</div>
+                                {connectedUsersId && connectedUsersId.includes(user.user_name) ? <div className="admin-user-connected-txt dashboard-user-connected-state">connecté</div>
+                                    : <div className="admin-user-not-connected-txt dashboard-user-connected-state">non connecté</div>}
+                            </Link>
+                        )) : <div>No users</div>}
+                </div>
             </div>
             <div className="admin-dashboard-listing-section">
                 <div className="admin-txt">Admin</div>

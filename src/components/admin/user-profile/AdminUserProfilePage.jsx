@@ -8,6 +8,9 @@ import userIcon from '../../../assets/user-profile.svg';
 import messageIcon from '../../../assets/white-message.svg';
 import EmailIcon from '../../../assets/white-envelope.svg';
 import '../../../style/admin-user-profile-page.css';
+import CustomModal from "../../modalbox/CustomModalBox";
+import DeleteUserImg from "../../../api/DeleteUserImgApi";
+import closeAccount from "../../../api/CloseUserAccountApi";
 
 const DisplayUserProfile = () => {
     const csrfToken = useCsrf()
@@ -17,6 +20,11 @@ const DisplayUserProfile = () => {
     const [friendsData, setFriendsData] = useState(null);
     const userIdSSelected = +id.slice(0, -72);  // Extracting user ID by removing nonce
     const [userProfileId, setUserProfileId] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [clickedUserId, setClickedUserId] = useState(null)
+    const [unauthaurizedNotif, setUnauthaurizedNotif] = useState(false);
+    const [accountClosedMsg, setAccountClosedMsg] = useState(false);
+
     const imgUrl = 'http://localhost:3000/assets';
 
     useEffect(() => {
@@ -62,10 +70,51 @@ const DisplayUserProfile = () => {
         }
     }, [friendsData, userGroups, userProfileId])
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+    const handleDeleteClick = (userId) => {
+        setClickedUserId(userId);
+        setIsModalOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (userId && clickedUserId && csrfToken) {
+            try {
+                const data = { userRoleId: userId }
+                // Delete user image first from server because user image name to delete from server is queried from the database 
+                await DeleteUserImg(csrfToken, clickedUserId, data);
+                await closeAccount(csrfToken, clickedUserId, data)
+                setIsModalOpen(false);
+                setAccountClosedMsg(true);
+            } catch (error) {
+                console.error('Error deleting friend:', error);
+                if (error.response.status == 401) {
+                    setUnauthaurizedNotif(true)
+                }
+            }
+        }
+        return;
+    }
+
+    useEffect(() => {
+        if (userGroups.length > 0 && userProfileId) {
+            userGroups
+                .filter(user => user.user.user_id == userProfileId)
+                .map((user) => {
+                    if (user.user.user_name == 'Compte clôturé!') {
+                        setAccountClosedMsg(true);
+                    }
+                })
+        }
+    }, [userGroups, userProfileId]);
+
     return <div className="admin-dashboard-main-container">
         <AdminSidebar />
-        <div className="admin-dashboard-container flex-center">
-            <div className="user-profile-upper-conatiner">
+        <main className="admin-dashboard-container flex-center">
+            {accountClosedMsg && <div className="delete-usr-success-msg flex-center">Compte utilisateur clôturé!</div>}
+            {unauthaurizedNotif && <div className="delete-usr-unautorized-msg flex-center">Vous n'êtes pas autorisé de supprimer ce compte utilisateur!</div>}
+            {!accountClosedMsg && <div className="user-profile-upper-conatiner">
                 {userProfileId && userGroups
                     .filter(user => user.user.user_id == userProfileId)
                     .map((user, index) => (
@@ -75,7 +124,7 @@ const DisplayUserProfile = () => {
                                 <div><img src={messageIcon} alt="message icon" /></div>
                                 <div><img src={EmailIcon} alt="envolope icon" /></div>
                             </div>
-                            <div className="">
+                            {user.user.status_id != 3 ? <div className="">
                                 <div className="group-mbr-titlle">Groupes Membre</div>
                                 <div className="group-mbr-txt-container">
                                     {user.groups.map(group => (
@@ -84,7 +133,7 @@ const DisplayUserProfile = () => {
                                     {/* If user has no groups, display a message */}
                                     {user.groups.length === 0 && <div className="txt-elem">- Aucun group membre</div>}
                                 </div>
-                            </div>
+                            </div> : ''}
                             <div className="flex-wrap-center usr-name-and-emeil-in-profile">
                                 <div>
                                     <div className="flex-center name-title">Nom</div>
@@ -109,9 +158,27 @@ const DisplayUserProfile = () => {
                         }
                     </div>
                 </div>
-                <div className="delete-usr-div flex-center">Supprimer cet utilisateur</div>
-            </div>
-        </div>
+                {userProfileId && userGroups
+                    .filter(user => user.user.user_id == userProfileId)
+                    .map((user, index) => (
+                        <div key={index}>
+                            {user.user.status_id == 3 ? <div className="super-admin-text-div-profile flex-center">Profile super admin🫡</div>
+                                : <div className="delete-usr-div flex-center"
+                                    onClick={() => handleDeleteClick(user.user.user_id)}>Supprimer le compte utilisateur</div>}
+                        </div>
+                    ))
+                }
+            </div>}
+        </main>
+        {isModalOpen && clickedUserId && (
+            <CustomModal
+                title="Supprimer ce compte utilisateur"
+                message="Confirmer ?"
+                buttonText="Supprimer"
+                onClose={handleCloseModal}
+                onButtonClick={handleConfirmDelete}
+            />
+        )}
     </div>;
 }
 

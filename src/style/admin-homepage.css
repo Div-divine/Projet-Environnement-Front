@@ -4,7 +4,6 @@
 .admin-dashboard-main-container {
     padding: 20px 0px 20px 0px;
 }
-
 .admin-dashboard-container {
     width: 83%;
     background-color: #50be6047;
@@ -197,4 +196,7 @@
 .admin-img{
     width: 60%;
     margin-right: 5%;
+}
+.super-admin-box{
+    background-color: #50be6047;
 }

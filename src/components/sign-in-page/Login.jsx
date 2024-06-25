@@ -91,7 +91,6 @@ const SignInPageRender = () => {
                     const token = await loginUser(credentials);
                     if (token) {
                         localStorage.setItem('token', token);
-                        console.log('Access token:', token);
                         navigate('/accueil')
                     }
                 }

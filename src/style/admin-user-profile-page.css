@@ -90,17 +90,49 @@
     margin-bottom: 5px;
 }
 
-.delete-usr-div{
-    width:55%;
+.delete-usr-div {
+    width: 68%;
     margin-left: auto;
     margin-right: auto;
-    background-color: #ff0000;
+    background-color: #d60808c0;
     border-radius: 5px;
     padding: 10px 0px 10px 0px;
     font-weight: 600;
     color: #ffffff;
     margin-top: 20px;
 }
-.delete-usr-div:hover{
+
+.delete-usr-div:hover {
     cursor: pointer;
+    background-color: #a90707;
+}
+
+.super-admin-text-div-profile {
+    background-color: #0077BE;
+    border-radius: 5px;
+    padding: 10px 0px 10px 0px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+.super-admin-text-div-profile:hover {
+    background-color: #094011;
+    cursor: pointer;
+}
+.delete-usr-unautorized-msg{
+    background-color: #d84e4ec0;
+    color: #ffffff;
+    padding: 20px 10px 20px 10px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    box-shadow: 0px 2px 2px 0px #094011;
+}
+.delete-usr-success-msg{
+    background-color: #0077BE;
+    color: #ffffff;
+    padding: 20px 10px 20px 10px;
+    font-weight: 700;
+    box-shadow: 0px 2px 2px 0px #094011;
+    width: 50%;
 }
