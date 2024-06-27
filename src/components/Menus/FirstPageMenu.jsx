@@ -67,14 +67,6 @@ const FirstMenu = () => {
                                         Se connecter
                                     </Link>
                                 </div>
-                                <div className="center-menu-item">
-                                    <Link
-                                        to={"/inscription"}
-                                        className="registration-connexion-link"
-                                    >
-                                        S'inscrire
-                                    </Link>
-                                </div>
                                 <motion.div className="center-menu-item" whileTap={{ scale: 1.2 }}>
                                     <input type="button" value="Blog" className="btn-blog" />
                                 </motion.div>

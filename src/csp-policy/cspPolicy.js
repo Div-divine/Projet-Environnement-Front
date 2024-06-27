@@ -6,7 +6,7 @@ export const cspPolicy = () => {
   return `
     default-src 'self';
     script-src 'self' https://kit.fontawesome.com 'nonce-${nonce}';
-    style-src 'self' fonts.googleapis.com https://cdn.jsdelivr.net 'nonce-${nonce}';
+    style-src 'self' fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'nonce-${nonce}';
     img-src 'self' http://localhost:3000 data:;
     connect-src 'self' http://localhost:3000 ws://localhost:3000;
     font-src 'self' fonts.gstatic.com;
