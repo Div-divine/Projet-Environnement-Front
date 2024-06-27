@@ -147,7 +147,7 @@ const RenderAllUsers = () => {
                                         <input type="button" value="Ajouter" className="add-btn-field text-center small-input-add" />
                                     </div>
                                     <div className="small-screen-msg-input-container">
-                                        <input type="button" value="Message" className="add-btn-field text-center small-screen-msg-input" onClick={() => handleUserClick(user.user.user_id)} />
+                                        <input type="button" value="💬 Message" className="add-btn-field text-center small-screen-msg-input chat-btn" onClick={() => handleUserClick(user.user.user_id)} />
                                     </div>
                                 </div>
                             </div>
