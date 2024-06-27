@@ -11,6 +11,7 @@ const SendAdminInfo = async (credentials ) => {
         const userId = response.data.userId;
         if(token && userId){
             localStorage.setItem('token', token);
+            localStorage.setItem('admin-auth', token)
             localStorage.setItem('userId', userId);
         }
         console.log('Access token from API:', token);

@@ -17,6 +17,7 @@ import FileUploadForm from "../components/upload-image-page/HandleImgUpload";
 import AdminDashboard from "../components/admin/homepage/Dashboard";
 import DisplayUserProfile from "../components/admin/user-profile/AdminUserProfilePage";
 import AdminSignInPageRender from "../components/admin/login-page/AdminLogin";
+import AdminRoute from "./AdminAuthentificationRoute";
 
 
 const router = createBrowserRouter([
@@ -43,9 +44,14 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: 'connexion', element: <AdminSignInPageRender /> },
-      { path: 'accueil', element: <AdminDashboard /> },
-      { path: 'utilisateurs', element: <AdminRenderAllUsers />},
-      { path: 'profile-utilisateur/:id', element: <DisplayUserProfile />}
+      {
+        element: <AdminRoute />, // Use the custom AdminRoute component to protect the following routes
+        children: [
+          { path: 'accueil', element: <AdminDashboard /> },
+          { path: 'utilisateurs', element: <AdminRenderAllUsers /> },
+          { path: 'profile-utilisateur/:id', element: <DisplayUserProfile /> },
+        ]
+      }
     ]
   },
 ])
