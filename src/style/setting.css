@@ -1,3 +1,20 @@
+.user-setting-main-container{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffffdd;
+    border-radius: 10px;
+    padding: 30px 10px 30px 10px;
+    box-shadow: 0px 0px 2px 0px #094011;
+}
+.user-setting-main-container .green-btn{
+    background-color: #094011;
+    color: white;
+}
+.user-setting-main-container .undo-change-btn{
+    background-color: #ff00009f;
+    color: #000000;
+}
 .setting-user-img-container{
     width: 10%;
     margin-left: auto;
@@ -19,36 +36,51 @@
     border-radius: 10px;
 }
 
-.flex-column-div{
+.flex-column-div,
+.first-upload-img-btn{
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+.center-user-settings{
+    padding-top: 150px;
+    padding-left: 150px;
+}
 .setting-txt{
     margin-bottom: 10px;
     font-family: "League Spartan", serif;
     font-weight: 700;
     color: #000000ad;
+    font-size: x-large;
 }
 .name-title{
     font-family: "League Spartan", serif;
 }
-.remove-image-display-container div input{
+.remove-image-display-container input{
    background-color: #0077BE;
-   font-size: small;
+   color: white;
 }
-.replace-image-display-container div input{
-    font-size: small;
+.replace-image-display-container input{
     background-color: #FFA500;
+    color: white;
 }
 .setting-image-btns-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-top: 5px;
     margin-bottom: 40px;
+}
+.usr-img-setting-btn input{
+    padding: 15px 10px 15px 10px;
+    border: 0;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .name-container{
     margin-top: 10px;
@@ -74,10 +106,7 @@
 .user-info {
     font-family: "Crimson Text", serif;
 }
-.undo-change-btn{
-    background-color: #ff00009f;
-    color: #000000;
-}
+
 .setting-input-container input {
     border: 0px;
     box-shadow: 0px 0px 2px 0px #094011;
@@ -112,4 +141,14 @@
 .remove-profile-img-msg{
     background: #FF9C00;
     color: #000000;
+}
+.modify-btn-container input{
+    border-radius: 16px;
+    padding: 10px 5px 10px 5px;
+    border: 0;
+    background-color: #094011;
+    color: white;
+    font-size: large;
+    box-shadow: 1px 1px white;
+    width: 200px;
 }

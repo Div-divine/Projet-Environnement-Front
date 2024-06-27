@@ -88,7 +88,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
   };
 
   return (
-    < div className={`custom-modal ${isOpen ? 'open' : ''}`}>
+    < div className={`custom-modal custom-pwd-update-modal ${isOpen ? 'open' : ''}`}>
       {userId && <div className="modal-content">
         <div className="modal-header">
           <h2>{title}</h2>
@@ -118,7 +118,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
               </div>
             </div>
             <div className='input-and-label-container'>
-              <div className='mb-3 input-label-container'>
+              <div className='mb-2 input-label-container'>
                 <LabelDisplay labelHandler='new-pwd-field' 
                 className='pwd-update-label' labelText='Nouveau mot de passe'/>
               </div>
@@ -135,7 +135,7 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
             </div>
             <div className='btn-sbmt-updayte-pwd'><GreenSbmtBtn value='Valider' /></div>
             <div className='option-create-acc-upper-container'>
-              <Link className='creat-acc-option option-forgotten-pwd' >Mot de passe oublié ?</Link>
+              <Link className='option-forgotten-pwd' >Mot de passe oublié ?</Link>
             </div>
           </form>}
         </div>

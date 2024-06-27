@@ -83,3 +83,26 @@
 .modal-body {
   font-family: "Crimson Text", serif;
 }
+.custom-pwd-update-modal .modal-header{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.custom-pwd-update-modal .modal-close-btn{
+  padding: 10px 15px 10px 15px;
+  background-color: #FF9C00;
+  color: black;
+}
+.custom-pwd-update-modal .btn-sbmt-updayte-pwd .green-btn{
+  background-color: #094011;
+  color: white;
+}
+.custom-pwd-update-modal .input-label-container label {
+  color: #0940119d;
+  font-weight: 700;
+}
+.custom-pwd-update-modal .option-forgotten-pwd{
+  font-weight: 700;
+  font-size: large;
+}

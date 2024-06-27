@@ -226,7 +226,7 @@ const UserSettings = () => {
         const response = await removeUserDisplayedImg(userId, csrf);
         console.log('User displayed image removed:', response);
         if (response.data.message == 'User image display removed successfully!') {
-           window.location.href='/parametre?modif-img-profile=true';
+            window.location.href = '/parametre?modif-img-profile=true';
         }
         return response.data
     }
@@ -236,68 +236,72 @@ const UserSettings = () => {
             const response = await userDisplayedImg(userId, csrf);
             console.log('User displayed image:', response);
             if (response.data.message == 'User image display added successfully!') {
-                window.location.href='/parametre?img-profile=true'
+                window.location.href = '/parametre?img-profile=true'
             }
             return response.data
         }
     }
 
-    return <>
+    return <div className="usr-profile-main-container">
         <SideBar />
+        <DisplayConnectedSmallMenu />
         <main className="unread-msg-main-container">
-            <DisplayConnectedSmallMenu />
-            {pwdConfSuccessMsg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Mot de passe modifié avec success!</div>}
-            {profileImgUpdate && <div className="unread-msg-and-users-container pwd-conf-success-msg">Image de profile ajoutée avec success!</div>}
-            {removeProfileImg && <div className="unread-msg-and-users-container pwd-conf-success-msg remove-profile-img-msg">Image de profile désactivée!</div>}
-            {displayProfileImg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Affichage d'image de profile faite avec succ!</div>}
-            {userData && csrfToken && <div className="setting-section-container unread-msg-and-users-container">
-                <div className="setting-user-img-container setting-txt">Paramètre</div>
-                <div className="setting-user-img-container"><img src={(userData.user_img && userData.show_user_image ? `${imgUrl}/${userData.user_img}` : userIcon)} alt="user image" /></div>
-                {userData.user_img ? <div className="setting-image-btns-container">
-                    {userData.show_user_image && csrfToken ? <div onClick={() => removeDisplayedImg(userData.user_id, csrfToken)} className="remove-image-display-container"><GreenSbmtBtn value={'Désactiver l\'affichage de photo'} /></div> :
-                        <div onClick={() => activateDisplayedImg(userData.user_id, csrfToken)} className="remove-image-display-container" ><GreenSbmtBtn value={'Activer l\'affichage de photo'} /></div>}
-                    <div className="replace-image-display-container" onClick={changeProfileImg}><GreenSbmtBtn value={'Changer votre photo de profile'} /></div>
-                </div> : <div className="replace-image-display-container" onClick={redirectToUploadUsrImg}><GreenSbmtBtn value={'Uploader une photo de profile'} /></div>}
-                {displayUpdateNameError && <div className="name-error name-error-container">Saisissez un nom!</div>}
-                {UpdateNameConflictError && <div className="name-error name-error-container">Ce nom existe déja</div>}
-                <div className="setting-div-upper-container name-container">
-                    <div className="flex-column-div name-title">Nom: </div>
-                    <div className="flex-column-div user-info">{userData.user_name}</div>
-                    {!openNameModify && <div onClick={openUpdateNameField}><GreenSbmtBtn value={'Modifier'} /></div>}
-                    {openNameModify && csrfToken && <div className="setting-form "><form onSubmit={(e) => submitUpdateName(e, updatedNewName, userData.user_id, csrfToken)} className="form-container">
-                        <div className='grn-btn-container setting-input-container'>
-                            <input type="text" value={updatedNewName} onChange={(e) => setUpdatedNewName(e.target.value)} />
-                        </div>
-                        <div className="validate-btn-update">
-                            <GreenSbmtBtn value={'Valider'} />
-                        </div>
-                        <div className='grn-btn-container' onClick={openUpdateNameField}><input type="button" value="Annuler" className="green-btn undo-change-btn" /></div>
-                    </form>
-                    </div>}
-                </div>
-                {displayUpdateEmailError && <div className="email-error ">Saisissez un Email!</div>}
-                {UpdateEmailConflictError && <div className="email-error ">Cet address mail existe déja</div>}
-                <div className="setting-div-upper-container">
-                    <div className="flex-column-div name-title">Email: </div>
-                    <div className="flex-column-div user-info">{userData.user_email}</div>
-                    {!openEmailModify && <div onClick={openUpdateEmailField}><GreenSbmtBtn value={'Modifier'} /></div>}
-                    {openEmailModify && csrfToken && <div className="setting-form "><form onSubmit={(e) => submitUpdateEmail(e, updatedNewEmail, userData.user_id, csrfToken)} className="form-container">
-                        <div className='grn-btn-container setting-input-container'>
-                            <input type="text" value={updatedNewEmail} onChange={(e) => setUpdatedNewEmail(e.target.value)} />
-                        </div>
-                        <div className="validate-btn-update">
-                            <GreenSbmtBtn value={'Valider'} />
-                        </div>
-                        <div className='grn-btn-container' onClick={openUpdateEmailField}><input type="button" value="Annuler" className="green-btn undo-change-btn" /></div>
-                    </form>
-                    </div>}
-                </div>
-                <div className="setting-div-upper-container">
-                    <div className="flex-column-div name-title">Mots de passe: </div>
-                    <div className="flex-column-div user-info">Non visible</div>
-                    <div onClick={openUpdatePwdModal}><GreenSbmtBtn value={'Modifier'} /></div>
-                </div>
-            </div>}
+            <div className="center-user-settings">
+                {pwdConfSuccessMsg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Mot de passe modifié avec success!</div>}
+                {profileImgUpdate && <div className="unread-msg-and-users-container pwd-conf-success-msg">Image de profile ajoutée avec success!</div>}
+                {removeProfileImg && <div className="unread-msg-and-users-container pwd-conf-success-msg remove-profile-img-msg">Image de profile désactivée!</div>}
+                {displayProfileImg && <div className="unread-msg-and-users-container pwd-conf-success-msg">Affichage d'image de profile faite avec succ!</div>}
+                {userData && csrfToken && <div className="setting-section-container user-setting-main-container">
+                    <div className="setting-user-img-container setting-txt">Paramètre</div>
+                    <div className="setting-user-img-container"><img src={(userData.user_img && userData.show_user_image ? `${imgUrl}/${userData.user_img}` : userIcon)} alt="user image" /></div>
+                    {userData.user_img ? <div className="setting-image-btns-container">
+                        {userData.show_user_image && csrfToken ? <div onClick={() => removeDisplayedImg(userData.user_id, csrfToken)} className="remove-image-display-container usr-img-setting-btn"><input type="submit" value="Désactiver l'affichage public de votre photo" /></div> :
+                            <div onClick={() => activateDisplayedImg(userData.user_id, csrfToken)} className="remove-image-display-container usr-img-setting-btn" ><input type="submit" value="Activer l'affichage public de votre photo" /></div>}
+                        <div className="replace-image-display-container usr-img-setting-btn" onClick={changeProfileImg}><input type="submit" value='Changer votre photo de profile' /></div>
+                    </div> : <div className="replace-image-display-container usr-img-setting-btn first-upload-img-btn" onClick={redirectToUploadUsrImg}><input type="submit" value='Uploader une photo de profile' /></div>}
+                    {displayUpdateNameError && <div className="name-error name-error-container">Saisissez un nom!</div>}
+                    {UpdateNameConflictError && <div className="name-error name-error-container">Ce nom existe déja</div>}
+                    <div className="setting-div-upper-container name-container">
+                        <div className="flex-column-div name-title">Nom: </div>
+                        <div className="flex-column-div user-info">{userData.user_name}</div>
+                        {!openNameModify && <div onClick={openUpdateNameField}><GreenSbmtBtn value={'Modifier'} /></div>}
+                        {openNameModify && csrfToken && <div className="setting-form "><form onSubmit={(e) => submitUpdateName(e, updatedNewName, userData.user_id, csrfToken)} className="form-container">
+                            <div className='grn-btn-container setting-input-container'>
+                                <input type="text" value={updatedNewName} onChange={(e) => setUpdatedNewName(e.target.value)} />
+                            </div>
+                            <div className="validate-btn-update">
+                                <GreenSbmtBtn value={'Valider'} />
+                            </div>
+                            <div className='grn-btn-container' onClick={openUpdateNameField}><input type="button" value="Annuler" className="green-btn undo-change-btn" /></div>
+                        </form>
+                        </div>}
+                    </div>
+                    {displayUpdateEmailError && <div className="email-error ">Saisissez un Email!</div>}
+                    {UpdateEmailConflictError && <div className="email-error ">Cet address mail existe déja</div>}
+                    <div className="setting-div-upper-container">
+                        <div className="flex-column-div name-title">Email: </div>
+                        <div className="flex-column-div user-info">{userData.user_email}</div>
+                        {!openEmailModify && <div onClick={openUpdateEmailField}><GreenSbmtBtn value={'Modifier'} /></div>}
+                        {openEmailModify && csrfToken && <div className="setting-form "><form onSubmit={(e) => submitUpdateEmail(e, updatedNewEmail, userData.user_id, csrfToken)} className="form-container">
+                            <div className='grn-btn-container setting-input-container'>
+                                <input type="text" value={updatedNewEmail} onChange={(e) => setUpdatedNewEmail(e.target.value)} />
+                            </div>
+                            <div className="validate-btn-update">
+                                <GreenSbmtBtn value={'Valider'} />
+                            </div>
+                            <div className='grn-btn-container' onClick={openUpdateEmailField}>
+                                <input type="button" value="Annuler" className="green-btn undo-change-btn" />
+                            </div>
+                        </form>
+                        </div>}
+                    </div>
+                    <div className="setting-div-upper-container">
+                        <div className="flex-column-div name-title">Mots de passe: </div>
+                        <div className="flex-column-div user-info">Non visible</div>
+                        <div onClick={openUpdatePwdModal}><GreenSbmtBtn value={'Modifier'} /></div>
+                    </div>
+                </div>}
+            </div>
         </main >
         {isModalOpen && userId && (
             <CustomPwdUpdateModal
@@ -306,7 +310,7 @@ const UserSettings = () => {
                 onClose={handleCloseModal}
             />
         )}
-    </>
+    </div>
 }
 
 export default UserSettings; 
