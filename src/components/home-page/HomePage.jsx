@@ -84,16 +84,16 @@ const RenderHome = () => {
             <DisplayConnectedSmallMenu />
             <div className="main-body-container">
                 <div className="text-center welcom-msg-container">
-                    <p className="welcom-msg">Merci de nous avoir rejoint dans cette mission pour sauver la planète ! </p>
+                    <p className="welcom-msg">Merci de nous avoir rejoint dans la mission de sauver la planète 🌍! </p>
                     <p className="welcom-msg"><span className="welcom-msg-green">Vos actions font toute la différence</span></p>
                 </div>
                 <div className="group-upper-title-container">
-                    <p className="group-upper-title">Groups d'action</p>
+                    <p className="group-upper-title">Groups d'actions</p>
                 </div>
                 <div className="groups-container">
                     {groupsDatas && groupsDatas.map((data) => {
                         return (
-                            <div className="water-container mb-3" key={data.group_id} style={{ backgroundImage: `url('../../src/${data.group_img}')` }} nonce={nonce}>
+                            <div className="water-container mb-3" key={data.group_id} >
                                 <div className="icon-and-btns-container">
                                     <div className="water-icon-and-text-conatiner">
                                         <div className="water-icon-conatiner">

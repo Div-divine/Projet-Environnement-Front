@@ -1,3 +1,8 @@
+.upper-group-section-home{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 .home-page-container{
     background-color: #A9BEAC;
     position: fixed;
@@ -68,6 +73,8 @@
 }
 .group-upper-title{
     font-family: "Leaugue Spartan", serif;
+    font-size: larger;
+    font-weight: 700;
 }
 .water-container {
     width: 100%;
@@ -75,10 +82,10 @@
     overflow: hidden;
     background-size: cover; /* This will ensure the image covers the container */
     background-position: center ; /* This will position the image mostly towards the center */
-    border-radius: 20px;
+    border-radius: 0px 20px 0px 20px;
     transition: transform 0.3s ease; /* Smooth transition for the transform property */
-    box-shadow: 0px 0px 10px 0px black;
-
+    box-shadow: 0px 0px 3px 0px #ffffff;
+    background-color: #094011;
 }
 .water-container:hover {
     transform: scale(1.01); /* Increase size by 1% on hover */
@@ -91,17 +98,6 @@
 }
 .water-container:only-child {
     z-index: 2;
-}
-.water-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0000006b;
-    z-index: 1; /* Set a lower z-index to ensure it stays behind the content */
-    pointer-events: none;
 }
 
 @media only screen and (max-width: 700px){
@@ -178,7 +174,12 @@
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
-    color: #fffffff3
+    color: #fffffff3;
+    font-family: "Merriweather", serif;
+}
+.action-text p{
+    font-family: "League Spartan", sans-serif;
+    font-size: larger;
 }
 @media only screen and (max-width: 700px){
     .action-text-container{
@@ -250,3 +251,6 @@
     }
 }
 
+.group-img-home{
+    width: 30%;
+}
