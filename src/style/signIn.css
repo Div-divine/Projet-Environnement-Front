@@ -1,5 +1,24 @@
+.sign-in-main-container .modal-footer .modal-delete-btn{
+    display: none;
+}
+.sign-in-main-container .modal-footer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sign-in-main-container .modal-header h2{
+    color: #ff0000;
+    font-size: large;
+    font-weight: 700;
+}
+.sign-in-main-container .modal-body div{
+    font-size: large;
+    font-weight: 700;
+}
 .login-error-msg{
-    background-color: red;
+    background-color: #ff0000;
 }
 .registration-successs-msg{
     background-color: #008000;

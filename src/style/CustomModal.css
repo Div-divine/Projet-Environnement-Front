@@ -1,71 +1,85 @@
-.pwd-update-label{
+.pwd-update-label {
   color: #0940119d;
   font-weight: 700;
 }
+
 .custom-modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .custom-modal.open {
-    display: block;
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-  }
-  
-  .modal-header, .modal-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .modal-header h2 {
-    margin: 0;
-  }
-  
-  .modal-body p {
-    margin: 0;
-  }
-  
-  .modal-footer button {
-    background-color: #d60808c0;
-    color: white;
-    padding: 10px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .modal-footer button:hover {
-    background-color: #d60808e8;
-  }
-  .modal-header,
-  .modal-delete-btn {
-    font-family: "League Spartan", serif;
-  }
-.modal-close-btn{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-modal.open {
+  display: block;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal-body p {
+  margin: 0;
+}
+
+.modal-footer .modal-delete-btn {
+  background-color: #d60808c0;
+}
+
+.modal-footer .modal-delete-btn:hover {
+  background-color: #d60808e8;
+}
+
+.modal-footer button {
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-header,
+.modal-delete-btn {
+  font-family: "League Spartan", serif;
+}
+
+.modal-close-btn {
   font-family: "League Spartan", serif;
   background-color: #094011;
   color: white;
   padding: 5px;
   border: 0px;
   border-radius: 2px;
-}  
-.modal-body{
+}
+
+.modal-body {
   font-family: "Crimson Text", serif;
 }
-  

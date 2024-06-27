@@ -5,7 +5,6 @@ import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
 import GreenSbmtBtn from '../button/GreenSubmitBtn.jsx';
-import useToggle from '../../custom-hooks/HookToToggle';
 import PostUserInfo from '../../api/UserRegistrationApi.jsx';
 import { generateNonce } from '../../generate-nonce/nonce.js';
 
@@ -138,7 +137,7 @@ const RegistrationInputBox = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className='input-and-label-container'>
-                        <div className='mb-3 mt-5 input-label-container'>
+                        <div className='mb-3 mt-3 input-label-container'>
                             <LabelDisplay labelHandler='name-field' labelText='Pseudo' />
                         </div>
                         <div className='input-filed-container mb-2'>

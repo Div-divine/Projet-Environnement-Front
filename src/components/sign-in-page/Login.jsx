@@ -7,6 +7,7 @@ import useStoreValueInputedInField from '../../custom-hooks/HookFormInputControl
 import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import SendUserInfo from '../../api/UserLoginApi';
 import { generateNonce } from '../../generate-nonce/nonce';
+import CustomModal from '../modalbox/CustomModalBox'
 
 
 const SignInPageRender = () => {
@@ -17,6 +18,7 @@ const SignInPageRender = () => {
     const success = searchParams.get('success') === 'true';
     const [displayRegisterSuccessMsg, setDisplaySuccessRegisterMsg] = useState(true)
     const nonce = generateNonce()
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Remove success message after 3 seconds
     useEffect(() => {
@@ -63,7 +65,6 @@ const SignInPageRender = () => {
                         email: email,
                         password: pwd,
                     };
-                    setLoginErrorMsg('');
                     const token = await SendUserInfo(credentials);
                     if (token) {
                         navigate('/accueil')
@@ -71,8 +72,7 @@ const SignInPageRender = () => {
                 }
                 // Store tokens in local storage
             } catch (error) {
-                // Display the Login Error message if an error is caught
-                setLoginErrorMsg('Email ou mot de passe incorrect!')
+                setIsModalOpen(true)
                 // Handle login errors
                 console.error('Login failed:', error);
             }
@@ -135,16 +135,27 @@ const SignInPageRender = () => {
         setSignInBgrd(location.pathname === "/connexion" || location.pathname === "/connexion/");
     }, [location]);
 
-    return <>
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    return <div className='sign-in-main-container'>
         <main className="sign-in-main-body">
             <div className={signInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>
-                < DisplayLoginErrorMsg loginErrorMsgHandler={loginErrorMsg} />
                 <div className='sign-in-section-container'>
                     <SignInInputBox />
                 </div>
             </div>
         </main>
-    </>
+        {isModalOpen && (
+            <CustomModal
+                title="Erreur lors de la connexion"
+                message="Email ou mot de passe incorrect!"
+                buttonText="Supprimer"
+                onClose={handleCloseModal}
+            />
+        )}
+    </div>
 }
 
 export default SignInPageRender;
