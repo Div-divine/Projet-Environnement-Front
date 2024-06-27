@@ -76,7 +76,7 @@ a, a:hover {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     min-height: 655px;
 }
 .friends-icon{
@@ -125,7 +125,7 @@ a, a:hover {
 .friends-background-style{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
     color: white;
     background-color: #A9BEAC;
     padding: 10px 0px 10px 0px;
@@ -223,10 +223,12 @@ a, a:hover {
     border-radius: 100%;
     background-color: red;
     text-align: center;
-    width: 45%;
-    padding: 1px;
-    font-size: x-small;
+    width: 80%;
+    padding: 3px;
+    margin-left: 10px;
+    font-size: medium;
     font-weight: 700;
+    
 }
 
 .disconnect-container{
@@ -235,8 +237,10 @@ a, a:hover {
     margin-right: auto;
     padding: 10px 5px 10px 5px;
     border-radius: 10px;
+    background-color: #094011;
+    color: white;
 }
 .disconnect-container:hover{
-    background-color: red;
-    color: white;
+    background-color: #FFA500;
+    font-weight: 700;
 }
