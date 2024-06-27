@@ -125,12 +125,6 @@ label {
 .registration-section-container {
     width: 100%;
     height: auto;
-    padding-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .return-icon-and-text-container {
@@ -160,7 +154,6 @@ label {
 .pwd-rule-text {
     font-family: "League Spartan", sans-serif;
     color: #FFA500;
-    font-size: small;
 }
 
 @media only screen and (max-width: 520px) {

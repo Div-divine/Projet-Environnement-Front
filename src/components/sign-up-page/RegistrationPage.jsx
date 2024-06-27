@@ -1,6 +1,6 @@
 import '../../style/signUp.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import InputField from '../input-field/InputField';
 import LabelDisplay from '../input-field/LabelForFiled';
 import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
@@ -26,11 +26,10 @@ const DisplayPasswordStrength = ({ strength, password, text }) => {
     return <p className='pwd-rule-text'>{text}</p>;
 };
 
-
 const RegistrationInputBox = () => {
     const navigate = useNavigate();
-    const [ruleText, setRuleText] = useState('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole')
-    const [checked, setChecked] = useToggle()
+    const [ruleText, setRuleText] = useState('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
+    const [checked, setChecked] = useState(false);
     const [name, setName] = useStoreValueInputedInField();
     const [email, setEmail] = useStoreValueInputedInField();
     const [pwd, setPwd] = useStoreValueInputedInField();
@@ -40,105 +39,79 @@ const RegistrationInputBox = () => {
     const [emailErrorMsg, setEmailErrorMsg] = useState('');
     const [pwdErrorMsg, setPwdErrorMsg] = useState('');
     const [pwdRuleError, setPwdRuleError] = useState('');
-    const [conditionStyle, setConditionStyle] = useState({ color: 'white' });
+    const [conditionStyle, setConditionStyle] = useState({});
     const [registrationError, setRegistrationError] = useState(null);
 
-    // Assign Email address pattern using RegEx 
     const emailPattern = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/gm;
-    // Assign pattern to password
     const pwdPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const handleStrength = useMemo(
-        () => {
-            // Get rid of the error messages once the input fields are filled
-            if (pwd.length > 1) {
-                setPwdErrorMsg('');
-            }
-            if (pwdConf == pwd) {
-                setPwdConfError('')
-            }
-            if (name.length > 0) {
-                setNameErrorMsg('')
-            }
-            if (email.length > 1) {
-                setEmailErrorMsg('')
-            }
-            if (pwdPattern.test(pwd)) {
-                setPwdRuleError('');
-            }
-            // Reset the checkbox once useraccepts terms and condition by checking the check box
-            if (checked === true) {
-                setConditionStyle({ color: 'white'})
-            }
 
-            // Display Password strength message
-            if (pwd.length <= 3) {
-                return "Trés Faible"
-            }
-            if (pwd.length < 8) {
-                return "Faible"
-            }
-            if (!pwdPattern.test(pwd) && pwd.length >= 8) {
-                return <span className='input-error-msg'>Invalide</span>
-            }
-            if (pwdPattern.test(pwd) && pwd.length >= 8) {
-                return "Super :)"
-            }
-            return "";
-        }, [pwd]);
+    const handleStrength = (password) => {
+        if (password.length <= 3) {
+            return "Trés Faible ";
+        }
+        if (password.length < 8) {
+            return "Faible";
+        }
+        if (!pwdPattern.test(password) && password.length >= 8) {
+            return <span className='input-error-msg'>Non Valide</span>;
+        }
+        if (pwdPattern.test(password) && password.length >= 8) {
+            return "Super 😊";
+        }
+        return "";
+    };
 
-    // Remove white spaces and special characters from name
     const nameWithoutSpacialChar = name.replace(/[^\w\s]/gi, '').trim();
 
     const registrationFormData = {
-        username: nameWithoutSpacialChar, // Assuming 'name' corresponds to the username input field
+        username: nameWithoutSpacialChar,
         email: email,
         password: pwd
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Once the form is submitted remove the password yellow rule to give way to the red error password rule message
         setRuleText('');
-        try {
-            if (pwdConf !== pwd || nameWithoutSpacialChar.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd) || !checked) {
-                if (pwdConf != pwd) {
-                    setPwdConfError('Confirmation mot de passe incorrect')
-                }
-                if (nameWithoutSpacialChar.length < 1) {
-                    setNameErrorMsg('Saissisez un nom')
-                }
-                if (email.length < 1) {
-                    setEmailErrorMsg('Saississer un email')
-                }
-                if (!emailPattern.test(email) && email.length > 1) {
-                    setEmailErrorMsg('Saississez un email valide')
-                }
-                if (pwd.length < 1) {
-                    setPwdErrorMsg('Entrer un mot de passe')
-                }
-                if (!pwdPattern.test(pwd)) {
-                    setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
-                }
-                if (!checked) {
-                    setConditionStyle({ color: 'red'})
-                }
-                return false;
-            }
 
-            console.log(registrationFormData);
-            // Post user info to api from api/UserRegistrationApi
-            const responseData = await PostUserInfo(registrationFormData);
-            // Redirect to the connection page after form submission
-            navigate('/connexion?success=true')
+        if (pwdConf !== pwd || nameWithoutSpacialChar.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd)) {
+            if (pwdConf !== pwd) {
+                setPwdConfError('Confirmation mot de passe incorrect');
+            }
+            if (nameWithoutSpacialChar.length < 1) {
+                setNameErrorMsg('Saissisez un nom');
+            }
+            if (email.length < 1) {
+                setEmailErrorMsg('Saississer un email');
+            }
+            if (!emailPattern.test(email) && email.length > 1) {
+                setEmailErrorMsg('Saississez un email valide');
+            }
+            if (pwd.length < 1) {
+                setPwdErrorMsg('Entrer un mot de passe');
+            }
+            if (!pwdPattern.test(pwd)) {
+                setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
+            }
+            return;
+        }
+
+        if (!checked) {
+            setConditionStyle({ color: 'red' });
+            return;
+        }
+
+        try {
+            await PostUserInfo(registrationFormData);
+            navigate('/connexion?success=true');
         } catch (error) {
             if (error.response) {
-                // Get error and display it using registrationError
                 setRegistrationError(error.response.data.message);
             } else {
                 setRegistrationError('Network error');
             }
         }
     };
-    // Handle login Error message if error exists. This uses the length of loginErrorMsg
+
     const DisplayRegistrationErrorMsg = ({ loginErrorMsgHandler }) => {
         const registrationErrorMsgStyle = {
             color: 'white',
@@ -147,137 +120,134 @@ const RegistrationInputBox = () => {
             padding: '10px',
             marginRight: 'auto',
             marginLeft: 'auto'
-        }
+        };
 
-        return <div className='text-center mb-5' style={registrationErrorMsgStyle} nonce={nonce}>
-            <p>{loginErrorMsgHandler}</p>
-        </div>
-    }
-
-    return <div className='container fade-in-down-big'>
-
-        {registrationError && <DisplayRegistrationErrorMsg loginErrorMsgHandler={registrationError} />}
-        <div className='registration-field-container'>
-            <div className='mb-3 text-center'>
-                <p className='registeration-form-title-text'>Inscription</p>
+        return (
+            <div className='text-center mb-5' style={registrationErrorMsgStyle} nonce={nonce}>
+                <p>{loginErrorMsgHandler}</p>
             </div>
-            <form onSubmit={handleSubmit}>
-                <div className='input-and-label-container'>
-                    <div className='mb-3 mt-5 input-label-container'>
-                        <LabelDisplay labelHandler='name-field' labelText='Nom' />
-                    </div>
-                    <div className='input-filed-container mb-2'>
-                        <InputField
-                            typeHandler='text'
-                            nameHandler='name-field'
-                            idHandler='name-field'
-                            placeholderHandler='saisissez votre nom...'
-                            valueHandler={name}
-                            setValueHandler={setName}
-                        />
-                    </div>
+        );
+    };
+
+    return (
+        <div className='container fade-in-down-big'>
+            {registrationError && <DisplayRegistrationErrorMsg loginErrorMsgHandler={registrationError} />}
+            <div className='registration-field-container'>
+                <div className='text-center'>
+                    <p className='registeration-form-title-text'>Inscription</p>
                 </div>
-                <div className='input-filed-container mb-3'>
-                    <p className='input-error-msg'>{nameErrorMsg}</p>
-                </div>
-                <div className='input-and-label-container'>
-                    <div className='mb-3 input-label-container'>
-                        <LabelDisplay labelHandler='email-field' labelText='Email' />
+                <form onSubmit={handleSubmit}>
+                    <div className='input-and-label-container'>
+                        <div className='mb-3 mt-5 input-label-container'>
+                            <LabelDisplay labelHandler='name-field' labelText='Pseudo' />
+                        </div>
+                        <div className='input-filed-container mb-2'>
+                            <InputField
+                                typeHandler='text'
+                                nameHandler='name-field'
+                                idHandler='name-field'
+                                placeholderHandler='Saisir votre Pseudo...'
+                                valueHandler={name}
+                                setValueHandler={setName}
+                            />
+                        </div>
                     </div>
                     <div className='input-filed-container mb-3'>
-                        <InputField
-                            typeHandler='email'
-                            nameHandler='email-field'
-                            idHandler='email-field'
-                            placeholderHandler='saisissez votre adresse mail...'
-                            valueHandler={email}
-                            setValueHandler={setEmail}
-                        />
+                        <p className='input-error-msg'>{nameErrorMsg}</p>
                     </div>
-                </div>
-                <div className='input-filed-container mb-3'>
-                    <p className='input-error-msg'>{emailErrorMsg}</p>
-                </div>
-                <div className='input-and-label-container'>
-                    <div className='mb-3 input-label-container'>
-                        <LabelDisplay labelHandler='pwd-field' labelText='Mot de passe' />
+                    <div className='input-and-label-container'>
+                        <div className='mb-3 input-label-container'>
+                            <LabelDisplay labelHandler='email-field' labelText='Email' />
+                        </div>
+                        <div className='input-filed-container mb-3'>
+                            <InputField
+                                typeHandler='email'
+                                nameHandler='email-field'
+                                idHandler='email-field'
+                                placeholderHandler='Saisir votre adresse mail...'
+                                valueHandler={email}
+                                setValueHandler={setEmail}
+                            />
+                        </div>
                     </div>
-                    <div className='input-filed-container mb-2'>
-                        <InputField
-                            typeHandler='password'
-                            nameHandler='pwd-field'
-                            idHandler='pwd-field'
-                            placeholderHandler='Entrer un mot de passe...'
-                            valueHandler={pwd}
-                            setValueHandler={setPwd}
-                        />
+                    <div className='input-filed-container mb-3'>
+                        <p className='input-error-msg'>{emailErrorMsg}</p>
                     </div>
-                    <div className='pwd-rule-text-container mb-3'>
-                        <DisplayPasswordStrength strength={handleStrength} password={pwd} text={ruleText} />
+                    <div className='input-and-label-container'>
+                        <div className='mb-3 input-label-container'>
+                            <LabelDisplay labelHandler='pwd-field' labelText='Mot de passe' />
+                        </div>
+                        <div className='input-filed-container mb-2'>
+                            <InputField
+                                typeHandler='password'
+                                nameHandler='pwd-field'
+                                idHandler='pwd-field'
+                                placeholderHandler='Saisir un mot de passe...'
+                                valueHandler={pwd}
+                                setValueHandler={setPwd}
+                            />
+                        </div>
+                        <div className='pwd-rule-text-container'>
+                            <DisplayPasswordStrength strength={handleStrength(pwd)} password={pwd} text={ruleText} />
+                        </div>
                     </div>
-                </div>
-                <div className='input-filed-container mb-3'>
-                    <p style={{ color: 'red', fontSize: 'small'}} nonce={nonce}>{pwdRuleError}</p>
-                </div>
-                <div className='input-filed-container mb-3'>
-                    <p className='input-error-msg'>{pwdErrorMsg}</p>
-                </div>
-                <div className='input-and-label-container'>
-                    <div className='mb-3 input-label-container'>
-                        <LabelDisplay labelHandler='pwdconf-field' labelText='Confirmer votre mot de passe' />
+                    <div className='input-filed-container mb-3'>
+                        <p style={{ color: 'red', fontSize: 'small' }} nonce={nonce}>{pwdRuleError}</p>
                     </div>
-                    <div className='input-filed-container mb-2'>
-                        <InputField
-                            typeHandler='password'
-                            nameHandler='pwdconf-field'
-                            idHandler='pwdconf-field'
-                            placeholderHandler='Résaisissez votre mot de passe...'
-                            valueHandler={pwdConf}
-                            setValueHandler={setPwdConf}
-                        />
+                    <div className='input-filed-container'>
+                        <p className='input-error-msg'>{pwdErrorMsg}</p>
                     </div>
-                </div>
-                <div className='input-filed-container mb-3'>
-                    <p className='input-error-msg'>{pwdConfError}</p>
-                </div>
-                <div className='mb-5 ckeckbox-with-label-container'>
-                    <div>
-                        <span className='checkbox-container-margin'>
-                            <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
-                        </span>
-                        <LabelDisplay labelHandler='checkbox' labelText="Accepter les conditions d'utilisation"
-                            labelStyle={conditionStyle} nonce={nonce}/>
+                    <div className='input-and-label-container'>
+                        <div className='mb-3 input-label-container'>
+                            <LabelDisplay labelHandler='pwdconf-field' labelText='Confirmer votre mot de passe' />
+                        </div>
+                        <div className='input-filed-container mb-2'>
+                            <InputField
+                                typeHandler='password'
+                                nameHandler='pwdconf-field'
+                                idHandler='pwdconf-field'
+                                placeholderHandler='Saisir une fois encore votre mot de passe...'
+                                valueHandler={pwdConf}
+                                setValueHandler={setPwdConf}
+                            />
+                        </div>
                     </div>
-                </div>
-
-                <GreenSbmtBtn value='Enregistrer' />
-            </form>
+                    <div className='input-filed-container mb-3'>
+                        <p className='input-error-msg'>{pwdConfError}</p>
+                    </div>
+                    <div className='mb-5 ckeckbox-with-label-container'>
+                        <div>
+                            <span className='checkbox-container-margin'>
+                                <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
+                            </span>
+                            <LabelDisplay labelHandler='checkbox' labelText="Accepter le RGPD et les conditions d'utilisation"
+                                labelStyle={checked ? {color: 'white'} : {color: '#FFA500'}} nonce={nonce} />
+                        </div>
+                    </div>
+                    <GreenSbmtBtn value="M'Inscrire👍" />
+                </form>
+            </div>
         </div>
-    </div>
-}
+    );
+};
 
 const SignUpPageRender = () => {
-
-    // The useLocation in react-router-dom detects our current url
     const location = useLocation();
     const [isRegister, setIsRegister] = useState(false);
 
-    // 
     useEffect(() => {
-        // SetIsRegister to the current url
         setIsRegister(location.pathname === "/inscription" || location.pathname === "/inscription/");
     }, [location]);
 
-    return <>
+    return (
         <main className="registration-main-body">
-            {/* set background image if in the current url */}
             <div className={isRegister ? "register-background animated-bg" : "animated-bg"}>
                 <div className='registration-section-container'>
                     <RegistrationInputBox />
                 </div>
             </div>
         </main>
-    </>
-}
+    );
+};
 
 export default SignUpPageRender;

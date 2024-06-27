@@ -95,7 +95,7 @@ const SignInPageRender = () => {
                                 typeHandler='email'
                                 nameHandler='email-field'
                                 idHandler='email-field'
-                                placeholderHandler='saisissir votre adresse mail...'
+                                placeholderHandler='saisir votre adresse mail...'
                                 valueHandler={email}
                                 setValueHandler={setEmail}
                             />
@@ -110,7 +110,7 @@ const SignInPageRender = () => {
                                 typeHandler='password'
                                 nameHandler='pwd-field'
                                 idHandler='pwd-field'
-                                placeholderHandler='Entrer votre mot de passe...'
+                                placeholderHandler='Saisir votre mot de passe...'
                                 valueHandler={pwd}
                                 setValueHandler={setPwd}
                             />
