@@ -95,7 +95,7 @@ const SignInPageRender = () => {
                                 typeHandler='email'
                                 nameHandler='email-field'
                                 idHandler='email-field'
-                                placeholderHandler='saisissez votre adresse mail...'
+                                placeholderHandler='saisissir votre adresse mail...'
                                 valueHandler={email}
                                 setValueHandler={setEmail}
                             />
@@ -105,21 +105,26 @@ const SignInPageRender = () => {
                         <div className='mb-3 input-label-container'>
                             <LabelDisplay labelHandler='pwd-field' labelText='Mot de passe' />
                         </div>
-                        <div className='input-filed-container mb-5'>
+                        <div className='input-filed-container mb-3'>
                             <InputField
                                 typeHandler='password'
                                 nameHandler='pwd-field'
                                 idHandler='pwd-field'
-                                placeholderHandler='Entrer un mot de passe...'
+                                placeholderHandler='Entrer votre mot de passe...'
                                 valueHandler={pwd}
                                 setValueHandler={setPwd}
                             />
                         </div>
                     </div>
-                    <div className='option-create-acc-upper-container'>
-                        <Link className='creat-acc-option' to='/inscription'>Créer un compte ?</Link>
-                    </div>
                     <GreenSbmtBtn value='Valider' />
+                    <div className='or-text'>
+                        <div className='yellow-line'></div>
+                        <div className='text-center'>Ou</div>
+                        <div className='yellow-line'></div>
+                    </div>
+                    <div className='option-create-acc-upper-container text-center'>
+                        <Link className='creat-acc-option' to='/inscription'>Créer un compte</Link>
+                    </div>
                 </form>
             </div>
         </div>
@@ -134,10 +139,6 @@ const SignInPageRender = () => {
         <main className="sign-in-main-body">
             <div className={signInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>
                 < DisplayLoginErrorMsg loginErrorMsgHandler={loginErrorMsg} />
-                <div className='container'>
-                    <div className='return-icon-and-text-container'>
-                    </div>
-                </div>
                 <div className='sign-in-section-container'>
                     <SignInInputBox />
                 </div>

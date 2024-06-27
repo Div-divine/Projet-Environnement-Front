@@ -2,8 +2,8 @@
     border-radius: 16px;
     padding: 15px 10px 15px 10px;
     border: 0;
-    background-color: #094011;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #094011;
     font-size: large;
     box-shadow: 1px 1px white;
     width: 200px;
@@ -11,6 +11,8 @@
 }
 .green-btn:hover{
    font-weight: 700;
+   background-color: #094011;
+   color: white;
 }
 .grn-btn-container{
     display: flex;

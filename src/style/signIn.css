@@ -57,16 +57,36 @@
 }
 .creat-acc-option{
     color: #ffffff;
-    padding-left: 10%;
+    background-color: #6c757d;
+    padding: 15px 10px 15px 10px;
+    border-radius: 16px;
 }
 .creat-acc-option:hover{
     font-weight: 700;
     color: #ffffff;
 }
 .option-create-acc-upper-container{
-    margin-bottom: 10px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
 }
-
+.or-text{
+    color: white;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.yellow-line{
+    height: 1px;
+    background-color: #FF9C00;
+    width: 46%;
+}
 @media only screen and (max-width: 768px){
     .registration-field-container{
         margin-left: auto;
