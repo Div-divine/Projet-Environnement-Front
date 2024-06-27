@@ -1,3 +1,6 @@
+.line-height-pop-over-group-name{
+    margin-bottom: 5px;
+}
 .popover-container{
     padding: 15px 0px 15px 0px;
 }
@@ -23,6 +26,7 @@
    width: 100%;
    height: auto;
    line-height: 2rem;
+   font-weight: 700;
 }
 .popover-name-and-contents-container{
     width: 65%;
@@ -59,7 +63,7 @@
 }
 .upper-container-icon-and-msg{
     width: 50%;
-    background-color: #A9BEAC;
+    background-color: #0a66c2;
     box-shadow: 0px 0px 1px 0px #094011;
     border-radius: 20px;
     display: flex;
@@ -74,7 +78,6 @@
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 .msg-icon-container{

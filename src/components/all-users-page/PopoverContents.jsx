@@ -14,7 +14,7 @@ const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandl
                 <div>
                     <p className='popover-user-name'>{userNameHandler}</p>
                 </div>
-                <div className='popover-groups-name mt-2'>Compte crée:  {dataHandler}</div>
+                <div className='popover-groups-name mt-3'>Inscrit:  {dataHandler}</div>
                 <div className='popover-group-icon-and-groups-container'>
                     <div className='popover-group-icon-container'>
                         <img src={groupIcon} alt="group icon" />
@@ -23,7 +23,7 @@ const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandl
                         {groupHandler && groupHandler.length > 0 ?
                             groupHandler.map((group, index) => (
                                 <div key={index}>
-                                    <div className='popover-groups-name'>-{group.group_name}</div>
+                                    <div className='popover-groups-name line-height-pop-over-group-name'>- {group.group_name}</div>
                                 </div>
                             ))
                             : <div><p className='popover-groups-name'>Aucun group</p></div>}
@@ -41,7 +41,7 @@ const PopoverContents = ({ pathHandler, userNameHandler, groupHandler, dataHandl
                         <img src={MsgIcon} alt="" />
                     </div>
                     <div className='msg-container text-center'>
-                        <p>Messagerie</p>
+                        <p>Message</p>
                     </div>
                 </Link>
             </div>
