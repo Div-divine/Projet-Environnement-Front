@@ -1,40 +1,18 @@
-import '../../style/signIn.css';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import InputField from '../input-field/InputField';
-import LabelDisplay from '../input-field/LabelForFiled';
-import useStoreValueInputedInField from '../../custom-hooks/HookFormInputController';
-import GreenSbmtBtn from '../button/GreenSubmitBtn';
-import SendUserInfo from '../../api/UserLoginApi';
-import { generateNonce } from '../../generate-nonce/nonce';
+import '../../../style/admin-login-page.css';
+import InputField from "../../input-field/InputField";
+import LabelDisplay from "../../input-field/LabelForFiled";
+import useStoreValueInputedInField from "../../../custom-hooks/HookFormInputController";
+import GreenSbmtBtn from "../../button/GreenSubmitBtn";
+import { generateNonce } from '../../../generate-nonce/nonce';
+import SendAdminInfo from '../../../api/AdminLoginApi';
 
 
-const SignInPageRender = () => {
+const AdminSignInPageRender = () => {
     const navigate = useNavigate()
-    const location = useLocation();
-    // Parse the URL and check if the success parameter is true
-    const searchParams = new URLSearchParams(location.search);
-    const success = searchParams.get('success') === 'true';
-    const [displayRegisterSuccessMsg, setDisplaySuccessRegisterMsg] = useState(true)
     const nonce = generateNonce()
 
-    // Remove success message after 3 seconds
-    useEffect(() => {
-        let timer;
-        if (success) {
-            timer = setTimeout(() => {
-                setDisplaySuccessRegisterMsg(false);
-            }, 3000); // Set to false after 3 seconds
-        }
-
-        return () => clearTimeout(timer); // Cleanup the timer on unmount or when `pwdConfSuccessMsg` changes
-    }, [success]);
-
-    const DisplayRegistrationSuccessMsg = () => {
-        return <div className="text-center">
-            <p className='registration-successs-msg'>Utilisateur crée avec success. Veuillez vous connecter !</p>
-        </div>
-    }
     // Monitor login Error, initial state of loginErrorMsg.length is false
     const [loginErrorMsg, setLoginErrorMsg] = useState('')
     // Handle login Sucess message if no erros. This uses the length of loginErrorMsg
@@ -55,6 +33,7 @@ const SignInPageRender = () => {
         const [email, setEmail] = useStoreValueInputedInField()
         const [pwd, setPwd] = useStoreValueInputedInField()
 
+
         const login = async (e) => {
             e.preventDefault();
             try {
@@ -64,30 +43,32 @@ const SignInPageRender = () => {
                         password: pwd,
                     };
                     setLoginErrorMsg('');
-                    const token = await SendUserInfo(credentials);
+                    const token = await SendAdminInfo(credentials);
                     if (token) {
-                        navigate('/accueil')
+                        navigate('/admin/accueil');
                     }
                 }
-                // Store tokens in local storage
             } catch (error) {
-                // Display the Login Error message if an error is caught
-                setLoginErrorMsg('Email ou mot de passe incorrect!')
+                if (error.response.status == 401) {
+                    // Display unauthorized access Login Error message if an error is caught
+                    setLoginErrorMsg('Accèss non authorisé!')
+                }
+                if (error.response.status == 404) {
+                    // Display the Login Error message if an error is caught
+                    setLoginErrorMsg('Email ou mot de passe incorrect!')
+                }
                 // Handle login errors
                 console.error('Login failed:', error);
             }
         };
         return <div className='container fade-in-down-big'>
-            <div className="pt-3 mb-5">
-                {success && displayRegisterSuccessMsg && <DisplayRegistrationSuccessMsg />}
-            </div>
-            <div className='registration-field-container'>
-                <div className='mb-3 text-center'>
-                    <p className='sign-in-form-title-text'>Se Connecter</p>
+            <div className='registration-field-container admin-login-container'>
+                <div className='text-center'>
+                    <p className='sign-in-form-title-text'>Connexion Admin</p>
                 </div>
                 <form onSubmit={login}>
                     <div className='input-and-label-container'>
-                        <div className='mb-3 input-label-container'>
+                        <div className='input-label-container'>
                             <LabelDisplay labelHandler='email-field' labelText='Email' />
                         </div>
                         <div className='input-filed-container mb-3'>
@@ -102,7 +83,7 @@ const SignInPageRender = () => {
                         </div>
                     </div>
                     <div className='input-and-label-container'>
-                        <div className='mb-3 input-label-container'>
+                        <div className='input-label-container'>
                             <LabelDisplay labelHandler='pwd-field' labelText='Mot de passe' />
                         </div>
                         <div className='input-filed-container mb-5'>
@@ -116,28 +97,16 @@ const SignInPageRender = () => {
                             />
                         </div>
                     </div>
-                    <div className='option-create-acc-upper-container'>
-                        <Link className='creat-acc-option' to='/inscription'>Créer un compte ?</Link>
-                    </div>
-                    <GreenSbmtBtn value='Valider' />
+                    <GreenSbmtBtn value='Se connecter' />
                 </form>
             </div>
         </div>
     }
 
-    const [signInBgrd, setSignInBgrd] = useState(false);
-    useEffect(() => {
-        setSignInBgrd(location.pathname === "/connexion" || location.pathname === "/connexion/");
-    }, [location]);
-
     return <>
-        <main className="sign-in-main-body">
-            <div className={signInBgrd ? "sign-in-background animated-bg" : "animated-bg"}>
+        <main className="admin-login-main flex-center">
+            <div className="">
                 < DisplayLoginErrorMsg loginErrorMsgHandler={loginErrorMsg} />
-                <div className='container'>
-                    <div className='return-icon-and-text-container'>
-                    </div>
-                </div>
                 <div className='sign-in-section-container'>
                     <SignInInputBox />
                 </div>
@@ -146,4 +115,4 @@ const SignInPageRender = () => {
     </>
 }
 
-export default SignInPageRender;
+export default AdminSignInPageRender;

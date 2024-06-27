@@ -1,3 +1,7 @@
+.pwd-update-label{
+  color: #0940119d;
+  font-weight: 700;
+}
 .custom-modal {
     display: none;
     position: fixed;

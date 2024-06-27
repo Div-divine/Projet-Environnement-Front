@@ -20,6 +20,21 @@ const RenderHome = () => {
     const userData = useUserData();
     const [postId, setPostId] = useState(null);
     const [userName, setUserName] = useState('')
+    const location = useLocation()
+    const [counter, setCounter] = useState(0)
+
+
+    useEffect(() => {
+        if (location.pathname === 'accueil') {
+            setCounter(counter+1)
+        }
+    }, [location])
+
+    useEffect(()=>{
+       if(counter === 1){
+        window.location.reload()
+       }
+    }, [counter])
 
     useEffect(() => {
         if (userData && postId && csrfToken) {

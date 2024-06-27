@@ -103,7 +103,8 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
               {displayUpdatePwdErrorMsg && updatePwdErrorMsg && <div className='email-error'>{updatePwdErrorMsg}</div>}
               {catchErrorMsg && wrongPwdConfMsg && <div className='email-error'>{wrongPwdConfMsg}</div>}
               <div className='mb-3 input-label-container'>
-                <LabelDisplay labelHandler='pwd-conf-field' labelText='Entrer votre mot de passe actuel' labelStyle={{ color: '#0940119d', fontWeight: '700' }} nonce={nonce} />
+                <LabelDisplay labelHandler='pwd-conf-field' labelText='Entrer votre mot de passe actuel' 
+                className='pwd-update-label' />
               </div>
               <div className='input-filed-container mb-3'>
                 <InputField
@@ -118,7 +119,8 @@ const CustomPwdUpdateModal = ({ title, message, onClose }) => {
             </div>
             <div className='input-and-label-container'>
               <div className='mb-3 input-label-container'>
-                <LabelDisplay labelHandler='new-pwd-field' labelText='Nouveau mot de passe' labelStyle={{ color: '#0940119d', fontWeight: '700' }} nonce={nonce} />
+                <LabelDisplay labelHandler='new-pwd-field' 
+                className='pwd-update-label' labelText='Nouveau mot de passe'/>
               </div>
               <div className='input-filed-container mb-5'>
                 <InputField

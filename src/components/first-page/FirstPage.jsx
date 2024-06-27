@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import '../../style/FirstPage.css';
 import GreenSbmtBtn from "../button/GreenSubmitBtn";
@@ -14,12 +13,6 @@ const FirstHome = () => {
     }, [location]);
 
     const RecevoirNewsLetterInput = ({ placeholderHandler }) => {
-        const newsletterStyle = {
-            height: '35px',
-            backgroundColor: 'none',
-            border: '0px',
-            boxShadow: '1px 1px green',
-        }
         const [value, setValue] = useState('');
 
         function changeValue(e){
@@ -35,8 +28,8 @@ const FirstHome = () => {
         return <>
             <form onSubmit={(e)=>{preventSubmit(e)}}>
                 <div className="first-page-newletter-container">
-                    <input type="text" placeholder={placeholderHandler} style={newsletterStyle} value={value} onChange={(e)=>changeValue(e)}
-                    className="newsletter-input-field" nonce={nonce}/>
+                    <input type="text" placeholder={placeholderHandler} value={value} onChange={(e)=>changeValue(e)}
+                    className="newsletter-input-field" />
                 </div>
                 <div>
                     <GreenSbmtBtn value='Envoyer' />

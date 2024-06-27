@@ -21,7 +21,6 @@ const socket = io.connect("http://localhost:3000/");
 
 const ChatRoom = () => {
     const csrfToken = useCsrf()
-    const nonce = generateNonce()
     // Image url from the back
     const imgUrl = 'http://localhost:3000/assets';
 
@@ -247,9 +246,8 @@ const ChatRoom = () => {
                         <input
                             ref={fileInputRef}
                             type="file"
-                            style={{ display: 'none' }}
                             onChange={handleFileChange}
-                            nonce={nonce}
+                            className='chatroom-file-input'
                         />
                         <div className='like-and-file-icon-container'>
                             <motion.div

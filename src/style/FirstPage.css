@@ -1,3 +1,10 @@
+.newsletter-input-field {
+    height: 35px;
+    background-color: none;
+    border: 0px;
+    box-shadow: 1px 1px #008000
+}
+
 .root-background {
     /* Add your background image properties here */
     background-image: url('../assets/first-home-background-image.png');
@@ -129,24 +136,28 @@
     .newsletter-input-field {
         width: 80%;
     }
+
     .first-page-phrase1-container,
-    .first-page-phrase2-container{
+    .first-page-phrase2-container {
         font-size: 30px;
         padding-top: 80px;
     }
-    .registration-demand-text{
+
+    .registration-demand-text {
         font-size: 20px;
         margin-top: 50px;
     }
 }
+
 @media only screen and (max-width: 377px) {
 
     .first-page-phrase1-container,
-    .first-page-phrase2-container{
+    .first-page-phrase2-container {
         font-size: 25px;
         padding-top: 60px;
     }
-    .registration-demand-text{
+
+    .registration-demand-text {
         font-size: 17px;
         margin-top: 30px;
     }

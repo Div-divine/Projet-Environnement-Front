@@ -1,3 +1,6 @@
+.chatroom-file-input{
+    display: none;
+}
 .chatroom-main-container {
     background-color: #A9BEAC;
     min-height: 100vh;

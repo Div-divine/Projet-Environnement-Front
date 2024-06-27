@@ -24,20 +24,6 @@ const FirstMenu = () => {
         setOpenMenu(false);
     }
 
-    // Set menu css
-
-    const menuLink1 = {
-        textDecoration: "none",
-        color: isHovered1 ? "#FF9C00" : "white",
-        fontWeight: isHovered1 ? '700' : ''
-    };
-
-    const menuLink2 = {
-        textDecoration: "none",
-        color: isHovered2 ? "#FF9C00" : "white",
-        fontWeight: isHovered2 ? '700' : ''
-    };
-
     const [language, setLanguage] = useSelectOptionValue('French')
 
     return (
@@ -76,10 +62,7 @@ const FirstMenu = () => {
                                 <div className="center-menu-item">
                                     <Link
                                         to={"/connexion"}
-                                        style={menuLink1}
-                                        onMouseEnter={() => setIsHovered1(true)}
-                                        onMouseLeave={() => setIsHovered1(false)}
-                                        nonce={nonce}
+                                        className="menu-connexion-link"
                                     >
                                         Se connecter
                                     </Link>
@@ -87,10 +70,7 @@ const FirstMenu = () => {
                                 <div className="center-menu-item">
                                     <Link
                                         to={"/inscription"}
-                                        style={menuLink2}
-                                        onMouseEnter={() => setIsHovered2(true)}
-                                        onMouseLeave={() => setIsHovered2(false)}
-                                        nonce={nonce}
+                                        className="registration-connexion-link"
                                     >
                                         S'inscrire
                                     </Link>

@@ -16,6 +16,7 @@ import UserSettings from "../components/user-setting-page/Settings";
 import FileUploadForm from "../components/upload-image-page/HandleImgUpload";
 import AdminDashboard from "../components/admin/homepage/Dashboard";
 import DisplayUserProfile from "../components/admin/user-profile/AdminUserProfilePage";
+import AdminSignInPageRender from "../components/admin/login-page/AdminLogin";
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
     path: '/admin',
     errorElement: <ErrorPage />,
     children: [
+      { path: 'connexion', element: <AdminSignInPageRender /> },
       { path: 'accueil', element: <AdminDashboard /> },
       { path: 'utilisateurs', element: <AdminRenderAllUsers />},
       { path: 'profile-utilisateur/:id', element: <DisplayUserProfile />}

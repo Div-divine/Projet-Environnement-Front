@@ -1,14 +1,14 @@
 import Axios from "axios";
 
-const SendUserInfo = async (credentials ) => {
+const SendAdminInfo = async (credentials ) => {
     try {
         localStorage.clear();
 
-        const response = await Axios.post(`http://localhost:3000/users/login`, credentials);
+        const response = await Axios.post(`http://localhost:3000/admin/login`, credentials);
         console.log('response:', response);
 
         const token = response.data.token;
-        const userId = response.data.userId
+        const userId = response.data.userId;
         if(token && userId){
             localStorage.setItem('token', token);
             localStorage.setItem('userId', userId);
@@ -22,4 +22,4 @@ const SendUserInfo = async (credentials ) => {
     }
 }
 
-export default SendUserInfo;
+export default SendAdminInfo;

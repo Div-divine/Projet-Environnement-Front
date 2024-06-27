@@ -1,3 +1,13 @@
+.menu-connexion-link,
+.registration-connexion-link{
+    text-decoration: none;
+    color: #ffffff;
+}
+.menu-connexion-link:hover,
+.registration-connexion-link:hover{
+    color: #FF9C00;
+    font-weight: 700;
+}
 @media only screen and (max-width: 767px) {
     .big-screeen-first-page-menu {
         display: none;

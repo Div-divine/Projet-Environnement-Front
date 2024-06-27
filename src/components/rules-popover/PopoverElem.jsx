@@ -13,11 +13,6 @@ const RulesPopover = ({ isOpen, onClose, children }) => {
       animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
       transition={{ duration: 0.2 }}
       style={{
-        position: 'absolute',
-        backgroundColor: 'white',
-        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-        padding: '10px',
-        borderRadius: '5px',
         zIndex: isOpen ? 1 : -1,
       }}
       nonce={nonce}

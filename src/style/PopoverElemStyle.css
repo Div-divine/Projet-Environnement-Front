@@ -1,3 +1,11 @@
+.rules-popover-container {
+    position: absolute;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+}
+
 .close-icon-container {
     width: 5%;
     padding: 5px;
@@ -184,10 +192,12 @@
     .popover-content-container {
         width: 250px;
     }
-    .rules-container-in-popover{
+
+    .rules-container-in-popover {
         width: 95%;
     }
-    .popover-contents-container{
+
+    .popover-contents-container {
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -195,22 +205,26 @@
         align-items: center;
         width: 100%;
     }
-    .close-icon-container{
+
+    .close-icon-container {
         width: 12%;
     }
 }
-@media only screen and (max-width: 300px){
-    .pop-rule-text{
+
+@media only screen and (max-width: 300px) {
+    .pop-rule-text {
         font-size: x-small;
     }
 }
-@media only screen and (max-width: 320px){
-    .user-img-and-post-field{
+
+@media only screen and (max-width: 320px) {
+    .user-img-and-post-field {
         padding: 8px;
     }
 }
-@media only screen and (max-width: 265px){
-    .close-icon-container{
+
+@media only screen and (max-width: 265px) {
+    .close-icon-container {
         width: 15%;
     }
 }

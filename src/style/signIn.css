@@ -1,3 +1,17 @@
+.login-error-msg{
+    background-color: red;
+}
+.registration-successs-msg{
+    background-color: #008000;
+}
+.registration-successs-msg,
+.login-error-msg{
+    color: white;
+    width: 600px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .sign-in-background {
     /* Add your background image properties here */
     background-image: url('../assets/waterfall.png');

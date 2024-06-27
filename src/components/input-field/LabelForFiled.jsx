@@ -2,9 +2,9 @@ import { generateNonce } from "../../generate-nonce/nonce";
 
 const nonce = generateNonce()
 
-const LabelDisplay = ({labelHandler, labelText, labelStyle = {color: 'white'}}) => {
+const LabelDisplay = ({labelHandler, labelText}) => {
 
-    return <label htmlFor={labelHandler} style={labelStyle} nonce={nonce}>{labelText}</label>
+    return <label htmlFor={labelHandler} >{labelText}</label>
 }
 
 export default LabelDisplay;

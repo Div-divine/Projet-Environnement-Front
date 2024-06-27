@@ -1,18 +1,11 @@
 import { generateNonce } from "../../generate-nonce/nonce"
+import '../../style/signIn.css'
 
 const LoginErrorMsg = ({loginErrorMsgHandler}) => {
     const nonce = generateNonce()
     
-    const loginErrorMsgStyle = {
-        color: 'white',
-        backgroundColor: 'red',
-        width: '600px',
-        padding: '10px',
-        marginRight: 'auto',
-        marginLeft: 'auto',
-    }
     const LoginErrorField = ({loginErrorMsgHandler}) => {
-        return <div className='text-center ' style={loginErrorMsgStyle} nonce={nonce}>
+        return <div className='text-center login-error-msg'>
             <p>{loginErrorMsgHandler}</p>
         </div>
     }
