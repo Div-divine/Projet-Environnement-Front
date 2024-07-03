@@ -6,8 +6,8 @@ const AdminRoute = () => {
   const { isAuthenticated } = useAdminAuth(); // Destructure the `isAuthenticated` property
   const location = useLocation();
 
-  if (!isAuthenticated) {
-    // User is not authenticated, redirect to admin login page
+  // Only redirect to login page if not authenticated and not already on login page
+  if (!isAuthenticated && location.pathname != '/admin/connexion') {
     return <Navigate to="/admin/connexion" state={{ from: location }} replace />;
   }
 

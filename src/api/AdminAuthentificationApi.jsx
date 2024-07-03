@@ -3,10 +3,10 @@ import Axios from 'axios';
 
 export function useAdminAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const token = localStorage.getItem('admin-auth');
+  console.log('Admin Token from localStorage:', token);
 
   useEffect(() => {
-    const token = localStorage.getItem('admin-auth');
-
     if (!token) {
       setIsAuthenticated(false);
       return;
@@ -24,7 +24,7 @@ export function useAdminAuth() {
       .catch(() => {
         setIsAuthenticated(false);
       });
-  }, []);
+  }, [token]);
 
   return { isAuthenticated };
 }

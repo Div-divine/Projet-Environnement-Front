@@ -45,6 +45,7 @@ const AdminSignInPageRender = () => {
                     setLoginErrorMsg('');
                     const token = await SendAdminInfo(credentials);
                     if (token) {
+                        console.log('Admin Token from login page:', token)
                         navigate('/admin/accueil');
                     }
                 }

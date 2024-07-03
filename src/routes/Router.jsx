@@ -19,7 +19,6 @@ import DisplayUserProfile from "../components/admin/user-profile/AdminUserProfil
 import AdminSignInPageRender from "../components/admin/login-page/AdminLogin";
 import AdminRoute from "./AdminAuthentificationRoute";
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -42,18 +41,14 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     errorElement: <ErrorPage />,
+    element: <AdminRoute />, // Use the custom AdminRoute component to protect all routes under /admin
     children: [
       { path: 'connexion', element: <AdminSignInPageRender /> },
-      {
-        element: <AdminRoute />, // Use the custom AdminRoute component to protect the following routes
-        children: [
-          { path: 'accueil', element: <AdminDashboard /> },
-          { path: 'utilisateurs', element: <AdminRenderAllUsers /> },
-          { path: 'profile-utilisateur/:id', element: <DisplayUserProfile /> },
-        ]
-      }
+      { path: 'accueil', element: <AdminDashboard /> },
+      { path: 'utilisateurs', element: <AdminRenderAllUsers /> },
+      { path: 'profile-utilisateur/:id', element: <DisplayUserProfile /> },
     ]
   },
 ])
 
-export default router;  
+export default router;

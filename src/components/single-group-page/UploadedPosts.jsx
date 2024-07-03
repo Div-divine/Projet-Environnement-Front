@@ -461,9 +461,15 @@ const DisplayUploadedPosts = ({ groupId }) => {
                     posts && posts[index] && (
                         <div key={index} className="posts-display-inner-section">
                             <div className="posts-user-img-and-date-container">
-                                <div className="post-user-img-container">{!posts[index].incognito && !posts[index].post_user_quit ? <img src={(posts[index].user_img && posts[index].show_user_image ? `${imgUrl}/${posts[index].user_img}` : userIcon)} alt="" /> : <img src={incognitoIcon} alt="" />}</div>
+                                <div className="post-user-img-container">{!posts[index].incognito && !posts[index].post_user_quit ?
+                                    <img src={(posts[index].user_img && posts[index].show_user_image ?
+                                        `${imgUrl}/${posts[index].user_img}` :
+                                        userIcon)} alt="" />
+                                    : <img src={incognitoIcon} alt="" />}</div>
                                 <div className="post-date-container">
-                                    <div>{!posts[index].incognito ? (!posts[index].post_user_quit ? posts[index].user_name : 'L\'auteur du post a quitté le groupe') : 'Utilisateur Incognito'}</div> {/* Display the user name */}
+                                    <div>{!posts[index].incognito ? (!posts[index].post_user_quit ?
+                                        posts[index].user_name : 'L\'auteur du post a quitté le groupe') :
+                                        'Utilisateur Incognito'}</div> {/* Display the user name */}
                                     <div>{formattedDate}</div> {/* Display the formatted date */}
                                 </div>
                             </div>
@@ -480,7 +486,11 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                             onKeyPress={(event) => handleKeyPress(event, posts[index].post_id, updateValue, userId)}
                                             className="update-text-area"
                                         />
-                                        <span>Pour annuler, cliquer échap ou </span><Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link><span>. Pour valider cliquer </span><Link className="validate-update-text">Entrée</Link><span> Sur votre clavier</span>
+                                        <span>Pour annuler, cliquer échap ou </span>
+                                        <Link className="cancel-post-update" onClick={cancelUpdate}>Annuler</Link>
+                                        <span>. Pour valider cliquer </span>
+                                        <Link className="validate-update-text">Entrée</Link>
+                                        <span> Sur votre clavier</span>
                                     </div>
                                 ) : (
                                     // If the post is not being edited, render its content
@@ -489,12 +499,16 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                         {/* Check if post content height is greater than 59px  to display afficher tout and reduire div*/}
                                         {postContainer[index] && postContainer[index].offsetHeight > 59 && <div className="display-all-text-main-container">
                                             {!expandedPosts[posts[index].post_id] ?
-                                                <div className="display-all-post-content"><span onClick={() => displayAllPostContent(posts[index].post_id)}>Tout afficher...</span></div>
-                                                : <div className="display-all-post-content"><span onClick={() => ReduicePostContent(posts[index].post_id)}>Reduire</span></div>}
+                                                <div className="display-all-post-content">
+                                                    <span onClick={() => displayAllPostContent(posts[index].post_id)}>Tout afficher...</span>
+                                                </div>
+                                                : <div className="display-all-post-content">
+                                                    <span onClick={() => ReduicePostContent(posts[index].post_id)}>Reduire</span>
+                                                </div>}
                                         </div>}
                                     </div>
                                 )}
-                                { csrfToken && posts[index].user_id && posts[index].user_id == userId && <div className="edit-and-delete-post-container">
+                                {csrfToken && posts[index].user_id && posts[index].user_id == userId && <div className="edit-and-delete-post-container">
                                     <Link className="edit-post-text" onClick={(e) => updatePost(posts[index].post_id, posts[index].post_content)}>Editer</Link>
                                     <Link className="delete-post-text" onClick={(e) => deletePost(posts[index].user_id, posts[index].post_id, posts[index].group_id, csrfToken)}>Supprimer</Link>
                                 </div>}
@@ -536,7 +550,7 @@ const DisplayUploadedPosts = ({ groupId }) => {
                                         {/* Edit comment field */}
                                         {userId == comment.user_id && commentIdBeingEdited == comment.comment_id && commentUpdatestate && (
                                             <div className="update-comment-form-container">
-                                                { userId && csrfToken && <form>
+                                                {userId && csrfToken && <form>
                                                     <textarea
                                                         value={commentUpdateValue[comment.comment_id] || ''}
                                                         onChange={(e) => setCommentUpdateValue(prevState => ({

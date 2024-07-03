@@ -194,7 +194,7 @@ const RenderSinglePostPage = () => {
                     </div>
                     {csrfToken && groupData && userId && firstParamsId &&  id && <ScaleItem hover={{ scale: 1.1 }} tap={{ scale: 1.3 }}
                         classHandler='add-group-btn-container'
-                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id, id, groupData.group_name, csrfToken)} >Faire partir du groupe</button>
+                        children={(!alreadyMember ? <button className='add-group-btn' onClick={() => addUserToGroup(groupData.group_id, id, groupData.group_name, csrfToken)} >Rejoindre le groupe</button>
                             : <button className='quit-group-btn' onClick={() => handleDeleteGroup(groupData.group_id)}>Quitter le groupe</button> )}
                     />}
                 </div>

@@ -85,8 +85,8 @@ const RenderHome = () => {
             <div className="main-body-container">
                 <div>
                     <div className="text-center welcom-msg-container">
-                        <p className="welcom-msg">Merci de nous avoir rejoint dans la mission de sauver la planète 🌍! </p>
-                        <p className="welcom-msg"><span className="welcom-msg-green">Vos actions font toute la différence</span></p>
+                        <p className="welcom-msg">Construisons une Communauté pour l'Action Environnementale🌍</p>
+                        <p className="welcom-msg"><span className="welcom-msg-green">Vos actions font toute la différence!</span></p>
                     </div>
                     <div className="group-upper-title-container">
                         <p className="group-upper-title">Groups d'actions</p>

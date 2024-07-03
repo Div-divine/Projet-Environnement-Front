@@ -70,36 +70,36 @@ const RegistrationInputBox = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setRuleText('');
-
-        if (pwdConf !== pwd || nameWithoutSpacialChar.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd)) {
-            if (pwdConf !== pwd) {
-                setPwdConfError('Confirmation mot de passe incorrect');
-            }
-            if (nameWithoutSpacialChar.length < 1) {
-                setNameErrorMsg('Saissisez un nom');
-            }
-            if (email.length < 1) {
-                setEmailErrorMsg('Saississer un email');
-            }
-            if (!emailPattern.test(email) && email.length > 1) {
-                setEmailErrorMsg('Saississez un email valide');
-            }
-            if (pwd.length < 1) {
-                setPwdErrorMsg('Entrer un mot de passe');
-            }
-            if (!pwdPattern.test(pwd)) {
-                setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
-            }
-            return;
-        }
-
-        if (!checked) {
-            setConditionStyle({ color: 'red' });
-            return;
-        }
-
         try {
+            setRuleText('');
+
+            if (pwdConf !== pwd || nameWithoutSpacialChar.length < 1 || email.length < 1 || pwd.length < 1 || !pwdPattern.test(pwd)) {
+                if (pwdConf !== pwd) {
+                    setPwdConfError('Confirmation mot de passe incorrect');
+                }
+                if (nameWithoutSpacialChar.length < 1) {
+                    setNameErrorMsg('Saisir un nom');
+                }
+                if (email.length < 1) {
+                    setEmailErrorMsg('Saisir un email');
+                }
+                if (!emailPattern.test(email) && email.length > 1) {
+                    setEmailErrorMsg('Saisir un email valide');
+                }
+                if (pwd.length < 1) {
+                    setPwdErrorMsg('Entrer un mot de passe');
+                }
+                if (!pwdPattern.test(pwd)) {
+                    setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
+                }
+                return;
+            }
+
+            if (!checked) {
+                setConditionStyle({ color: 'red' });
+                return;
+            }
+
             await PostUserInfo(registrationFormData);
             navigate('/connexion?success=true');
         } catch (error) {
@@ -190,7 +190,7 @@ const RegistrationInputBox = () => {
                             <DisplayPasswordStrength strength={handleStrength(pwd)} password={pwd} text={ruleText} />
                         </div>
                     </div>
-                    <div className='input-filed-container mb-3'>
+                    <div className='input-filed-container mb-3 input-error-msg'>
                         <p style={{ color: 'red', fontSize: 'small' }} nonce={nonce}>{pwdRuleError}</p>
                     </div>
                     <div className='input-filed-container'>
@@ -220,7 +220,7 @@ const RegistrationInputBox = () => {
                                 <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} name='checkbox' id='checkbox' />
                             </span>
                             <LabelDisplay labelHandler='checkbox' labelText="Accepter le RGPD et les conditions d'utilisation"
-                                labelStyle={checked ? {color: 'white'} : {color: '#FFA500'}} nonce={nonce} />
+                                labelStyle={checked ? { color: 'white' } : { color: '#FFA500' }} nonce={nonce} />
                         </div>
                     </div>
                     <GreenSbmtBtn value="M'Inscrire👍" />
