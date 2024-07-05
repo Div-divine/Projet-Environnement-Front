@@ -90,7 +90,7 @@ const RegistrationInputBox = () => {
                     setPwdErrorMsg('Entrer un mot de passe');
                 }
                 if (!pwdPattern.test(pwd)) {
-                    setPwdRuleError('Minimum 8 charactères contenant un majuscule, un chiffre et un symbole');
+                    setPwdRuleError('Minimum 8 charactères contenant une majuscule, un chiffre et un symbole');
                 }
                 return;
             }

@@ -20,35 +20,35 @@ import AdminSignInPageRender from "../components/admin/login-page/AdminLogin";
 import AdminRoute from "./AdminAuthentificationRoute";
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <FirstMenu />,
-    errorElement: <ErrorPage />,
-    children: [
-      { path: '/', element: <FirstHome /> },
-      { path: 'inscription', element: <SignUpPageRender /> },
-      { path: 'connexion', element: <SignInPageRender /> },
-    ]
-  },
-  { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage /> },
-  { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage /> },
-  { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage /> },
-  { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage /> },
-  { path: '/amis', element: <FriendsPage />, errorElement: <ErrorPage /> },
-  { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers />, errorElement: <ErrorPage /> },
-  { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage /> },
-  { path: '/parametre/photo-de-profile', element: <FileUploadForm />, errorElement: <ErrorPage /> },
-  {
-    path: '/admin',
-    errorElement: <ErrorPage />,
-    element: <AdminRoute />, // Use the custom AdminRoute component to protect all routes under /admin
-    children: [
-      { path: 'connexion', element: <AdminSignInPageRender /> },
-      { path: 'accueil', element: <AdminDashboard /> },
-      { path: 'utilisateurs', element: <AdminRenderAllUsers /> },
-      { path: 'profile-utilisateur/:id', element: <DisplayUserProfile /> },
-    ]
-  },
-])
+    {
+        path: '/',
+        element: <FirstMenu />,
+        errorElement: <ErrorPage />,
+        children: [
+            { path: '/', element: <FirstHome /> },
+            { path: 'inscription', element: <SignUpPageRender /> },
+            { path: 'connexion', element: <SignInPageRender /> },
+        ]
+    },
+    { path: '/accueil', element: <RenderHome />, errorElement: <ErrorPage /> },
+    { path: '/:name/:id', element: <RenderSinglePostPage />, errorElement: <ErrorPage /> },
+    { path: '/chat', element: <ChatRoom />, errorElement: <ErrorPage /> },
+    { path: '/utilisateurs', element: <RenderAllUsers />, errorElement: <ErrorPage /> },
+    { path: '/amis', element: <FriendsPage />, errorElement: <ErrorPage /> },
+    { path: '/messages-non-lus', element: <DisplayUnreadMsgUsers />, errorElement: <ErrorPage /> },
+    { path: '/parametre', element: <UserSettings />, errorElement: <ErrorPage /> },
+    { path: '/parametre/photo-de-profile', element: <FileUploadForm />, errorElement: <ErrorPage /> },
+    {
+        path: '/admin',
+        errorElement: <ErrorPage />,
+        element: <AdminRoute />, // Use the custom AdminRoute component to protect all routes under /admin
+        children: [
+            { path: 'connexion', element: <AdminSignInPageRender /> },
+            { path: 'accueil', element: <AdminDashboard /> },
+            { path: 'utilisateurs', element: <AdminRenderAllUsers /> },
+            { path: 'profile-utilisateur/:id', element: <DisplayUserProfile /> },
+        ]
+    },
+]);
 
 export default router;

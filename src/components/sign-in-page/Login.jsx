@@ -8,6 +8,7 @@ import GreenSbmtBtn from '../button/GreenSubmitBtn';
 import SendUserInfo from '../../api/UserLoginApi';
 import { generateNonce } from '../../generate-nonce/nonce';
 import CustomModal from '../modalbox/CustomModalBox'
+import retrieveEncryptedAdminToken from '../../functions/GetAdminToken';
 
 
 const SignInPageRender = () => {
@@ -66,7 +67,8 @@ const SignInPageRender = () => {
                         password: pwd,
                     };
                     const token = await SendUserInfo(credentials);
-                    if (token) {
+                    const { token: decryptedToken, userId: decryptedUserId } = await retrieveEncryptedAdminToken();
+                    if (token && decryptedToken) {
                         navigate('/accueil')
                     }
                 }

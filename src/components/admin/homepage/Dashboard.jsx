@@ -123,6 +123,14 @@ const AdminDashboard = () => {
                                     : <div className="admin-user-not-connected-txt dashboard-user-connected-state">non connecté</div>}
                             </Link>
                         )) : <div>No users</div>}
+                    {userData && userData.status_id == 3 &&
+                        <Link to={`/admin/profile-utilisateur/${userData.user_id}${nonce}${nonce}`} className="dashboard-users-flex super-admin-box">
+                            <div className="dashboard-user-img-container"><img src={userData.user_img ? `${imgUrl}/${userData.user_img}` : userIcon} alt="user image" /></div>
+                            <div className="dashboard-user-name-container" >{userData.user_name}</div>
+                            {connectedUsersId && connectedUsersId.includes(userData.user_name)}
+                        </Link>
+
+                    }
                 </div>
             </div>
             <div className="admin-dashboard-listing-section">

@@ -1,34 +1,41 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Axios from 'axios';
+import retrieveEncryptedAdminToken from '../functions/GetAdminToken';
 
 const CsrfContext = createContext();
 
 export const useCsrf = () => useContext(CsrfContext);
 
 export const CsrfProvider = ({ children }) => {
-    const [csrfToken, setCsrfToken] = useState(null);
-    const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
+  const [csrfToken, setCsrfToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (token && userId) {
-            const fetchCsrfToken = async () => {
-                try {
-                    Axios.defaults.headers.common['Authorization'] = token;
-                    const response = await Axios.get(`http://localhost:3000/csrf-token/${userId}`);
-                    setCsrfToken(response.data.csrfToken);
-                } catch (error) {
-                    console.error('Error fetching CSRF token:', error);
-                }
-            };
-
-            fetchCsrfToken();
+  useEffect(() => {
+    const fetchTokenData = async () => {
+      try {
+        const { token: decryptedToken, userId: decryptedUserId } = await retrieveEncryptedAdminToken();
+        if (decryptedToken && decryptedUserId) {
+          Axios.defaults.headers.common['Authorization'] = decryptedToken;
+          const response = await Axios.get(`http://localhost:3000/csrf-token/${decryptedUserId}`);
+          setCsrfToken(response.data.csrfToken);
         }
-    }, [token, userId]);
+      } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return (
-        <CsrfContext.Provider value={csrfToken}>
-            {children}
-        </CsrfContext.Provider>
-    );
+    fetchTokenData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <CsrfContext.Provider value={csrfToken}>
+      {children}
+    </CsrfContext.Provider>
+  );
 };
